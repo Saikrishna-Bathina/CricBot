@@ -1,0 +1,11 @@
+[
+  {
+    "filename": "synthetic_law_fixture.pdf",
+    "sha256": "15832da3323f8acdef186e5f072c35cbf331d47ce32956f87940673913c523b2",
+    "pageCount": 2,
+    "clauseCount": 7,
+    "isApproved": true,
+    "warnings": [],
+    "criticalErrors": []
+  }
+]

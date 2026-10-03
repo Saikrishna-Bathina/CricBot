@@ -2,6 +2,7 @@ import { preprocessQuery } from './queryPreprocessor.js';
 import { hybridRetriever } from '../retrieval/hybridRetriever.js';
 import { llmService } from '../llm/llmService.js';
 import { validateCitations } from '../citations/citationValidator.js';
+import { pythonRagClient } from './pythonRagClient.js';
 import Conversation from '../../models/Conversation.js';
 import Message from '../../models/Message.js';
 
@@ -16,6 +17,88 @@ export class RAGOrchestrator {
 
     // 1. Preprocess query
     const preprocessed = preprocessQuery(query, context);
+
+    // Feature Flag Check: Python RAG Service
+    if (pythonRagClient.isEnabled()) {
+      const pyResult = await pythonRagClient.answerQuestion({
+        query,
+        format: preprocessed.resolvedFormat,
+        competition: preprocessed.resolvedCompetition,
+      });
+
+      if (pyResult.success && pyResult.data) {
+        const pyData = pyResult.data;
+        let conv = null;
+        if (conversationId) {
+          conv = await Conversation.findById(conversationId);
+        }
+        if (!conv) {
+          conv = await Conversation.create({
+            userId: userId || null,
+            sessionId: sessionId || null,
+            title: query.slice(0, 50) + (query.length > 50 ? '...' : ''),
+            format: preprocessed.resolvedFormat,
+            competition: preprocessed.resolvedCompetition,
+          });
+        }
+
+        await Message.create({
+          conversationId: conv._id,
+          role: 'user',
+          content: query,
+          messageType: 'standard',
+          applicableContext: { format: preprocessed.resolvedFormat },
+        });
+
+        const formattedContent = `### Ruling:\n${pyData.answer}\n\n${(pyData.limitations && pyData.limitations.length) ? `> **Notice**: ${pyData.limitations.join('; ')}` : ''}`;
+
+        const assistantMsg = await Message.create({
+          conversationId: conv._id,
+          role: 'assistant',
+          content: formattedContent,
+          messageType: pyData.status !== 'answered' ? 'unsupported_warning' : 'standard',
+          citations: (pyData.citations || []).map((c) => ({
+            chunkId: c.chunkId,
+            clauseNumber: c.clauseNumber,
+            lawTitle: c.title,
+            verified: c.verified,
+          })),
+          applicableContext: {
+            format: preprocessed.resolvedFormat,
+            edition: 'Official Python Service RAG',
+            issuingOrganisation: 'MCC/ICC',
+          },
+        });
+
+        return {
+          conversationId: conv._id,
+          messageId: assistantMsg._id,
+          query,
+          answer: {
+            directAnswer: pyData.answer,
+            applicableLaw: (pyData.citations && pyData.citations[0]) ? `${pyData.citations[0].parentLaw || ''} ${pyData.citations[0].clauseNumber}` : 'Official Regulations',
+            explanation: pyData.answer,
+            formattedContent,
+            isSupported: pyData.status === 'answered',
+            limitations: pyData.limitations ? pyData.limitations.join('; ') : '',
+          },
+          citations: (pyData.citations || []).map((c) => ({
+            chunkId: c.chunkId,
+            clauseNumber: c.clauseNumber,
+            lawTitle: c.title,
+            textSnippet: c.content,
+            verified: c.verified,
+          })),
+          applicableContext: assistantMsg.applicableContext,
+          evidenceMetadata: (pyData.citations || []).map((c) => ({
+            chunkId: c.chunkId,
+            clauseNumber: c.clauseNumber,
+            lawTitle: c.title,
+            score: 1.0,
+          })),
+        };
+      }
+    }
 
     // 2. Hybrid Retrieval
     const retrievalResult = await hybridRetriever.retrieve(preprocessed.normalizedQuery, {

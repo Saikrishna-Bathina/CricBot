@@ -31,7 +31,12 @@ const envSchema = z.object({
 
   // Storage
   UPLOAD_STORAGE_PROVIDER: z.enum(['local', 's3']).default('local'),
-  UPLOAD_DIR: z.string().default('uploads')
+  UPLOAD_DIR: z.string().default('uploads'),
+
+  // Python RAG Service Integration
+  USE_PYTHON_RAG: z.preprocess((val) => val === 'true' || val === true, z.boolean()).default(false),
+  PYTHON_RAG_SERVICE_URL: z.string().default('http://127.0.0.1:8000'),
+  PYTHON_RAG_TIMEOUT_MS: z.coerce.number().default(15000),
 });
 
 const parsedEnv = envSchema.safeParse(process.env);

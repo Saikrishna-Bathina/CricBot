@@ -1,11 +1,51 @@
 import { hybridRetriever } from '../retrieval/hybridRetriever.js';
 import { validateCitations } from '../citations/citationValidator.js';
 import { llmService } from '../llm/llmService.js';
+import { pythonRagClient } from '../rag/pythonRagClient.js';
 
 export class ScenarioService {
   async analyzeScenario({ scenarioText, format = 'ALL', competition = 'ALL', matchDate = null }) {
     if (!scenarioText || typeof scenarioText !== 'string' || !scenarioText.trim()) {
       throw new Error('Scenario description is required');
+    }
+
+    if (pythonRagClient.isEnabled()) {
+      const pyResult = await pythonRagClient.analyzeScenario({
+        scenario: scenarioText,
+        format,
+        competition,
+      });
+
+      if (pyResult.success && pyResult.data) {
+        const pyData = pyResult.data;
+        return {
+          scenarioText,
+          analysis: {
+            likelyDecision: pyData.ruling,
+            relevantFacts: pyData.factsIdentified || [],
+            applicableLaw: pyData.governingAuthority,
+            ruleExplanation: pyData.umpireAction,
+            applicationToScenario: pyData.ruling,
+            exceptionsAndConditions: pyData.conditionalOutcomes || [],
+            alternativeOutcomes: pyData.conditionalOutcomes || [],
+            umpireDiscretionNotes: pyData.missingFacts || [],
+            confidenceAndLimitations: pyData.status === 'analyzed' ? 'Official Adjudication' : 'Insufficient Evidence',
+          },
+          citations: (pyData.citations || []).map((c) => ({
+            chunkId: c.chunkId,
+            clauseNumber: c.clauseNumber,
+            lawTitle: c.title,
+            textSnippet: c.content,
+            verified: c.verified,
+          })),
+          applicableContext: {
+            format,
+            competition,
+            matchDate,
+            governingAuthority: pyData.governingAuthority || 'MCC Laws of Cricket',
+          },
+        };
+      }
     }
 
     // 1. Retrieve applicable official laws and conditions

@@ -31,11 +31,11 @@ export default function Navbar() {
   }, []);
 
   const navLinks = [
-    { name: 'Chatbot', path: '/chat', icon: MessageSquare },
+    { name: 'Adjudication', path: '/chat', icon: MessageSquare },
     { name: 'Scenario Analyser', path: '/scenarios', icon: Compass },
     { name: 'Law Search', path: '/search', icon: Search },
-    { name: 'Law Quiz', path: '/quiz', icon: HelpCircle },
-    { name: 'Source Docs', path: '/admin/documents', icon: FileText },
+    { name: 'Umpire Assessment', path: '/quiz', icon: HelpCircle },
+    { name: 'Official Knowledge Base', path: '/admin/documents', icon: FileText },
   ];
 
   return (
@@ -52,11 +52,11 @@ export default function Navbar() {
                 <span className="font-bold text-lg text-white tracking-tight group-hover:text-emerald-400 transition-colors">
                   Cric<span className="text-emerald-400">Laws</span>
                 </span>
-                <span className="text-[10px] uppercase font-bold tracking-wider px-1.5 py-0.5 rounded bg-emerald-950 text-emerald-400 border border-emerald-800/60">
-                  RAG
+                <span className="text-[10px] uppercase font-bold tracking-wider px-1.5 py-0.5 rounded bg-emerald-950 text-emerald-400 border border-emerald-800/60 font-mono">
+                  OFFICIAL DESK
                 </span>
               </div>
-              <p className="text-xs text-slate-400 hidden sm:block">AI Official Cricket Laws Assistant</p>
+              <p className="text-xs text-slate-400 hidden sm:block">Laws of Cricket & Match Playing Conditions Reference</p>
             </div>
           </Link>
 

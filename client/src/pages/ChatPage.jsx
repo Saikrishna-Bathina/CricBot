@@ -123,28 +123,29 @@ export default function ChatPage() {
           </div>
           <div>
             <h1 className="text-xl font-bold text-white flex items-center space-x-2">
-              <span>Cricket Laws RAG Assistant</span>
+              <span>Cricket Laws Adjudication Console</span>
               <span className="text-[10px] px-2 py-0.5 rounded-full bg-emerald-950 text-emerald-400 border border-emerald-800 font-mono">
-                Source Grounded
+                Official Rulebooks
               </span>
             </h1>
-            <p className="text-xs text-slate-400">Verifiable rulings grounded in MCC Laws and ICC Playing Conditions</p>
+            <p className="text-xs text-slate-400">Verifiable rulings grounded in MCC Laws, ICC Playing Conditions, and Tournament Rules</p>
           </div>
         </div>
 
         <div className="flex items-center space-x-3">
           {/* Format selector */}
           <div className="flex items-center space-x-1.5 bg-slate-950 border border-slate-800 rounded-xl px-2.5 py-1 text-xs">
-            <span className="text-slate-400">Format:</span>
+            <span className="text-slate-400">Jurisdiction:</span>
             <select
               value={format}
               onChange={(e) => setFormat(e.target.value)}
               className="bg-transparent text-emerald-400 font-semibold focus:outline-none cursor-pointer"
             >
-              <option value="ALL" className="bg-slate-900 text-white">All / MCC Laws</option>
+              <option value="ALL" className="bg-slate-900 text-white">All / Core MCC Laws</option>
               <option value="T20I" className="bg-slate-900 text-white">ICC Men's T20I</option>
               <option value="ODI" className="bg-slate-900 text-white">ICC Men's ODI</option>
               <option value="TEST" className="bg-slate-900 text-white">ICC Men's Test</option>
+              <option value="IPL" className="bg-slate-900 text-white">IPL Playing Conditions</option>
             </select>
           </div>
 
@@ -153,7 +154,7 @@ export default function ChatPage() {
             className="flex items-center space-x-1.5 px-3 py-1.5 rounded-xl bg-slate-800 hover:bg-slate-700 text-slate-300 hover:text-white text-xs font-semibold transition-colors border border-slate-700"
           >
             <PlusCircle className="w-3.5 h-3.5" />
-            <span>New Chat</span>
+            <span>New Consultation</span>
           </button>
         </div>
       </div>

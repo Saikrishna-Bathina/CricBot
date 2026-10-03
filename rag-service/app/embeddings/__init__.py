@@ -1,0 +1,4 @@
+"""Embedding providers and vector generation."""
+from app.embeddings.provider import EmbeddingProvider, get_embedding_provider
+
+__all__ = ["EmbeddingProvider", "get_embedding_provider"]
