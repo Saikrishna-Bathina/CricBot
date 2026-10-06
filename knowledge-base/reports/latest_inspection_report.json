@@ -1,11 +1,57 @@
 [
   {
-    "filename": "synthetic_law_fixture.pdf",
-    "sha256": "15832da3323f8acdef186e5f072c35cbf331d47ce32956f87940673913c523b2",
-    "pageCount": 2,
-    "clauseCount": 7,
+    "filename": "icc_mens_odi_playing_conditions.pdf",
+    "sha256": "dc120005d2176cc8f442410352b7ce64c84295f0fd0f9a3ed7dc424f4765b6be",
+    "pageCount": 107,
+    "clauseCount": 885,
     "isApproved": true,
-    "warnings": [],
+    "warnings": [
+      "Duplicate clause numbers detected during parsing."
+    ],
+    "criticalErrors": []
+  },
+  {
+    "filename": "icc_mens_t20i_playing_conditions.pdf",
+    "sha256": "396a6c64e5ddadbfe6687f4a6653b5be2f3c7fff1038e19e9b3f52bacff4fa47",
+    "pageCount": 106,
+    "clauseCount": 887,
+    "isApproved": true,
+    "warnings": [
+      "Duplicate clause numbers detected during parsing."
+    ],
+    "criticalErrors": []
+  },
+  {
+    "filename": "icc_mens_test_playing_conditions.pdf",
+    "sha256": "5a0af1cf472252a5bc63d2418e6af77babb88c57af70abfcba1703c9d9e20ead",
+    "pageCount": 103,
+    "clauseCount": 914,
+    "isApproved": true,
+    "warnings": [
+      "Duplicate clause numbers detected during parsing."
+    ],
+    "criticalErrors": []
+  },
+  {
+    "filename": "ipl_match_playing_conditions.pdf",
+    "sha256": "8cb00c8428262988b147823628dd78c1e0ef7e623d2aa0a5d456eb7183bae655",
+    "pageCount": 119,
+    "clauseCount": 819,
+    "isApproved": true,
+    "warnings": [
+      "Duplicate clause numbers detected during parsing."
+    ],
+    "criticalErrors": []
+  },
+  {
+    "filename": "mcc_laws_of_cricket.pdf",
+    "sha256": "42b493bb2ced2a0d47d660890a0dbca304d569bfc74953239e9ee1f1ec2271c7",
+    "pageCount": 91,
+    "clauseCount": 949,
+    "isApproved": true,
+    "warnings": [
+      "Duplicate clause numbers detected during parsing."
+    ],
     "criticalErrors": []
   }
 ]

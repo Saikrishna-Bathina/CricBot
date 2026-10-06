@@ -6,9 +6,9 @@ import crypto from 'crypto';
  */
 export class PythonRAGClient {
   constructor() {
-    this.baseUrl = process.env.PYTHON_RAG_SERVICE_URL || 'http://127.0.0.1:8000';
-    this.timeoutMs = parseInt(process.env.PYTHON_RAG_TIMEOUT_MS || '15000', 10);
-    this.enabled = process.env.USE_PYTHON_RAG === 'true';
+    this.baseUrl = env.PYTHON_RAG_SERVICE_URL || 'http://127.0.0.1:8000';
+    this.timeoutMs = env.PYTHON_RAG_TIMEOUT_MS || 15000;
+    this.enabled = Boolean(env.USE_PYTHON_RAG);
   }
 
   isEnabled() {

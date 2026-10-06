@@ -19,9 +19,9 @@ export async function connectDatabase() {
   } catch (error) {
     console.error(`[Database] Connection Error with primary URI: ${error.message}`);
     
-    // Automatic fallback to local MongoDB if primary Atlas connection fails
+    // Automatic fallback to local MongoDB if primary Atlas connection fails (development / test only)
     const localUri = 'mongodb://127.0.0.1:27017/cricket_laws_assistant';
-    if (env.MONGODB_URI !== localUri) {
+    if (env.NODE_ENV !== 'production' && env.MONGODB_URI !== localUri) {
       console.warn(`[Database] Attempting connection to local MongoDB fallback: ${localUri}...`);
       try {
         const localConn = await mongoose.connect(localUri, { serverSelectionTimeoutMS: 5000 });

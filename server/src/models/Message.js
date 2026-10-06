@@ -10,7 +10,8 @@ const citationSchema = new mongoose.Schema(
     documentId: {
       type: mongoose.Schema.Types.ObjectId,
       ref: 'Document',
-      required: true,
+      required: false,
+      default: null,
     },
     lawNumber: {
       type: Number,

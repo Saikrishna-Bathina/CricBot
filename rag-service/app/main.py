@@ -31,10 +31,11 @@ app = FastAPI(
     lifespan=lifespan,
 )
 
-# CORS Middleware allowing internal Express / local client requests
+# CORS Middleware allowing configured origins
+cors_origins = [o.strip() for o in settings.ALLOWED_ORIGINS.split(",") if o.strip()]
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["*"],
+    allow_origins=cors_origins if cors_origins else ["*"],
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],

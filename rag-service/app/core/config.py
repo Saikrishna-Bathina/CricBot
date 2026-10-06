@@ -40,6 +40,7 @@ class Settings(BaseSettings):
     # Logging & Environment
     LOG_LEVEL: str = "INFO"
     ENVIRONMENT: str = "development"
+    ALLOWED_ORIGINS: str = "*"
 
     @property
     def api_key(self) -> str:

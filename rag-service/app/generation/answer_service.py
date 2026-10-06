@@ -42,7 +42,7 @@ class AnswerService:
             query=query,
             format_filter=format_filter,
             competition_filter=competition_filter,
-            limit=5,
+            limit=7,
         )
         chunks = retrieval_res.get("chunks", [])
 

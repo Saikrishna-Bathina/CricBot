@@ -1,0 +1,418 @@
+<!DOCTYPE html>
+
+<html lang="en"><head><meta charset="utf-8"/><meta content="width=device-width, initial-scale=1.0" name="viewport"/><meta content="web_dashboard" name="shell-type"/><link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" rel="stylesheet"/><link href="https://fonts.googleapis.com" rel="preconnect"/><link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/><link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&amp;family=JetBrains+Mono:wght@400;500;600&amp;family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;0,6..72,600;1,6..72,400&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/><style>@layer base{html,body{margin:0;padding:0;}body{overscroll-behavior:none;}main>:first-child{margin-top:0!important;}main>:last-child{margin-bottom:0!important;}}::-webkit-scrollbar{display:none;}</style><script src="https://cdn.tailwindcss.com"></script><script id="tailwind-config">tailwind.config = {"darkMode":"class","theme":{"extend":{"colors":{"on-primary-fixed":"#0a1f18","surface-variant":"#dce5df","surface":"#f3fbf6","surface-dim":"#d3dcd7","primary-fixed-dim":"#b4ccc1","surface-tint":"#4d635a","surface-bright":"#f3fbf6","surface-container":"#e7f0eb","error":"#ba1a1a","surface-container-highest":"#dce5df","on-primary-container":"#768d83","inverse-primary":"#b4ccc1","tertiary-fixed-dim":"#f0bf5c","secondary":"#ad3031","on-tertiary-fixed":"#261900","secondary-fixed-dim":"#ffb3ae","secondary-container":"#ff6b68","on-secondary-fixed-variant":"#8c161d","secondary-fixed":"#ffdad7","on-error-container":"#93000a","tertiary-fixed":"#ffdea4","tertiary":"#0f0800","on-tertiary":"#ffffff","primary-container":"#0f241d","inverse-surface":"#2a322f","on-surface-variant":"#424845","on-background":"#151d1a","on-error":"#ffffff","inverse-on-surface":"#eaf3ee","outline-variant":"#c2c8c4","on-secondary":"#ffffff","on-tertiary-fixed-variant":"#5d4200","primary":"#000b07","on-tertiary-container":"#ab8123","tertiary-container":"#2c1e00","on-primary-fixed-variant":"#364b43","surface-container-lowest":"#ffffff","surface-container-low":"#edf6f0","on-primary":"#ffffff","outline":"#727875","background":"#f3fbf6","on-secondary-container":"#6d000d","primary-fixed":"#d0e8dd","on-surface":"#151d1a","error-container":"#ffdad6","surface-container-high":"#e2eae5","on-secondary-fixed":"#410005"},"borderRadius":{"DEFAULT":"0.25rem","lg":"0.5rem","xl":"0.75rem","full":"9999px"},"spacing":{"space-md":"1rem","margin":"2rem","gutter-mobile":"0.75rem","space-xl":"2.5rem","gutter":"1rem","space-xs":"0.25rem","margin-mobile":"1rem","space-lg":"1.5rem","space-sm":"0.5rem"},"fontFamily":{"body-lg":["Inter"],"label-md":["JetBrains Mono"],"body-sm":["Inter"],"headline-xl-mobile":["Newsreader"],"headline-md":["Newsreader"],"body-md":["Inter"],"headline-lg":["Newsreader"],"headline-sm":["Newsreader"],"label-sm":["JetBrains Mono"],"headline-xl":["Newsreader"],"label-lg":["JetBrains Mono"]},"fontSize":{"body-lg":["16px",{"lineHeight":"26px","fontWeight":"400"}],"label-md":["11px",{"lineHeight":"14px","letterSpacing":"0.06em","fontWeight":"500"}],"body-sm":["12px",{"lineHeight":"18px","fontWeight":"400"}],"headline-xl-mobile":["28px",{"lineHeight":"34px","letterSpacing":"-0.01em","fontWeight":"600"}],"headline-md":["22px",{"lineHeight":"28px","fontWeight":"500"}],"body-md":["14px",{"lineHeight":"22px","fontWeight":"400"}],"headline-lg":["28px",{"lineHeight":"36px","letterSpacing":"-0.015em","fontWeight":"500"}],"headline-sm":["18px",{"lineHeight":"24px","fontWeight":"600"}],"label-sm":["9px",{"lineHeight":"12px","letterSpacing":"0.08em","fontWeight":"500"}],"headline-xl":["38px",{"lineHeight":"44px","letterSpacing":"-0.02em","fontWeight":"600"}],"label-lg":["13px",{"lineHeight":"16px","letterSpacing":"0.04em","fontWeight":"600"}]}}}};</script></head><body class="bg-surface font-body-md text-on-surface antialiased"><header class="fixed top-0 left-0 right-0 z-50 bg-primary-container text-on-primary border-b border-outline-variant/30 shadow-[0_1px_8px_rgba(0,0,0,0.06)]"><div class="h-16 w-full px-space-lg flex items-center justify-between gap-space-md"><div class="flex items-center gap-space-lg shrink-0"><div class="flex items-center gap-space-sm"><div class="w-8 h-8 rounded bg-surface-container-lowest flex items-center justify-center text-primary-container"><span class="material-symbols-outlined text-[20px]">gavel</span></div><div class="flex flex-col"><span class="font-headline-sm text-headline-sm text-on-primary tracking-tight leading-none">CricLaws Official Desk</span><span class="font-label-sm text-label-sm text-primary-fixed-dim uppercase tracking-wider mt-0.5">MCC &amp; ICC Statutory Reference</span></div></div><div class="h-6 w-px bg-outline-variant/30 hidden lg:block"></div><nav class="hidden xl:flex items-center gap-space-xs" data-active-classes="bg-surface-container-lowest text-primary-container font-medium rounded"><a class="px-space-sm py-1.5 font-label-md text-label-md uppercase tracking-wider text-surface-variant hover:text-on-primary transition-colors" data-path="adjudication" href="#">Adjudication</a><a class="px-space-sm py-1.5 font-label-md text-label-md uppercase tracking-wider text-surface-variant hover:text-on-primary transition-colors" data-path="scenario-analyser" href="#">Scenario Analyser</a><a class="px-space-sm py-1.5 font-label-md text-label-md uppercase tracking-wider text-surface-variant hover:text-on-primary transition-colors" data-path="law-search" href="#">Law Search</a><a class="px-space-sm py-1.5 font-label-md text-label-md uppercase tracking-wider text-surface-variant hover:text-on-primary transition-colors" data-path="umpire-assessment" href="#">Umpire Assessment</a><a class="px-space-sm py-1.5 font-label-md text-label-md uppercase tracking-wider text-surface-variant hover:text-on-primary transition-colors" data-path="official-knowledge-base" href="#">Official Knowledge Base</a></nav></div><div class="flex items-center gap-space-md shrink-0"><div class="hidden sm:flex items-center gap-space-xs px-space-sm py-1 bg-primary/40 rounded border border-outline-variant/20"><span class="material-symbols-outlined text-tertiary-fixed text-[16px]">balance</span><div class="flex flex-col text-left"><span class="font-label-sm text-label-sm text-surface-variant leading-none">Jurisdiction</span><span class="font-label-md text-label-md text-tertiary-fixed font-semibold leading-tight">ICC Men's T20I / MCC 2017 (3rd Ed.)</span></div><span class="material-symbols-outlined text-surface-variant text-[16px]">expand_more</span></div><div class="hidden md:flex items-center gap-space-xs px-space-sm py-1 bg-surface-container-highest/10 rounded border border-outline-variant/20"><span class="w-2 h-2 rounded-full bg-secondary animate-pulse"></span><span class="font-label-md text-label-md text-on-primary">LIVE 14:32:08 UTC</span></div><div class="flex items-center gap-space-sm pl-space-xs"><div class="hidden text-right lg:block"><div class="font-label-md text-label-md text-on-primary font-semibold leading-none">T. R. Adjudicator</div><div class="font-label-sm text-label-sm text-primary-fixed-dim leading-none mt-1">Elite Panel #14</div></div><div class="w-8 h-8 rounded-full bg-primary flex items-center justify-center"><span class="material-symbols-outlined text-on-primary text-[18px]">person</span></div></div></div></div></header><aside class="fixed left-0 top-16 bottom-0 w-64 bg-surface-container-low border-r border-outline-variant/30 z-40 flex flex-col justify-between"><div class="flex flex-col py-space-md"><div class="px-space-md mb-space-sm"><span class="font-label-sm text-label-sm text-on-surface-variant uppercase tracking-widest font-semibold">Statute Codex</span></div><nav class="flex flex-col gap-0.5 px-space-xs" data-active-classes="bg-surface-container-high text-on-surface font-semibold border-l-2 border-secondary"><a class="flex items-center justify-between px-space-md py-space-sm text-on-surface-variant hover:bg-surface-container hover:text-on-surface transition-colors" data-path="adjudication" href="#"><span class="font-body-md text-body-md">Active Incident</span><span class="font-label-sm text-label-sm bg-secondary-fixed text-on-secondary-fixed px-1.5 py-0.5 rounded">LIVE</span></a><a class="flex items-center justify-between px-space-md py-space-sm text-on-surface-variant hover:bg-surface-container hover:text-on-surface transition-colors" data-path="scenario-analyser" href="#"><span class="font-body-md text-body-md">Multi-Event Log</span><span class="font-label-sm text-label-sm text-on-surface-variant">§ 41/42</span></a><a class="flex items-center justify-between px-space-md py-space-sm text-on-surface-variant hover:bg-surface-container hover:text-on-surface transition-colors" data-path="law-search" href="#"><span class="font-body-md text-body-md">MCC 42 Laws Index</span><span class="font-label-sm text-label-sm text-on-surface-variant">v3.2</span></a><a class="flex items-center justify-between px-space-md py-space-sm text-on-surface-variant hover:bg-surface-container hover:text-on-surface transition-colors" data-path="precedent-vault" href="#"><span class="font-body-md text-body-md">Precedent Casefiles</span><span class="font-label-sm text-label-sm text-on-surface-variant">Archive</span></a><a class="flex items-center justify-between px-space-md py-space-sm text-on-surface-variant hover:bg-surface-container hover:text-on-surface transition-colors" data-path="umpire-assessment" href="#"><span class="font-body-md text-body-md">Certification Ledger</span><span class="font-label-sm text-label-sm text-on-surface-variant">Module 4</span></a><a class="flex items-center justify-between px-space-md py-space-sm text-on-surface-variant hover:bg-surface-container hover:text-on-surface transition-colors" data-path="official-knowledge-base" href="#"><span class="font-body-md text-body-md">ICC Standard PC</span><span class="font-label-sm text-label-sm text-on-surface-variant">2024 Ed.</span></a></nav></div><div class="p-space-md border-t border-outline-variant/20 bg-surface-container"><div class="flex items-center justify-between text-on-surface-variant font-label-sm text-label-sm mb-1"><span>PROTOCOL STATUS</span><span class="text-on-primary-container font-semibold">RATIFIED</span></div><div class="font-label-md text-label-md text-on-surface truncate">Session: 2 | Over: 34.2</div><div class="font-label-sm text-label-sm text-on-surface-variant mt-0.5 truncate">Ref: MCC-2017-L38.2</div></div></aside><div class="pl-64"><main class="relative pt-16 bg-surface min-h-screen w-full px-space-lg py-space-md"><div class="flex flex-col w-full">
+<div class="flex flex-col gap-space-lg w-full max-w-7xl mx-auto pb-space-xl">
+<!-- Top Ledger Notification / Certificate Status Bar -->
+<div class="flex flex-wrap items-center justify-between gap-space-sm bg-surface-container-high px-space-md py-2.5 rounded-lg shadow-sm">
+<div class="flex items-center gap-space-sm">
+<span class="inline-flex items-center justify-center w-6 h-6 rounded bg-primary-container text-tertiary-fixed">
+<span class="material-symbols-outlined text-[16px]">verified</span>
+</span>
+<span class="font-label-md text-label-md uppercase tracking-wider text-on-surface font-semibold">Official Examination Certified</span>
+<span class="hidden sm:inline text-outline-variant font-label-md">/</span>
+<span class="font-label-sm text-label-sm text-on-surface-variant font-medium">SESSION RECORD #MCC-AC-2024-0982A</span>
+</div>
+<div class="flex items-center gap-space-md">
+<div class="flex items-center gap-1.5 text-on-surface-variant">
+<span class="material-symbols-outlined text-[16px]">schedule</span>
+<span class="font-label-sm text-label-sm">Submitted: Today 14:28 UTC</span>
+</div>
+<div class="flex items-center gap-1 text-secondary font-label-md text-label-md font-semibold">
+<span class="w-2 h-2 rounded-full bg-secondary"></span>
+<span>BELOW BENCHMARK</span>
+</div>
+</div>
+</div>
+<!-- Performance Dossier Banner (Asymmetric High-Impact Header) -->
+<div class="grid grid-cols-1 lg:grid-cols-12 gap-space-md bg-surface-container-lowest p-space-lg rounded-xl shadow-md relative overflow-hidden">
+<!-- Watermark Archival Gavel Decoration -->
+<div class="absolute -right-8 -bottom-10 pointer-events-none opacity-[0.03] select-none text-primary">
+<span class="material-symbols-outlined text-[240px]">balance</span>
+</div>
+<!-- Left Column: Legal Ruling Summary -->
+<div class="lg:col-span-8 flex flex-col justify-between gap-space-md z-10">
+<div class="flex flex-col gap-space-xs">
+<div class="flex items-center gap-space-sm mb-1">
+<span class="px-2 py-0.5 rounded bg-secondary-fixed text-on-secondary-fixed font-label-sm text-label-sm font-semibold tracking-wider uppercase">
+              Assessment Evaluation Complete
+            </span>
+<span class="font-label-sm text-label-sm text-on-surface-variant">Level 3 Accredited Umpires Board</span>
+</div>
+<h1 class="font-headline-xl text-headline-xl text-primary tracking-tight">
+            Review &amp; Practice Recommended
+          </h1>
+<p class="font-body-lg text-body-lg text-on-surface-variant max-w-2xl mt-1">
+            Every candidate response has been cross-referenced and adjudicated against the statutory Marylebone Cricket Club (MCC) 2017 Code (3rd Edition – 2022) and current ICC Men's Standard Playing Conditions.
+          </p>
+</div>
+<div class="grid grid-cols-2 sm:grid-cols-3 gap-space-sm pt-space-sm">
+<div class="bg-surface-container-low p-space-sm rounded-lg flex flex-col">
+<span class="font-label-sm text-label-sm text-on-surface-variant uppercase">Codex Module</span>
+<span class="font-headline-sm text-headline-sm text-on-surface mt-0.5">Laws 28 &amp; 41</span>
+<span class="font-label-sm text-label-sm text-surface-tint mt-1">Fielders &amp; Unfair Play</span>
+</div>
+<div class="bg-surface-container-low p-space-sm rounded-lg flex flex-col">
+<span class="font-label-sm text-label-sm text-on-surface-variant uppercase">Time Expended</span>
+<span class="font-headline-sm text-headline-sm text-on-surface mt-0.5">04m 18s</span>
+<span class="font-label-sm text-label-sm text-surface-tint mt-1">Avg 86s / Question</span>
+</div>
+<div class="bg-surface-container-low p-space-sm rounded-lg flex flex-col col-span-2 sm:col-span-1">
+<span class="font-label-sm text-label-sm text-on-surface-variant uppercase">Status Determination</span>
+<span class="font-headline-sm text-headline-sm text-secondary mt-0.5">Retake Required</span>
+<span class="font-label-sm text-label-sm text-surface-tint mt-1">Passing Grade: 100%</span>
+</div>
+</div>
+</div>
+<!-- Right Column: Forensic Score Gauge -->
+<div class="lg:col-span-4 bg-primary-container text-on-primary p-space-md rounded-xl flex flex-col items-center justify-center text-center relative z-10 shadow-sm">
+<div class="relative w-36 h-36 flex items-center justify-center my-1">
+<!-- SVG Donut Chart with Zero Score indicator -->
+<svg class="w-full h-full transform -rotate-90" viewbox="0 0 100 100">
+<circle class="text-surface-variant/20" cx="50" cy="50" fill="transparent" r="42" stroke="currentColor" stroke-width="8"></circle>
+<!-- Crimson stroke for 0% with warning ring track -->
+<circle class="text-secondary-container transition-all duration-1000 ease-out" cx="50" cy="50" fill="transparent" r="42" stroke="currentColor" stroke-dasharray="263.89" stroke-dashoffset="263.89" stroke-linecap="round" stroke-width="8"></circle>
+</svg>
+<div class="absolute inset-0 flex flex-col items-center justify-center">
+<span class="font-headline-xl text-headline-xl text-on-primary leading-none font-bold">0%</span>
+<span class="font-label-sm text-label-sm text-primary-fixed-dim uppercase tracking-widest mt-1">Adjudicated</span>
+</div>
+</div>
+<div class="mt-2 text-center">
+<div class="font-label-lg text-label-lg font-semibold text-secondary-fixed">0 of 3 Inquiries Correct</div>
+<p class="font-body-sm text-body-sm text-primary-fixed-dim mt-0.5">Statutory standard: 3/3 compliant</p>
+</div>
+</div>
+</div>
+<!-- Main Workspace Split: Question Breakdowns and Lateral Codex Inspector -->
+<div class="grid grid-cols-1 xl:grid-cols-12 gap-space-lg items-start">
+<!-- Primary Column: Questions & Legal Rulings (8 cols) -->
+<div class="xl:col-span-8 flex flex-col gap-space-md">
+<div class="flex items-center justify-between px-space-xs">
+<div class="flex items-center gap-space-sm">
+<span class="font-label-md text-label-md font-semibold text-on-surface uppercase tracking-wider">Docket Rulings Ledger</span>
+<span class="font-label-sm text-label-sm bg-surface-container-high px-2 py-0.5 rounded text-on-surface-variant">2 Recorded Infractions</span>
+</div>
+<button class="font-label-sm text-label-sm text-surface-tint hover:text-primary transition-colors flex items-center gap-1 font-semibold uppercase" id="toggleExplanationsBtn">
+<span class="material-symbols-outlined text-[16px]">unfold_less</span>
+<span>Collapse All Glosses</span>
+</button>
+</div>
+<!-- Question Card 1 -->
+<article class="bg-surface-container-lowest rounded-xl shadow-sm overflow-hidden transition-all duration-150 hover:shadow-md">
+<!-- Card Header Bar -->
+<div class="bg-surface-container-high px-space-md py-3 flex items-center justify-between gap-space-sm flex-wrap">
+<div class="flex items-center gap-space-sm">
+<span class="font-label-md text-label-md font-semibold px-2 py-0.5 rounded bg-primary-container text-on-primary">
+                INQUIRY #01
+              </span>
+<span class="font-label-sm text-label-sm text-on-surface-variant font-medium">DISCIPLINE: FIELD CRAFT &amp; HAZARDS</span>
+</div>
+<!-- Forensic Status Badge -->
+<div class="flex items-center gap-1 px-2.5 py-1 rounded bg-secondary-fixed text-on-secondary-fixed font-label-md text-label-md font-bold">
+<span class="material-symbols-outlined text-[16px]">cancel</span>
+<span>INCORRECT RULING</span>
+</div>
+</div>
+<div class="p-space-md sm:p-space-lg flex flex-col gap-space-md">
+<!-- Question Stem -->
+<div class="flex flex-col gap-space-xs">
+<span class="font-label-sm text-label-sm text-surface-tint uppercase tracking-wider font-semibold">Incident Precedent Scenario</span>
+<h2 class="font-headline-md text-headline-md text-primary">
+                Question 1: If a ball in play strikes a protective helmet placed on the ground behind the wicket-keeper, what is the umpire ruling?
+              </h2>
+</div>
+<!-- Side-by-Side Responses Comparison -->
+<div class="grid grid-cols-1 md:grid-cols-2 gap-space-sm">
+<!-- User Submissions (Error state) -->
+<div class="bg-surface-container-high p-space-md rounded-lg flex flex-col justify-between relative overflow-hidden">
+<div class="flex items-center justify-between mb-2">
+<span class="font-label-sm text-label-sm text-on-surface-variant uppercase font-semibold">Candidate Record</span>
+<span class="flex items-center gap-1 font-label-sm text-label-sm text-secondary font-bold">
+<span class="material-symbols-outlined text-[14px]">close</span> Invalid
+                  </span>
+</div>
+<div class="font-body-md text-body-md text-on-surface font-medium">
+                  Option D: Play continues without penalty
+                </div>
+<div class="mt-3 pt-2 text-on-surface-variant font-label-sm text-label-sm bg-surface-variant/40 -mx-space-md -mb-space-md px-space-md py-1.5 flex items-center gap-1">
+<span class="material-symbols-outlined text-[14px]">history</span>
+<span>Recorded at 01:14 into session</span>
+</div>
+</div>
+<!-- Official MCC Statutory Ruling (Valid state) -->
+<div class="bg-surface-container-low p-space-md rounded-lg flex flex-col justify-between relative overflow-hidden">
+<div class="flex items-center justify-between mb-2">
+<span class="font-label-sm text-label-sm text-on-primary-container uppercase font-semibold">Statutory Determination</span>
+<span class="flex items-center gap-1 font-label-sm text-label-sm text-primary font-bold">
+<span class="material-symbols-outlined text-[14px]">check_circle</span> Correct Stance
+                  </span>
+</div>
+<div class="font-body-md text-body-md text-primary font-semibold">
+                  Option B: Ball immediately dead; 5 penalty runs awarded to batting side
+                </div>
+<div class="mt-3 pt-2 font-label-sm text-label-sm bg-surface-container -mx-space-md -mb-space-md px-space-md py-1.5 flex items-center justify-between text-on-surface-variant">
+<span>Standard Sanction: +5 Runs &amp; Dead Ball</span>
+<span class="font-label-sm text-label-sm font-semibold text-primary">MANDATORY</span>
+</div>
+</div>
+</div>
+<!-- Official Legal Concordance Card -->
+<div class="relative pl-space-md bg-surface-container-low p-space-md rounded-lg">
+<!-- Left accent bar -->
+<div class="absolute left-0 top-0 bottom-0 w-1.5 bg-secondary-container rounded-l-lg"></div>
+<div class="flex items-center gap-space-xs mb-1.5">
+<span class="material-symbols-outlined text-secondary text-[18px]">menu_book</span>
+<span class="font-label-md text-label-md uppercase tracking-wider text-on-surface font-semibold">
+                  Official Legal Rationale &amp; Concordance
+                </span>
+</div>
+<p class="font-body-md text-body-md text-on-surface">
+                Under <strong class="font-semibold text-primary">MCC Law 28.3.2</strong>, if the ball in play strikes a protective helmet placed behind the wicket-keeper, the ball becomes immediately dead and 5 penalty runs are awarded to the batting side in addition to any runs completed. The umpire shall signal dead ball and award the penalty runs immediately.
+              </p>
+<!-- Pill Law Link -->
+<div class="mt-space-sm pt-space-xs flex flex-wrap items-center gap-space-sm">
+<a class="inline-flex items-center gap-1.5 px-3 py-1 rounded bg-surface-container-high hover:bg-surface-variant text-primary font-label-md text-label-md font-semibold transition-colors shadow-sm" href="#codex-28">
+<span class="material-symbols-outlined text-[16px] text-tertiary-fixed-dim">gavel</span>
+<span>MCC Law 28 — The Fielder (Clause 28.3.2)</span>
+<span class="text-tertiary-fixed-dim font-bold">§</span>
+</a>
+<span class="font-label-sm text-label-sm text-on-surface-variant">Appendix D.1 Applicable</span>
+</div>
+</div>
+</div>
+</article>
+<!-- Question Card 2 -->
+<article class="bg-surface-container-lowest rounded-xl shadow-sm overflow-hidden transition-all duration-150 hover:shadow-md">
+<!-- Card Header Bar -->
+<div class="bg-surface-container-high px-space-md py-3 flex items-center justify-between gap-space-sm flex-wrap">
+<div class="flex items-center gap-space-sm">
+<span class="font-label-md text-label-md font-semibold px-2 py-0.5 rounded bg-primary-container text-on-primary">
+                INQUIRY #02
+              </span>
+<span class="font-label-sm text-label-sm text-on-surface-variant font-medium">DISCIPLINE: UNFAIR PLAY &amp; CREASE ADVANTAGE</span>
+</div>
+<!-- Forensic Status Badge -->
+<div class="flex items-center gap-1 px-2.5 py-1 rounded bg-secondary-fixed text-on-secondary-fixed font-label-md text-label-md font-bold">
+<span class="material-symbols-outlined text-[16px]">cancel</span>
+<span>INCORRECT RULING</span>
+</div>
+</div>
+<div class="p-space-md sm:p-space-lg flex flex-col gap-space-md">
+<!-- Question Stem -->
+<div class="flex flex-col gap-space-xs">
+<span class="font-label-sm text-label-sm text-surface-tint uppercase tracking-wider font-semibold">Statutory Interpretation Inquiry</span>
+<h2 class="font-headline-md text-headline-md text-primary">
+                Question 2: Under MCC Law 41.16, up until what point is a bowler permitted to run out the non-striker leaving their ground early?
+              </h2>
+</div>
+<!-- Side-by-Side Responses Comparison -->
+<div class="grid grid-cols-1 md:grid-cols-2 gap-space-sm">
+<!-- User Submissions (Error state) -->
+<div class="bg-surface-container-high p-space-md rounded-lg flex flex-col justify-between relative overflow-hidden">
+<div class="flex items-center justify-between mb-2">
+<span class="font-label-sm text-label-sm text-on-surface-variant uppercase font-semibold">Candidate Record</span>
+<span class="flex items-center gap-1 font-label-sm text-label-sm text-secondary font-bold">
+<span class="material-symbols-outlined text-[14px]">close</span> Invalid
+                  </span>
+</div>
+<div class="font-body-md text-body-md text-on-surface font-medium">
+                  Option D: Until bowler's front foot lands
+                </div>
+<div class="mt-3 pt-2 text-on-surface-variant font-label-sm text-label-sm bg-surface-variant/40 -mx-space-md -mb-space-md px-space-md py-1.5 flex items-center gap-1">
+<span class="material-symbols-outlined text-[14px]">history</span>
+<span>Recorded at 03:02 into session</span>
+</div>
+</div>
+<!-- Official MCC Statutory Ruling (Valid state) -->
+<div class="bg-surface-container-low p-space-md rounded-lg flex flex-col justify-between relative overflow-hidden">
+<div class="flex items-center justify-between mb-2">
+<span class="font-label-sm text-label-sm text-on-primary-container uppercase font-semibold">Statutory Determination</span>
+<span class="flex items-center gap-1 font-label-sm text-label-sm text-primary font-bold">
+<span class="material-symbols-outlined text-[14px]">check_circle</span> Correct Stance
+                  </span>
+</div>
+<div class="font-body-md text-body-md text-primary font-semibold">
+                  Option B: Until the instant the bowler would normally have released the ball
+                </div>
+<div class="mt-3 pt-2 font-label-sm text-label-sm bg-surface-container -mx-space-md -mb-space-md px-space-md py-1.5 flex items-center justify-between text-on-surface-variant">
+<span>Precedent: 2022 Statutory Amendment</span>
+<span class="font-label-sm text-label-sm font-semibold text-primary">LEGITIMATE DISMISSAL</span>
+</div>
+</div>
+</div>
+<!-- Official Legal Concordance Card -->
+<div class="relative pl-space-md bg-surface-container-low p-space-md rounded-lg">
+<!-- Left accent bar -->
+<div class="absolute left-0 top-0 bottom-0 w-1.5 bg-secondary-container rounded-l-lg"></div>
+<div class="flex items-center gap-space-xs mb-1.5">
+<span class="material-symbols-outlined text-secondary text-[18px]">menu_book</span>
+<span class="font-label-md text-label-md uppercase tracking-wider text-on-surface font-semibold">
+                  Official Legal Rationale &amp; Concordance
+                </span>
+</div>
+<p class="font-body-md text-body-md text-on-surface">
+                Under <strong class="font-semibold text-primary">MCC Law 41.16.1 (2022 Code)</strong>, the bowler may attempt to run out the non-striker from the moment the ball comes into play until the instant when the bowler would normally have been expected to release the ball. Previous editions referencing front-foot impact are superseded.
+              </p>
+<!-- Pill Law Link -->
+<div class="mt-space-sm pt-space-xs flex flex-wrap items-center gap-space-sm">
+<a class="inline-flex items-center gap-1.5 px-3 py-1 rounded bg-surface-container-high hover:bg-surface-variant text-primary font-label-md text-label-md font-semibold transition-colors shadow-sm" href="#codex-41">
+<span class="material-symbols-outlined text-[16px] text-tertiary-fixed-dim">gavel</span>
+<span>MCC Law 41 — Unfair Play (§ 41.16)</span>
+<span class="text-tertiary-fixed-dim font-bold">§</span>
+</a>
+<span class="font-label-sm text-label-sm text-on-surface-variant">Reclassified from Law 41 to Law 38 Cross-over</span>
+</div>
+</div>
+</div>
+</article>
+<!-- Question 3 Accordion (Brief overview) -->
+<article class="bg-surface-container-lowest rounded-xl shadow-sm overflow-hidden p-space-md flex items-center justify-between gap-space-md">
+<div class="flex items-center gap-space-md">
+<span class="w-8 h-8 rounded-full bg-secondary-fixed flex items-center justify-center text-on-secondary-fixed shrink-0">
+<span class="material-symbols-outlined text-[18px]">close</span>
+</span>
+<div class="flex flex-col">
+<span class="font-label-sm text-label-sm text-on-surface-variant">INQUIRY #03 • DEAD BALL DECLARATIONS</span>
+<span class="font-headline-sm text-headline-sm text-primary">Question 3: Accidental disruption of pitch equipment during run-up</span>
+</div>
+</div>
+<button class="px-3 py-1.5 rounded bg-surface-container-high hover:bg-surface-variant font-label-md text-label-md text-on-surface transition-colors flex items-center gap-1">
+<span>Expand Ruling</span>
+<span class="material-symbols-outlined text-[16px]">expand_more</span>
+</button>
+</article>
+<!-- Sovereign Action Terminal Footer -->
+<div class="bg-surface-container-high p-space-md sm:p-space-lg rounded-xl shadow-sm flex flex-col md:flex-row items-center justify-between gap-space-md">
+<div class="flex flex-col">
+<span class="font-headline-sm text-headline-sm text-on-surface">Ready for Formal Re-examination?</span>
+<span class="font-body-sm text-body-sm text-on-surface-variant mt-0.5">Attempt limit: 3 iterations per 24-hour statutory cycle. Attempt #1 recorded.</span>
+</div>
+<div class="flex flex-wrap items-center gap-space-sm w-full md:w-auto">
+<button class="flex-1 md:flex-initial inline-flex items-center justify-center gap-2 px-space-md py-2.5 rounded bg-surface-container-lowest hover:bg-surface-variant text-on-surface font-label-md text-label-md uppercase tracking-wider transition-colors shadow-sm">
+<span class="material-symbols-outlined text-[18px]">library_books</span>
+<span>Review Codex Precedents</span>
+</button>
+<button class="flex-1 md:flex-initial inline-flex items-center justify-center gap-2 px-space-md py-2.5 rounded bg-surface-container-lowest hover:bg-surface-variant text-on-surface font-label-md text-label-md uppercase tracking-wider transition-colors shadow-sm">
+<span class="material-symbols-outlined text-[18px]">download</span>
+<span>Export Certified PDF</span>
+</button>
+<button class="flex-1 md:flex-initial inline-flex items-center justify-center gap-2 px-space-lg py-2.5 rounded bg-primary text-on-primary hover:bg-primary-container font-label-md text-label-md uppercase tracking-wider font-semibold transition-colors shadow-md">
+<span class="material-symbols-outlined text-[18px]">restart_alt</span>
+<span>Retake Examination</span>
+</button>
+</div>
+</div>
+</div>
+<!-- Right Lateral Rail: Verbatim Statutory Reference Panes (4 cols) -->
+<aside class="xl:col-span-4 flex flex-col gap-space-md">
+<!-- Live Reference Folio Card -->
+<div class="bg-surface-container-lowest p-space-md sm:p-space-lg rounded-xl shadow-sm flex flex-col gap-space-md sticky top-20">
+<div class="flex items-center justify-between border-b-2 border-primary-fixed-dim pb-space-sm">
+<div class="flex items-center gap-space-xs">
+<span class="material-symbols-outlined text-secondary text-[20px]">account_balance</span>
+<span class="font-label-md text-label-md uppercase tracking-wider font-semibold text-on-surface">Statute Codex Excerpt</span>
+</div>
+<span class="font-label-sm text-label-sm bg-surface-container px-2 py-0.5 rounded text-on-surface-variant font-mono">MCC-2022-REV</span>
+</div>
+<!-- Law 28 Excerpt -->
+<div class="flex flex-col gap-space-xs bg-surface-container-low p-space-sm rounded-lg" id="codex-28">
+<div class="flex items-center justify-between">
+<span class="font-label-md text-label-md font-semibold text-primary">§ LAW 28.3.2</span>
+<span class="font-label-sm text-label-sm text-secondary font-semibold">BALL IN PLAY / HELMET</span>
+</div>
+<p class="font-body-sm text-body-sm text-on-surface leading-relaxed italic">
+              “If the ball while in play strikes a protective helmet placed on the ground, the ball shall immediately become dead and the umpire shall award 5 penalty runs to the batting side... runs completed by the batsmen before the ball struck the helmet shall be scored, together with the run in progress if the batsmen had crossed.”
+            </p>
+<div class="flex items-center justify-between text-on-surface-variant font-label-sm text-label-sm pt-1">
+<span>Jurisdiction: All T20I / ODI / Tests</span>
+<span class="font-semibold text-surface-tint">MCC Law 28.3</span>
+</div>
+</div>
+<!-- Law 41 Excerpt -->
+<div class="flex flex-col gap-space-xs bg-surface-container-low p-space-sm rounded-lg" id="codex-41">
+<div class="flex items-center justify-between">
+<span class="font-label-md text-label-md font-semibold text-primary">§ LAW 41.16.1</span>
+<span class="font-label-sm text-label-sm text-secondary font-semibold">NON-STRIKER LEAVING GROUND</span>
+</div>
+<p class="font-body-sm text-body-sm text-on-surface leading-relaxed italic">
+              “If the non-striker is out of his/her ground from the moment the ball comes into play to the instant when the bowler would normally have been expected to release the ball, the bowler is permitted to run him/her out. In these circumstances, the non-striker will be Out Run out.”
+            </p>
+<div class="flex items-center justify-between text-on-surface-variant font-label-sm text-label-sm pt-1">
+<span>Updated: October 2022 Code</span>
+<span class="font-semibold text-surface-tint">Law 41.16</span>
+</div>
+</div>
+<!-- Candidate Profile & Adjudicator Authentication -->
+<div class="bg-surface-container p-space-md rounded-lg flex flex-col gap-space-sm">
+<span class="font-label-sm text-label-sm text-on-surface-variant uppercase tracking-wider font-semibold">Assessor Signature &amp; Stamp</span>
+<div class="flex items-center gap-space-sm">
+<div class="w-10 h-10 rounded bg-primary-container text-tertiary-fixed flex items-center justify-center font-headline-sm text-headline-sm">
+                §
+              </div>
+<div class="flex flex-col">
+<span class="font-label-md text-label-md font-semibold text-on-surface">Board of Control Certification</span>
+<span class="font-label-sm text-label-sm text-on-surface-variant">MCC Education Sub-Committee</span>
+</div>
+</div>
+<div class="flex items-center justify-between pt-2 border-t border-outline-variant/30 text-on-surface-variant font-label-sm text-label-sm">
+<span>Verification Hash:</span>
+<span class="font-mono text-primary font-semibold">9A2F-CC01-38E4</span>
+</div>
+</div>
+<!-- Quick Navigation to Study Guides -->
+<div class="flex flex-col gap-2">
+<span class="font-label-sm text-label-sm text-on-surface-variant uppercase font-semibold">Curated Study Materials</span>
+<a class="flex items-center justify-between p-2 rounded hover:bg-surface-container-high transition-colors text-primary font-body-sm text-body-sm" href="#">
+<span class="flex items-center gap-2">
+<span class="material-symbols-outlined text-[16px] text-surface-tint">article</span>
+<span>Law 28 Fielders Protection Codex</span>
+</span>
+<span class="material-symbols-outlined text-[16px] text-on-surface-variant">arrow_forward</span>
+</a>
+<a class="flex items-center justify-between p-2 rounded hover:bg-surface-container-high transition-colors text-primary font-body-sm text-body-sm" href="#">
+<span class="flex items-center gap-2">
+<span class="material-symbols-outlined text-[16px] text-surface-tint">article</span>
+<span>Evolution of Law 41.16 (2017 to 2022)</span>
+</span>
+<span class="material-symbols-outlined text-[16px] text-on-surface-variant">arrow_forward</span>
+</a>
+</div>
+</div>
+</aside>
+</div>
+</div>
+</div>
+<script>
+  // Dynamic client interaction for Collapsing/Expanding glosses
+  const toggleBtn = document.getElementById('toggleExplanationsBtn');
+  if (toggleBtn) {
+    let collapsed = false;
+    toggleBtn.addEventListener('click', () => {
+      collapsed = !collapsed;
+      const concordances = document.querySelectorAll('.bg-surface-container-low.p-space-md.rounded-lg');
+      concordances.forEach(el => {
+        el.style.display = collapsed ? 'none' : 'block';
+      });
+      toggleBtn.innerHTML = collapsed 
+        ? '<span class="material-symbols-outlined text-[16px]">unfold_more</span><span>Expand All Glosses</span>'
+        : '<span class="material-symbols-outlined text-[16px]">unfold_less</span><span>Collapse All Glosses</span>';
+    });
+  }
+
+  // Smooth scroll anchor enhancement for law citations
+  document.querySelectorAll('a[href^="#codex-"]').forEach(anchor => {
+    anchor.addEventListener('click', function(e) {
+      e.preventDefault();
+      const target = document.querySelector(this.getAttribute('href'));
+      if (target) {
+        target.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        target.classList.add('bg-surface-variant');
+        setTimeout(() => {
+          target.classList.remove('bg-surface-variant');
+        }, 1500);
+      }
+    });
+  });
+</script></main></div></body></html>

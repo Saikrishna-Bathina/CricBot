@@ -1,0 +1,426 @@
+<!DOCTYPE html>
+
+<html lang="en"><head><meta charset="utf-8"/><meta content="width=device-width, initial-scale=1.0" name="viewport"/><meta content="web_dashboard" name="shell-type"/><link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" rel="stylesheet"/><link href="https://fonts.googleapis.com" rel="preconnect"/><link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/><link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&amp;family=JetBrains+Mono:wght@400;500;600&amp;family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;0,6..72,600;1,6..72,400&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/><style>@layer base{html,body{margin:0;padding:0;}body{overscroll-behavior:none;}main>:first-child{margin-top:0!important;}main>:last-child{margin-bottom:0!important;}}::-webkit-scrollbar{display:none;}</style><script src="https://cdn.tailwindcss.com"></script><script id="tailwind-config">tailwind.config = {"darkMode":"class","theme":{"extend":{"colors":{"on-primary-fixed":"#0a1f18","surface-variant":"#dce5df","surface":"#f3fbf6","surface-dim":"#d3dcd7","primary-fixed-dim":"#b4ccc1","surface-tint":"#4d635a","surface-bright":"#f3fbf6","surface-container":"#e7f0eb","error":"#ba1a1a","surface-container-highest":"#dce5df","on-primary-container":"#768d83","inverse-primary":"#b4ccc1","tertiary-fixed-dim":"#f0bf5c","secondary":"#ad3031","on-tertiary-fixed":"#261900","secondary-fixed-dim":"#ffb3ae","secondary-container":"#ff6b68","on-secondary-fixed-variant":"#8c161d","secondary-fixed":"#ffdad7","on-error-container":"#93000a","tertiary-fixed":"#ffdea4","tertiary":"#0f0800","on-tertiary":"#ffffff","primary-container":"#0f241d","inverse-surface":"#2a322f","on-surface-variant":"#424845","on-background":"#151d1a","on-error":"#ffffff","inverse-on-surface":"#eaf3ee","outline-variant":"#c2c8c4","on-secondary":"#ffffff","on-tertiary-fixed-variant":"#5d4200","primary":"#000b07","on-tertiary-container":"#ab8123","tertiary-container":"#2c1e00","on-primary-fixed-variant":"#364b43","surface-container-lowest":"#ffffff","surface-container-low":"#edf6f0","on-primary":"#ffffff","outline":"#727875","background":"#f3fbf6","on-secondary-container":"#6d000d","primary-fixed":"#d0e8dd","on-surface":"#151d1a","error-container":"#ffdad6","surface-container-high":"#e2eae5","on-secondary-fixed":"#410005"},"borderRadius":{"DEFAULT":"0.25rem","lg":"0.5rem","xl":"0.75rem","full":"9999px"},"spacing":{"space-md":"1rem","margin":"2rem","gutter-mobile":"0.75rem","space-xl":"2.5rem","gutter":"1rem","space-xs":"0.25rem","margin-mobile":"1rem","space-lg":"1.5rem","space-sm":"0.5rem"},"fontFamily":{"body-lg":["Inter"],"label-md":["JetBrains Mono"],"body-sm":["Inter"],"headline-xl-mobile":["Newsreader"],"headline-md":["Newsreader"],"body-md":["Inter"],"headline-lg":["Newsreader"],"headline-sm":["Newsreader"],"label-sm":["JetBrains Mono"],"headline-xl":["Newsreader"],"label-lg":["JetBrains Mono"]},"fontSize":{"body-lg":["16px",{"lineHeight":"26px","fontWeight":"400"}],"label-md":["11px",{"lineHeight":"14px","letterSpacing":"0.06em","fontWeight":"500"}],"body-sm":["12px",{"lineHeight":"18px","fontWeight":"400"}],"headline-xl-mobile":["28px",{"lineHeight":"34px","letterSpacing":"-0.01em","fontWeight":"600"}],"headline-md":["22px",{"lineHeight":"28px","fontWeight":"500"}],"body-md":["14px",{"lineHeight":"22px","fontWeight":"400"}],"headline-lg":["28px",{"lineHeight":"36px","letterSpacing":"-0.015em","fontWeight":"500"}],"headline-sm":["18px",{"lineHeight":"24px","fontWeight":"600"}],"label-sm":["9px",{"lineHeight":"12px","letterSpacing":"0.08em","fontWeight":"500"}],"headline-xl":["38px",{"lineHeight":"44px","letterSpacing":"-0.02em","fontWeight":"600"}],"label-lg":["13px",{"lineHeight":"16px","letterSpacing":"0.04em","fontWeight":"600"}]}}}};</script></head><body class="bg-surface font-body-md text-on-surface antialiased"><header class="fixed top-0 left-0 right-0 z-50 bg-primary-container text-on-primary border-b border-outline-variant/30 shadow-[0_1px_8px_rgba(0,0,0,0.06)]"><div class="h-16 w-full px-space-lg flex items-center justify-between gap-space-md"><div class="flex items-center gap-space-lg shrink-0"><div class="flex items-center gap-space-sm"><div class="w-8 h-8 rounded bg-surface-container-lowest flex items-center justify-center text-primary-container"><span class="material-symbols-outlined text-[20px]">gavel</span></div><div class="flex flex-col"><span class="font-headline-sm text-headline-sm text-on-primary tracking-tight leading-none">CricLaws Official Desk</span><span class="font-label-sm text-label-sm text-primary-fixed-dim uppercase tracking-wider mt-0.5">MCC &amp; ICC Statutory Reference</span></div></div><div class="h-6 w-px bg-outline-variant/30 hidden lg:block"></div><nav class="hidden xl:flex items-center gap-space-xs" data-active-classes="bg-surface-container-lowest text-primary-container font-medium rounded"><a class="px-space-sm py-1.5 font-label-md text-label-md uppercase tracking-wider text-surface-variant hover:text-on-primary transition-colors" data-path="adjudication" href="#">Adjudication</a><a class="px-space-sm py-1.5 font-label-md text-label-md uppercase tracking-wider text-surface-variant hover:text-on-primary transition-colors" data-path="scenario-analyser" href="#">Scenario Analyser</a><a class="px-space-sm py-1.5 font-label-md text-label-md uppercase tracking-wider text-surface-variant hover:text-on-primary transition-colors" data-path="law-search" href="#">Law Search</a><a class="px-space-sm py-1.5 font-label-md text-label-md uppercase tracking-wider text-surface-variant hover:text-on-primary transition-colors" data-path="umpire-assessment" href="#">Umpire Assessment</a><a class="px-space-sm py-1.5 font-label-md text-label-md uppercase tracking-wider text-surface-variant hover:text-on-primary transition-colors" data-path="official-knowledge-base" href="#">Official Knowledge Base</a></nav></div><div class="flex items-center gap-space-md shrink-0"><div class="hidden sm:flex items-center gap-space-xs px-space-sm py-1 bg-primary/40 rounded border border-outline-variant/20"><span class="material-symbols-outlined text-tertiary-fixed text-[16px]">balance</span><div class="flex flex-col text-left"><span class="font-label-sm text-label-sm text-surface-variant leading-none">Jurisdiction</span><span class="font-label-md text-label-md text-tertiary-fixed font-semibold leading-tight">ICC Men's T20I / MCC 2017 (3rd Ed.)</span></div><span class="material-symbols-outlined text-surface-variant text-[16px]">expand_more</span></div><div class="hidden md:flex items-center gap-space-xs px-space-sm py-1 bg-surface-container-highest/10 rounded border border-outline-variant/20"><span class="w-2 h-2 rounded-full bg-secondary animate-pulse"></span><span class="font-label-md text-label-md text-on-primary">LIVE 14:32:08 UTC</span></div><div class="flex items-center gap-space-sm pl-space-xs"><div class="hidden text-right lg:block"><div class="font-label-md text-label-md text-on-primary font-semibold leading-none">T. R. Adjudicator</div><div class="font-label-sm text-label-sm text-primary-fixed-dim leading-none mt-1">Elite Panel #14</div></div><div class="w-8 h-8 rounded-full bg-primary flex items-center justify-center"><span class="material-symbols-outlined text-on-primary text-[18px]">person</span></div></div></div></div></header><aside class="fixed left-0 top-16 bottom-0 w-64 bg-surface-container-low border-r border-outline-variant/30 z-40 flex flex-col justify-between"><div class="flex flex-col py-space-md"><div class="px-space-md mb-space-sm"><span class="font-label-sm text-label-sm text-on-surface-variant uppercase tracking-widest font-semibold">Statute Codex</span></div><nav class="flex flex-col gap-0.5 px-space-xs" data-active-classes="bg-surface-container-high text-on-surface font-semibold border-l-2 border-secondary"><a class="flex items-center justify-between px-space-md py-space-sm text-on-surface-variant hover:bg-surface-container hover:text-on-surface transition-colors" data-path="adjudication" href="#"><span class="font-body-md text-body-md">Active Incident</span><span class="font-label-sm text-label-sm bg-secondary-fixed text-on-secondary-fixed px-1.5 py-0.5 rounded">LIVE</span></a><a class="flex items-center justify-between px-space-md py-space-sm text-on-surface-variant hover:bg-surface-container hover:text-on-surface transition-colors" data-path="scenario-analyser" href="#"><span class="font-body-md text-body-md">Multi-Event Log</span><span class="font-label-sm text-label-sm text-on-surface-variant">§ 41/42</span></a><a class="flex items-center justify-between px-space-md py-space-sm text-on-surface-variant hover:bg-surface-container hover:text-on-surface transition-colors" data-path="law-search" href="#"><span class="font-body-md text-body-md">MCC 42 Laws Index</span><span class="font-label-sm text-label-sm text-on-surface-variant">v3.2</span></a><a class="flex items-center justify-between px-space-md py-space-sm text-on-surface-variant hover:bg-surface-container hover:text-on-surface transition-colors" data-path="precedent-vault" href="#"><span class="font-body-md text-body-md">Precedent Casefiles</span><span class="font-label-sm text-label-sm text-on-surface-variant">Archive</span></a><a class="flex items-center justify-between px-space-md py-space-sm text-on-surface-variant hover:bg-surface-container hover:text-on-surface transition-colors" data-path="umpire-assessment" href="#"><span class="font-body-md text-body-md">Certification Ledger</span><span class="font-label-sm text-label-sm text-on-surface-variant">Module 4</span></a><a class="flex items-center justify-between px-space-md py-space-sm text-on-surface-variant hover:bg-surface-container hover:text-on-surface transition-colors" data-path="official-knowledge-base" href="#"><span class="font-body-md text-body-md">ICC Standard PC</span><span class="font-label-sm text-label-sm text-on-surface-variant">2024 Ed.</span></a></nav></div><div class="p-space-md border-t border-outline-variant/20 bg-surface-container"><div class="flex items-center justify-between text-on-surface-variant font-label-sm text-label-sm mb-1"><span>PROTOCOL STATUS</span><span class="text-on-primary-container font-semibold">RATIFIED</span></div><div class="font-label-md text-label-md text-on-surface truncate">Session: 2 | Over: 34.2</div><div class="font-label-sm text-label-sm text-on-surface-variant mt-0.5 truncate">Ref: MCC-2017-L38.2</div></div></aside><div class="pl-64"><main class="relative pt-16 bg-surface min-h-screen w-full px-space-lg py-space-md"><div class="flex flex-col w-full">
+<div class="flex flex-col gap-space-lg w-full">
+<!-- Top Metadata / Docket Header Strip -->
+<div class="bg-surface-container-low p-space-md shadow-sm flex flex-col md:flex-row items-start md:items-center justify-between gap-space-sm">
+<div class="flex items-center gap-space-sm">
+<div class="w-2.5 h-2.5 bg-secondary"></div>
+<span class="font-label-md text-label-md text-on-surface uppercase font-semibold">PORTAL CODEX: SECURE ACCESS &amp; STATUTORY AUDIT LEDGER</span>
+<span class="font-label-sm text-label-sm bg-surface-container-highest text-on-surface-variant px-space-xs py-0.5 font-mono">SYS-REV-2024.08</span>
+</div>
+<div class="flex items-center gap-space-md">
+<span class="font-label-sm text-label-sm text-on-surface-variant flex items-center gap-1">
+<span class="material-symbols-outlined text-[14px] text-on-primary-container">verified_user</span>
+          CRYPTOGRAPHIC INTEGRITY: SEALED
+        </span>
+<span class="font-label-sm text-label-sm text-on-surface-variant">MCC &amp; ICC SYNCHRONIZATION ACTIVE</span>
+</div>
+</div>
+<!-- Main Asymmetric Workspace Layout -->
+<div class="grid grid-cols-1 lg:grid-cols-12 gap-space-lg items-start">
+<!-- LEFT COLUMN: Knowledge Base & Statutory Repositories (7 cols) -->
+<section class="lg:col-span-7 flex flex-col gap-space-lg">
+<!-- Section Identity -->
+<div class="flex flex-col gap-1">
+<div class="flex items-center gap-space-xs">
+<span class="font-label-sm text-label-sm text-on-primary-container uppercase font-semibold tracking-widest">Codex Registry § 01</span>
+<span class="w-8 h-px bg-outline-variant"></span>
+<span class="font-label-sm text-label-sm text-on-surface-variant uppercase">Approved Canonical Volumes</span>
+</div>
+<h1 class="font-headline-lg text-headline-lg text-primary tracking-tight">Official Knowledge Base &amp; Jurisprudential Codex</h1>
+<p class="font-body-md text-body-md text-on-surface-variant mt-1">
+            Authoritative textual repositories synchronized under international governance standards. All decisions generated cite verbatim clauses from primary statutes with zero-hallucination vector indexing.
+          </p>
+</div>
+<!-- Capability Pillars Mosaic -->
+<div class="grid grid-cols-2 sm:grid-cols-4 gap-space-xs">
+<div class="bg-surface-container-lowest p-space-sm shadow-sm flex flex-col justify-between">
+<div class="flex items-center justify-between mb-2">
+<span class="font-label-sm text-label-sm text-on-surface-variant">PILLAR I</span>
+<span class="material-symbols-outlined text-secondary text-[16px]">balance</span>
+</div>
+<div class="font-label-md text-label-md font-semibold text-primary">Zero-Hallucination</div>
+<div class="font-body-sm text-body-sm text-on-surface-variant mt-0.5">Strict lexical grounding directly in MCC 2017 statute text.</div>
+</div>
+<div class="bg-surface-container-lowest p-space-sm shadow-sm flex flex-col justify-between">
+<div class="flex items-center justify-between mb-2">
+<span class="font-label-sm text-label-sm text-on-surface-variant">PILLAR II</span>
+<span class="material-symbols-outlined text-secondary text-[16px]">fact_check</span>
+</div>
+<div class="font-label-md text-label-md font-semibold text-primary">Traceable Citations</div>
+<div class="font-body-sm text-body-sm text-on-surface-variant mt-0.5">Sub-clause pinpoint linking down to lettered sub-paragraphs.</div>
+</div>
+<div class="bg-surface-container-lowest p-space-sm shadow-sm flex flex-col justify-between">
+<div class="flex items-center justify-between mb-2">
+<span class="font-label-sm text-label-sm text-on-surface-variant">PILLAR III</span>
+<span class="material-symbols-outlined text-secondary text-[16px]">timeline</span>
+</div>
+<div class="font-label-md text-label-md font-semibold text-primary">Multi-Event Logic</div>
+<div class="font-body-sm text-body-sm text-on-surface-variant mt-0.5">Compound precedence arbitration (e.g. No-Ball over LBW).</div>
+</div>
+<div class="bg-surface-container-lowest p-space-sm shadow-sm flex flex-col justify-between">
+<div class="flex items-center justify-between mb-2">
+<span class="font-label-sm text-label-sm text-on-surface-variant">PILLAR IV</span>
+<span class="material-symbols-outlined text-secondary text-[16px]">manage_search</span>
+</div>
+<div class="font-label-md text-label-md font-semibold text-primary">Hybrid Lexical AI</div>
+<div class="font-body-sm text-body-sm text-on-surface-variant mt-0.5">Dense embedding combined with exact BM25 legal terminology.</div>
+</div>
+</div>
+<!-- Codified Rulebooks Ledger Table -->
+<div class="bg-surface-container-lowest shadow-sm flex flex-col">
+<div class="p-space-md bg-surface-container flex items-center justify-between">
+<div class="flex items-center gap-space-sm">
+<span class="material-symbols-outlined text-primary text-[20px]">menu_book</span>
+<h2 class="font-headline-sm text-headline-sm text-primary">Codified Rulebooks &amp; Standard Playing Conditions</h2>
+</div>
+<span class="font-label-sm text-label-sm text-on-surface-variant uppercase tracking-wider">4 Active Instruments</span>
+</div>
+<!-- Item 1: MCC Laws of Cricket -->
+<div class="p-space-md flex flex-col md:flex-row md:items-center justify-between gap-space-md hover:bg-surface-container-low transition-colors">
+<div class="flex flex-col gap-1 min-w-0">
+<div class="flex items-center gap-space-xs flex-wrap">
+<span class="font-label-md text-label-md font-semibold text-primary">MCC Laws of Cricket (2017 Code 3rd Edition - 2022)</span>
+<span class="bg-primary text-on-primary font-label-sm text-label-sm px-2 py-0.5 font-mono">SOVEREIGN STATUTE</span>
+</div>
+<div class="font-body-sm text-body-sm text-on-surface-variant">
+                Definitive global standard for 42 codified cricket laws including Law 33 (Caught), Law 38 (Run Out), and Law 41 (Unfair Play).
+              </div>
+<div class="flex items-center gap-space-md mt-1 font-label-sm text-label-sm text-on-surface-variant">
+<span>Codex: MCC-2017-V3</span>
+<span>•</span>
+<span>Jurisdiction: Universal</span>
+<span>•</span>
+<span class="text-secondary font-semibold">42 Laws Codified</span>
+</div>
+</div>
+<div class="flex items-center gap-space-sm shrink-0 self-start md:self-center">
+<div class="px-space-sm py-1 bg-surface-container-high text-on-surface font-label-sm text-label-sm flex items-center gap-1">
+<span class="w-1.5 h-1.5 rounded-full bg-secondary"></span>
+<span>Verified Authority</span>
+</div>
+<button class="bg-surface-container p-1 text-on-surface hover:bg-surface-container-highest transition-colors" title="Inspect Statutory Index">
+<span class="material-symbols-outlined text-[18px]">visibility</span>
+</button>
+</div>
+</div>
+<!-- Item 2: ICC Men's T20I PC -->
+<div class="p-space-md bg-surface-container-low/40 flex flex-col md:flex-row md:items-center justify-between gap-space-md hover:bg-surface-container-low transition-colors">
+<div class="flex flex-col gap-1 min-w-0">
+<div class="flex items-center gap-space-xs flex-wrap">
+<span class="font-label-md text-label-md font-semibold text-primary">ICC Men's T20I Playing Conditions (October 2023)</span>
+<span class="bg-surface-container-high text-on-surface font-label-sm text-label-sm px-2 py-0.5 font-mono">SPECIFIC CLAUSES</span>
+</div>
+<div class="font-body-sm text-body-sm text-on-surface-variant">
+                Appendices governing DRS protocols, stop-clock regulations (Clause 41.9), powerplay limits, and boundary review video specs.
+              </div>
+<div class="flex items-center gap-space-md mt-1 font-label-sm text-label-sm text-on-surface-variant">
+<span>Codex: ICC-PC-T20I-23</span>
+<span>•</span>
+<span>Overrides: Law 41 &amp; Law 2</span>
+<span>•</span>
+<span class="text-on-primary-container font-semibold">Synchronized</span>
+</div>
+</div>
+<div class="flex items-center gap-space-sm shrink-0 self-start md:self-center">
+<div class="px-space-sm py-1 bg-surface-container-high text-on-surface font-label-sm text-label-sm flex items-center gap-1">
+<span class="w-1.5 h-1.5 rounded-full bg-secondary"></span>
+<span>Live In-Match</span>
+</div>
+<button class="bg-surface-container p-1 text-on-surface hover:bg-surface-container-highest transition-colors" title="Inspect Statutory Index">
+<span class="material-symbols-outlined text-[18px]">visibility</span>
+</button>
+</div>
+</div>
+<!-- Item 3: ICC WTC Playing Conditions -->
+<div class="p-space-md flex flex-col md:flex-row md:items-center justify-between gap-space-md hover:bg-surface-container-low transition-colors">
+<div class="flex flex-col gap-1 min-w-0">
+<div class="flex items-center gap-space-xs flex-wrap">
+<span class="font-label-md text-label-md font-semibold text-primary">ICC World Test Championship Playing Conditions</span>
+<span class="bg-surface-container-high text-on-surface font-label-sm text-label-sm px-2 py-0.5 font-mono">TEST PROTOCOL</span>
+</div>
+<div class="font-body-sm text-body-sm text-on-surface-variant">
+                Follow-on thresholds, light meter parameters, multi-day concussion substitute protocols, and over-rate penalty deductions.
+              </div>
+<div class="flex items-center gap-space-md mt-1 font-label-sm text-label-sm text-on-surface-variant">
+<span>Codex: ICC-WTC-2023-25</span>
+<span>•</span>
+<span>Jurisdiction: ICC Elite Panel</span>
+<span>•</span>
+<span class="text-on-primary-container font-semibold">Synchronized</span>
+</div>
+</div>
+<div class="flex items-center gap-space-sm shrink-0 self-start md:self-center">
+<div class="px-space-sm py-1 bg-surface-container-high text-on-surface font-label-sm text-label-sm flex items-center gap-1">
+<span class="w-1.5 h-1.5 rounded-full bg-on-surface-variant"></span>
+<span>Active 23–25 Cycle</span>
+</div>
+<button class="bg-surface-container p-1 text-on-surface hover:bg-surface-container-highest transition-colors" title="Inspect Statutory Index">
+<span class="material-symbols-outlined text-[18px]">visibility</span>
+</button>
+</div>
+</div>
+<!-- Item 4: Spirit of Cricket & Preamble -->
+<div class="p-space-md bg-surface-container-low/40 flex flex-col md:flex-row md:items-center justify-between gap-space-md hover:bg-surface-container-low transition-colors">
+<div class="flex flex-col gap-1 min-w-0">
+<div class="flex items-center gap-space-xs flex-wrap">
+<span class="font-label-md text-label-md font-semibold text-primary">The Spirit of Cricket Preamble &amp; Conduct Guidelines</span>
+<span class="bg-surface-container-high text-on-surface font-label-sm text-label-sm px-2 py-0.5 font-mono">ETHICAL STATUTE</span>
+</div>
+<div class="font-body-sm text-body-sm text-on-surface-variant">
+                Foundational preamble dictating captain accountability, player conduct penalties, dissent classification (Level 1–4), and sportsmanship.
+              </div>
+<div class="flex items-center gap-space-md mt-1 font-label-sm text-label-sm text-on-surface-variant">
+<span>Codex: MCC-PREAMBLE</span>
+<span>•</span>
+<span>Adjudication: Mandatory Reference</span>
+<span>•</span>
+<span class="text-on-primary-container font-semibold">Ratified</span>
+</div>
+</div>
+<div class="flex items-center gap-space-sm shrink-0 self-start md:self-center">
+<div class="px-space-sm py-1 bg-surface-container-high text-on-surface font-label-sm text-label-sm flex items-center gap-1">
+<span class="w-1.5 h-1.5 rounded-full bg-secondary"></span>
+<span>Ratified Sovereign</span>
+</div>
+<button class="bg-surface-container p-1 text-on-surface hover:bg-surface-container-highest transition-colors" title="Inspect Statutory Index">
+<span class="material-symbols-outlined text-[18px]">visibility</span>
+</button>
+</div>
+</div>
+</div>
+<!-- Telemetry & Database Index Health Strip -->
+<div class="bg-surface-container p-space-md shadow-sm flex flex-col sm:flex-row items-start sm:items-center justify-between gap-space-md">
+<div class="flex items-center gap-space-md">
+<div class="w-10 h-10 bg-primary-container text-on-primary flex items-center justify-center shrink-0">
+<span class="material-symbols-outlined text-[20px]">database</span>
+</div>
+<div class="flex flex-col">
+<span class="font-label-md text-label-md font-semibold text-primary">PostgreSQL Legal Lexicon &amp; Vector Embeddings</span>
+<span class="font-body-sm text-body-sm text-on-surface-variant">1,482 clauses indexed with multi-layered statutory embeddings.</span>
+</div>
+</div>
+<div class="flex items-center gap-space-xs self-end sm:self-auto font-label-sm text-label-sm text-on-surface-variant">
+<span>INDEX LATENCY: <strong class="text-primary font-mono">1.2ms</strong></span>
+<span>•</span>
+<span>STATUS: <strong class="text-secondary font-mono">ONLINE</strong></span>
+</div>
+</div>
+</section>
+<!-- RIGHT COLUMN: Authentication & Access Portal (5 cols) -->
+<section class="lg:col-span-5 flex flex-col gap-space-md">
+<!-- Portal Dossier Card -->
+<div class="bg-surface-container-lowest shadow-md flex flex-col">
+<!-- Card Sovereign Header -->
+<div class="bg-primary text-on-primary p-space-md flex items-center justify-between">
+<div class="flex items-center gap-space-sm">
+<span class="material-symbols-outlined text-secondary text-[22px]">vpn_key</span>
+<div>
+<h2 class="font-headline-sm text-headline-sm text-on-primary leading-tight">Official Codex Access</h2>
+<div class="font-label-sm text-label-sm text-primary-fixed-dim uppercase tracking-wider mt-0.5">ICC Official Portal Desk</div>
+</div>
+</div>
+<span class="font-label-sm text-label-sm bg-surface-container-highest/20 text-on-primary px-space-xs py-0.5 font-mono">
+              LEVEL 4 CLEARANCE
+            </span>
+</div>
+<!-- Auth Mode Toggle (Docket Style) -->
+<div class="grid grid-cols-2 bg-surface-container p-1 gap-1">
+<button class="py-2 text-center font-label-md text-label-md uppercase font-semibold bg-surface-container-lowest text-primary shadow-sm transition-all" id="tab-login" onclick="switchAuthMode('login')">
+              Sign In to Desk
+            </button>
+<button class="py-2 text-center font-label-md text-label-md uppercase font-medium text-on-surface-variant hover:text-on-surface transition-all" id="tab-register" onclick="switchAuthMode('register')">
+              Register Credential
+            </button>
+</div>
+<!-- Form Canvas -->
+<div class="p-space-lg flex flex-col gap-space-md">
+<div class="flex flex-col gap-0.5">
+<span class="font-label-sm text-label-sm text-on-surface-variant uppercase tracking-widest font-semibold">Institutional Authorization</span>
+<p class="font-body-sm text-body-sm text-on-surface-variant">
+                Enter your sanctioned administrative, referee, or accredited umpire credentials to access live incident adjudication logs.
+              </p>
+</div>
+<!-- Role Selector -->
+<div class="flex flex-col gap-1">
+<label class="font-label-sm text-label-sm font-semibold text-on-surface uppercase tracking-wider flex items-center justify-between">
+<span>Account Role &amp; Jurisdictional Scope</span>
+<span class="text-secondary font-mono">*REQUIRED</span>
+</label>
+<div class="relative">
+<select class="w-full bg-surface-container-low text-on-surface font-body-md text-body-md px-space-md py-2.5 appearance-none focus:outline-none focus:bg-surface-container-lowest transition-colors" id="auth-role">
+<option value="elite-umpire">Elite Panel Umpire (ICC / ECB / BCCI)</option>
+<option value="match-referee">Match Referee &amp; Dispute Arbiter</option>
+<option selected="" value="umpire-candidate">Candidate / Umpire Student (User)</option>
+<option value="legal-analyst">Broadcaster / Legal Analyst</option>
+</select>
+<div class="pointer-events-none absolute right-3 top-1/2 -translate-y-1/2 text-on-surface-variant">
+<span class="material-symbols-outlined text-[18px]">unfold_more</span>
+</div>
+</div>
+</div>
+<!-- Email Field -->
+<div class="flex flex-col gap-1">
+<label class="font-label-sm text-label-sm font-semibold text-on-surface uppercase tracking-wider flex items-center justify-between">
+<span>Institutional Email Address</span>
+<span class="text-on-surface-variant font-mono">RFC-5322</span>
+</label>
+<div class="relative flex items-center">
+<span class="absolute left-3 text-on-surface-variant material-symbols-outlined text-[18px]">badge</span>
+<input class="w-full bg-surface-container-low text-on-surface font-label-md text-label-md pl-10 pr-space-md py-2.5 focus:outline-none focus:bg-surface-container-lowest transition-colors placeholder:text-outline" id="auth-email" placeholder="e.g. umpire@icc-cricket.com" type="email" value="umpire.official@icc-cricket.com"/>
+</div>
+</div>
+<!-- Password Field -->
+<div class="flex flex-col gap-1">
+<label class="font-label-sm text-label-sm font-semibold text-on-surface uppercase tracking-wider flex items-center justify-between">
+<span>Passcode / Hardware Token</span>
+<a class="text-secondary font-label-sm text-label-sm hover:underline" href="#">Forgot passcode?</a>
+</label>
+<div class="relative flex items-center">
+<span class="absolute left-3 text-on-surface-variant material-symbols-outlined text-[18px]">password</span>
+<input class="w-full bg-surface-container-low text-on-surface font-label-md text-label-md pl-10 pr-space-md py-2.5 focus:outline-none focus:bg-surface-container-lowest transition-colors placeholder:text-outline" id="auth-password" placeholder="Enter secure key phrase" type="password" value="••••••••••••••"/>
+</div>
+</div>
+<!-- Additional Registration Fields (Hidden in login mode) -->
+<div class="hidden flex-col gap-space-md" id="register-fields">
+<div class="flex flex-col gap-1">
+<label class="font-label-sm text-label-sm font-semibold text-on-surface uppercase tracking-wider">
+                  Accreditation / License ID
+                </label>
+<input class="w-full bg-surface-container-low text-on-surface font-label-md text-label-md px-space-md py-2.5 focus:outline-none focus:bg-surface-container-lowest transition-colors placeholder:text-outline" placeholder="e.g. ICC-ELITE-REF-098" type="text"/>
+</div>
+<div class="flex items-start gap-space-xs">
+<input checked="" class="mt-1 w-4 h-4 rounded-none accent-primary" id="terms-agree" type="checkbox"/>
+<label class="font-body-sm text-body-sm text-on-surface-variant select-none" for="terms-agree">
+                  I solemnly certify that all adjudications conducted under this account strictly observe MCC Laws of Cricket (2017 Code) and ICC Ethical Conduct Standards.
+                </label>
+</div>
+</div>
+<!-- Primary Submission CTA -->
+<button class="w-full bg-primary text-on-primary py-3 px-space-md font-label-lg text-label-lg uppercase tracking-wider flex items-center justify-center gap-space-sm hover:bg-inverse-surface active:scale-[0.99] transition-all" id="auth-submit-btn" onclick="triggerAuthFeedback()">
+<span>Sign In to Official Desk</span>
+<span class="material-symbols-outlined text-[18px]">arrow_forward</span>
+</button>
+<!-- Quick Preset Helper (From Screenshots Demo Credential pattern) -->
+<div class="bg-surface-container-low p-space-sm flex flex-col gap-space-xs">
+<div class="flex items-center justify-between">
+<span class="font-label-sm text-label-sm font-semibold text-on-surface-variant uppercase">Adjudication Sandbox Presets</span>
+<span class="font-label-sm text-label-sm text-secondary uppercase font-semibold">Dev &amp; Testing</span>
+</div>
+<div class="grid grid-cols-2 gap-space-xs">
+<button class="py-1.5 px-space-xs bg-surface-container-lowest text-primary font-label-sm text-label-sm uppercase hover:bg-surface-container-high transition-colors text-left flex items-center justify-between" onclick="fillPreset('admin')">
+<span>Elite Referee</span>
+<span class="material-symbols-outlined text-[14px]">bolt</span>
+</button>
+<button class="py-1.5 px-space-xs bg-surface-container-lowest text-primary font-label-sm text-label-sm uppercase hover:bg-surface-container-high transition-colors text-left flex items-center justify-between" onclick="fillPreset('candidate')">
+<span>Student User</span>
+<span class="material-symbols-outlined text-[14px]">school</span>
+</button>
+</div>
+</div>
+<!-- Feedback Notification Area -->
+<div class="hidden p-space-sm bg-secondary text-on-secondary font-label-sm text-label-sm flex items-center justify-between" id="auth-feedback">
+<span class="flex items-center gap-1">
+<span class="material-symbols-outlined text-[16px]">verified</span>
+<span>CLEARANCE GRANTED: Redirecting to Active Adjudication Canvas...</span>
+</span>
+<span class="font-mono text-[10px]">200 OK</span>
+</div>
+</div>
+<!-- Strict Citation Notice Footer -->
+<div class="p-space-md bg-surface-container text-on-surface-variant flex flex-col gap-1">
+<div class="flex items-center gap-1 text-primary font-label-sm text-label-sm font-semibold">
+<span class="material-symbols-outlined text-[16px] text-secondary">security</span>
+<span>SECURITY CLEARANCE NOTICE § 04</span>
+</div>
+<p class="font-body-sm text-body-sm text-on-surface-variant leading-relaxed">
+              Strict Citation &amp; Versioning Pipeline Enabled. Every judicial note, multi-ball incident breakdown, and query is immutably timestamped against current MCC &amp; ICC Playing Conditions.
+            </p>
+</div>
+</div>
+<!-- Archival Quote & Precedent Citation Box -->
+<div class="bg-surface-container-low p-space-md shadow-sm flex flex-col gap-2">
+<div class="flex items-center justify-between">
+<span class="font-label-sm text-label-sm text-secondary font-semibold uppercase tracking-wider">MCC PREAMBLE EXCERPT</span>
+<span class="font-label-sm text-label-sm text-on-surface-variant font-mono">CLAUSE P.1</span>
+</div>
+<blockquote class="font-headline-sm text-headline-sm text-primary italic font-normal leading-snug">
+            "Cricket is a game that owes much of its unique appeal to the fact that it should be played not only within its Laws but also within the Spirit of the Game."
+          </blockquote>
+<div class="flex items-center justify-between pt-1">
+<span class="font-body-sm text-body-sm text-on-surface-variant">Marylebone Cricket Club, Lord’s Ground, London</span>
+<span class="font-label-sm text-label-sm text-primary font-semibold">RATIFIED 2017</span>
+</div>
+</div>
+</section>
+</div>
+<!-- Bottom Institutional Index / Active Case Files Footnote -->
+<div class="bg-surface-container-lowest p-space-md shadow-sm flex flex-col md:flex-row items-start md:items-center justify-between gap-space-md">
+<div class="flex items-center gap-space-md">
+<div class="w-8 h-8 bg-surface-container flex items-center justify-center text-primary">
+<span class="material-symbols-outlined text-[18px]">terminal</span>
+</div>
+<div class="flex flex-col">
+<span class="font-label-md text-label-md font-semibold text-primary">Open Statutory Terminal v3.2.14-adjudicator</span>
+<span class="font-body-sm text-body-sm text-on-surface-variant">Connected to Global Sports Integrity Node (MCC / ICC Reference Cluster 09)</span>
+</div>
+</div>
+<div class="flex items-center gap-space-md flex-wrap font-label-sm text-label-sm">
+<a class="text-on-surface-variant hover:text-primary transition-colors" href="#">MCC 42 LAWS DIRECTORY</a>
+<span class="text-outline-variant">•</span>
+<a class="text-on-surface-variant hover:text-primary transition-colors" href="#">DRS STANDARD OPERATING SPEC</a>
+<span class="text-outline-variant">•</span>
+<a class="text-on-surface-variant hover:text-primary transition-colors" href="#">SYSTEM STATUS: ALL RATIFIED</a>
+</div>
+</div>
+</div>
+</div>
+<script>
+  function switchAuthMode(mode) {
+    const tabLogin = document.getElementById('tab-login');
+    const tabRegister = document.getElementById('tab-register');
+    const registerFields = document.getElementById('register-fields');
+    const submitBtn = document.getElementById('auth-submit-btn');
+
+    if (mode === 'register') {
+      tabRegister.className = 'py-2 text-center font-label-md text-label-md uppercase font-semibold bg-surface-container-lowest text-primary shadow-sm transition-all';
+      tabLogin.className = 'py-2 text-center font-label-md text-label-md uppercase font-medium text-on-surface-variant hover:text-on-surface transition-all';
+      registerFields.classList.remove('hidden');
+      registerFields.classList.add('flex');
+      submitBtn.innerHTML = '<span>Register Official Credential</span><span class="material-symbols-outlined text-[18px]">how_to_reg</span>';
+    } else {
+      tabLogin.className = 'py-2 text-center font-label-md text-label-md uppercase font-semibold bg-surface-container-lowest text-primary shadow-sm transition-all';
+      tabRegister.className = 'py-2 text-center font-label-md text-label-md uppercase font-medium text-on-surface-variant hover:text-on-surface transition-all';
+      registerFields.classList.add('hidden');
+      registerFields.classList.remove('flex');
+      submitBtn.innerHTML = '<span>Sign In to Official Desk</span><span class="material-symbols-outlined text-[18px]">arrow_forward</span>';
+    }
+  }
+
+  function fillPreset(role) {
+    const emailField = document.getElementById('auth-email');
+    const roleSelect = document.getElementById('auth-role');
+    const passField = document.getElementById('auth-password');
+
+    if (role === 'admin') {
+      emailField.value = 'referee.elite@icc-cricket.com';
+      roleSelect.value = 'match-referee';
+      passField.value = '••••••••••••••••';
+    } else {
+      emailField.value = 'student.umpire@acb-cricket.org';
+      roleSelect.value = 'umpire-candidate';
+      passField.value = '••••••••••••';
+    }
+  }
+
+  function triggerAuthFeedback() {
+    const feedback = document.getElementById('auth-feedback');
+    feedback.classList.remove('hidden');
+    setTimeout(() => {
+      feedback.classList.add('hidden');
+    }, 4000);
+  }
+</script></main></div></body></html>

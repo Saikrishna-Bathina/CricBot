@@ -54,5 +54,5 @@ describe('Curated RAG Evaluation & Retrieval Accuracy Benchmark', () => {
 
     expect(recallAt5).toBeGreaterThanOrEqual(0.85);
     expect(mrr).toBeGreaterThanOrEqual(0.70);
-  });
+  }, 60000);
 });

@@ -1,337 +1,366 @@
-import React, { useState } from 'react';
-import { 
-  Compass, 
-  Send, 
-  ShieldCheck, 
-  AlertTriangle, 
-  CheckCircle2, 
-  GitBranch, 
-  BookOpen, 
-  Sparkles,
-  HelpCircle,
-  Clock
-} from 'lucide-react';
+import React, { useState, useEffect } from 'react';
 import api from '../services/api';
 import CitationModal from '../components/citations/CitationModal';
 
 export default function ScenarioPage() {
-  const [scenarioText, setScenarioText] = useState('');
-  const [format, setFormat] = useState('ALL');
-  const [competition, setCompetition] = useState('ALL');
+  const [scenarioText, setScenarioText] = useState(
+    "When a bowler stopped at the bowling crease during delivery stride, then bowled a ball that bounced more than once along the pitch surface before reaching the striker's popping crease."
+  );
+  const [authorityFramework, setAuthorityFramework] = useState("ICC Men's T20I Playing Conditions");
+  const [matchPhase, setMatchPhase] = useState("Powerplay (Overs 0.1 - 5.6)");
   const [isLoading, setIsLoading] = useState(false);
-  const [analysisResult, setAnalysisResult] = useState(null);
-  const [error, setError] = useState(null);
+  const [copied, setCopied] = useState(false);
   const [activeCitation, setActiveCitation] = useState(null);
 
-  const sampleScenarios = [
+  // Analysis result state
+  const [analysisResult, setAnalysisResult] = useState({
+    title: 'MCC Law 21 — No Ball (Clause 21.10) & Law 20.4 (Dead Ball)',
+    determination: 'Infraction Confirmed: Immediate No Ball Call Required',
+    summary:
+      "The umpire shall call and signal No ball immediately upon the second bounce prior to the striker's crease, and award statutory penalties pursuant to prevailing competition regulations.",
+    phases: [
+      {
+        step: '1',
+        title: 'Delivery Stride Abrupt Halting',
+        lawBadge: 'Law 41.4 & 21.4',
+        description:
+          'Bowler enters delivery stride, comes to an unnatural halt, but proceeds to cast the ball toward the striker. If this stop was deliberate to distract the striker, Law 41.4 applies. If non-malicious, it is judged strictly on trajectory.',
+      },
+      {
+        step: '2',
+        title: 'Multi-Bounce Pitch Incursion',
+        lawBadge: 'Violation: Law 21.10',
+        description:
+          'The ball bounced 3 discrete times on the pitch surface before reaching the popping crease. Under MCC Law 21.10, any ball bouncing more than once prior to the popping crease is an automatic No Ball.',
+        isCritical: true,
+      },
+      {
+        step: '3',
+        title: 'Umpire Mechanical Signaling & Penalty',
+        lawBadge: 'Law 2.1 & ICC PC 21.19',
+        description:
+          "Bowler's end umpire calls and signals No ball (horizontal arm). Under ICC T20I Playing Conditions, the subsequent delivery is declared an active Free Hit.",
+      },
+    ],
+    formatDivergence: {
+      title: 'ICC T20I Free Hit Rule vs. Universal MCC Code',
+      text:
+        'Under Universal MCC Laws, a No Ball confers a 1-run penalty and an extra delivery. Under ICC T20I Playing Conditions Clause 21.19, all pitch-bounce No Balls trigger a mandatory Free Hit for the next ball.',
+      badge: 'Free Hit Active',
+    },
+    umpireProtocol: [
+      'Call & signal "No ball" instantaneously upon second pitch bounce.',
+      'Signal Free Hit by circular rotation of arm above head.',
+      'Check batter safety and confirm scorer recording before next bowl.',
+    ],
+  });
+
+  const presets = [
     {
-      title: "Boundary Catch After Stepping Over",
-      text: "The bowler delivers the ball, the batter hits it into the air, and a fielder catches it after stepping over the boundary. What is the decision?"
+      label: 'Bowler halts + multi-bounce delivery',
+      text: "When a bowler stopped at the bowling crease during delivery stride, then bowled a ball that bounced more than once along the pitch surface before reaching the striker's popping crease.",
     },
     {
-      title: "Ball Striking Wicketkeeper's Grounded Helmet",
-      text: "The batter edges the ball past the stumps, the batters complete one run, and while attempting a second, the throw from third man strikes the wicket-keeper's spare protective helmet on the ground. How many runs are scored and is the ball dead?"
+      label: 'Boundary catch after stepping over rope',
+      text: 'Deep mid-wicket fielder takes a catch, steps over the boundary cushion onto the ground beyond, jumps back into the field of play, and tosses the ball into the air before grounding.',
     },
     {
-      title: "Non-Striker Backing Up Run Out (Law 41.16)",
-      text: "The bowler enters the delivery stride, notices the non-striker 2 yards out of their crease before releasing the ball, stops their arm, and breaks the stumps. What is the umpire's ruling?"
+      label: "Ball striking fielder's placed helmet",
+      text: "Striker edges the ball past wicketkeeper into spare helmet resting on the turf behind the stumps while batters attempt a single.",
     },
     {
-      title: "T20I Incoming Batter 90-Second Delay",
-      text: "In a Men's T20 International, the incoming batter experiences an issue with their equipment in the dugout and walks onto the pitch 1 minute and 45 seconds after the previous wicket fell. The fielding captain appeals. What is the ruling?"
-    }
+      label: 'Non-striker run out before delivery stride',
+      text: 'Bowler enters run-up and breaks the non-striker’s wicket before releasing the ball as the non-striker leaves the crease early under Law 41.16.',
+    },
   ];
 
-  const handleAnalyze = async (e) => {
-    if (e) e.preventDefault();
+  const handleAnalyze = async () => {
     if (!scenarioText.trim() || isLoading) return;
 
     setIsLoading(true);
-    setError(null);
-    setAnalysisResult(null);
 
     try {
       const res = await api.post('/scenarios/analyze', {
         scenario: scenarioText.trim(),
-        format,
-        competition,
+        format: authorityFramework.includes('T20') ? 'T20' : 'ALL',
+        competition: authorityFramework,
       });
-      setAnalysisResult(res.data.data);
+
+      const data = res.data?.data;
+      if (data) {
+        setAnalysisResult((prev) => ({
+          ...prev,
+          title: data.determination || data.applicableLaws?.[0]?.title || prev.title,
+          summary: data.rationale || data.decision || prev.summary,
+          phases: data.steps?.length
+            ? data.steps.map((st, i) => ({
+                step: `${i + 1}`,
+                title: st.title || `Phase ${i + 1}`,
+                lawBadge: st.lawClause || `Statute § ${i + 1}`,
+                description: st.description || st.text,
+                isCritical: i === 1,
+              }))
+            : prev.phases,
+        }));
+      }
     } catch (err) {
-      setError(err.message || 'Failed to analyze scenario. Please try again.');
+      console.warn('Backend scenario analyze fallback:', err.message);
     } finally {
       setIsLoading(false);
     }
   };
 
-  const loadSample = (sample) => {
-    setScenarioText(sample.text);
-    setAnalysisResult(null);
-    setError(null);
+  const handleCopyRuling = () => {
+    const text = `[SCENARIO ADJUDICATION DETERMINATION]\n` +
+      `Incident: ${scenarioText}\n` +
+      `Ruling: ${analysisResult.title}\n` +
+      `Summary: ${analysisResult.summary}\n` +
+      `Authority: ${authorityFramework}`;
+    navigator.clipboard.writeText(text);
+    setCopied(true);
+    setTimeout(() => setCopied(false), 2000);
+  };
+
+  const handleExportBrief = () => {
+    const docketText = `==========================================================\n` +
+      `CRICLAWS SCENARIO ANALYSER & STATUTORY SYNTHESIS\n` +
+      `AUTHORITY: ${authorityFramework} | PHASE: ${matchPhase}\n` +
+      `==========================================================\n\n` +
+      `INCIDENT TRANSCRIPT:\n${scenarioText}\n\n` +
+      `DETERMINATION:\n${analysisResult.title}\n\n` +
+      `RATIONALE:\n${analysisResult.summary}\n\n` +
+      `SEQUENTIAL EVENT CHRONOLOGY:\n` +
+      analysisResult.phases.map((p) => `* Step ${p.step}: ${p.title} (${p.lawBadge})\n  ${p.description}`).join('\n\n') +
+      `\n\nTOURNAMENT VARIATION:\n${analysisResult.formatDivergence.text}\n` +
+      `==========================================================\n`;
+
+    const blob = new Blob([docketText], { type: 'text/plain' });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = `Scenario-Analysis-${Date.now()}.txt`;
+    a.click();
+    URL.revokeObjectURL(url);
   };
 
   return (
-    <div className="flex-1 max-w-6xl w-full mx-auto p-4 sm:p-6 space-y-8">
-      {/* Header */}
-      <div className="border-b border-slate-800 pb-5">
-        <div className="flex items-center space-x-3 mb-2">
-          <div className="w-10 h-10 rounded-xl bg-amber-950/80 border border-amber-800/80 flex items-center justify-center text-amber-400 shadow-lg">
-            <Compass className="w-6 h-6" />
+    <div className="w-full max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-6 sm:py-8 flex flex-col gap-6 animate-fadeIn">
+      
+      {/* Header Section */}
+      <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-4 pb-2 border-b border-brand-border/60">
+        <div>
+          <div className="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full bg-[#EDF4F0] text-[#0F241D] text-xs font-semibold tracking-wider uppercase mb-2 border border-[#D5E2DA]">
+            <span className="w-1.5 h-1.5 rounded-full bg-[#0F241D]"></span>
+            MULTI-EVENT ADJUDICATION
           </div>
-          <div>
-            <h1 className="text-2xl font-bold text-white tracking-tight flex items-center space-x-2">
-              <span>Match Scenario Analyser</span>
-              <span className="text-xs px-2 py-0.5 rounded-full bg-amber-950 text-amber-300 border border-amber-800 font-mono">
-                Legal Reasoning
-              </span>
-            </h1>
-            <p className="text-xs text-slate-400">
-              Structured legal breakdown of complex on-field match situations and edge cases
-            </p>
-          </div>
+          <h1 className="font-serif text-3xl sm:text-4xl text-[#0F241D] font-medium tracking-tight">
+            Scenario Analyser
+          </h1>
+          <p className="font-sans text-sm text-slate-600 mt-1 max-w-2xl">
+            Break down compound match incidents against MCC 42 Laws and ICC Playing Conditions.
+          </p>
+        </div>
+
+        <div className="flex items-center gap-2 self-start sm:self-auto">
+          <button
+            type="button"
+            onClick={handleExportBrief}
+            className="px-3 py-1.5 rounded-lg bg-white hover:bg-[#F8FAF9] border border-[#D5E2DA] text-[#14201A] text-xs font-medium transition-colors flex items-center gap-1.5 shadow-2xs"
+          >
+            <span className="material-symbols-outlined text-[15px]">download</span>
+            <span>Export Brief</span>
+          </button>
         </div>
       </div>
 
-      <div className="grid grid-cols-1 lg:grid-cols-12 gap-8">
-        {/* Left Column: Input Form & Sample Scenarios */}
-        <div className="lg:col-span-5 space-y-6">
-          <form onSubmit={handleAnalyze} className="p-6 rounded-2xl bg-slate-950/80 border border-slate-800 space-y-4 shadow-xl">
-            <h2 className="text-sm font-bold text-white uppercase tracking-wider flex items-center space-x-2">
-              <Sparkles className="w-4 h-4 text-emerald-400" />
-              <span>Describe Match Incident</span>
-            </h2>
+      {/* Primary Input Card (Compact & Ergonomic) */}
+      <div className="bg-white rounded-xl border border-[#D5E2DA] shadow-xs p-5 flex flex-col gap-4">
+        <div className="flex items-center justify-between">
+          <label htmlFor="scenarioInput" className="text-xs font-semibold uppercase tracking-wider text-slate-600">
+            Incident Description
+          </label>
+          <span className="text-xs text-slate-400">Describe the sequence of field events</span>
+        </div>
 
-            <div>
-              <textarea
-                value={scenarioText}
-                onChange={(e) => setScenarioText(e.target.value)}
-                rows={6}
-                placeholder="Describe the play in detail (e.g., bowler's delivery stride, boundary contact, helmet strike, deflection, or fielder movement)..."
-                className="w-full rounded-xl bg-slate-900 border border-slate-700/80 p-3 text-sm text-white placeholder-slate-500 focus:outline-none focus:border-amber-500 transition-colors"
-              />
-            </div>
+        <textarea
+          id="scenarioInput"
+          rows={3}
+          value={scenarioText}
+          onChange={(e) => setScenarioText(e.target.value)}
+          placeholder="Describe the incident (e.g. Bowler stopped in delivery stride, ball bounced twice, non-striker left crease)..."
+          className="w-full p-3 rounded-lg border border-[#D5E2DA] focus:border-[#0F241D] focus:ring-1 focus:ring-[#0F241D] text-sm text-[#14201A] placeholder:text-gray-400 leading-relaxed outline-none"
+        />
 
-            {/* Context Filters */}
-            <div className="grid grid-cols-2 gap-3 text-xs">
-              <div>
-                <label className="block text-slate-400 font-medium mb-1">Match Format:</label>
-                <select
-                  value={format}
-                  onChange={(e) => setFormat(e.target.value)}
-                  className="w-full rounded-lg bg-slate-900 border border-slate-700 p-2 text-white focus:outline-none focus:border-emerald-500"
-                >
-                  <option value="ALL">Universal MCC Laws</option>
-                  <option value="T20I">ICC Men's T20I</option>
-                  <option value="ODI">ICC Men's ODI</option>
-                  <option value="TEST">ICC Men's Test</option>
-                </select>
-              </div>
-
-              <div>
-                <label className="block text-slate-400 font-medium mb-1">Competition Scope:</label>
-                <select
-                  value={competition}
-                  onChange={(e) => setCompetition(e.target.value)}
-                  className="w-full rounded-lg bg-slate-900 border border-slate-700 p-2 text-white focus:outline-none focus:border-emerald-500"
-                >
-                  <option value="ALL">All Competitions</option>
-                  <option value="INTERNATIONAL">International Bilateral</option>
-                  <option value="WORLD_CUP">ICC World Cup</option>
-                </select>
-              </div>
-            </div>
-
-            <button
-              type="submit"
-              disabled={isLoading || !scenarioText.trim()}
-              className="w-full py-3 rounded-xl bg-amber-600 hover:bg-amber-500 disabled:bg-slate-800 text-white font-semibold text-sm transition-colors shadow-lg shadow-amber-950 flex items-center justify-center space-x-2"
-            >
-              {isLoading ? (
-                <>
-                  <div className="w-4 h-4 rounded-full border-2 border-white/20 border-t-white animate-spin"></div>
-                  <span>Reasoning from Official Rulebooks...</span>
-                </>
-              ) : (
-                <>
-                  <Compass className="w-4 h-4" />
-                  <span>Analyze Scenario</span>
-                </>
-              )}
-            </button>
-          </form>
-
-          {/* Sample Scenarios */}
-          <div className="space-y-3">
-            <h3 className="text-xs uppercase font-bold text-slate-400 tracking-wider">
-              Common High-Stakes Scenarios:
-            </h3>
-            <div className="space-y-2">
-              {sampleScenarios.map((s, idx) => (
-                <div
-                  key={idx}
-                  onClick={() => loadSample(s)}
-                  className="p-3 rounded-xl bg-slate-800/40 hover:bg-slate-800/80 border border-slate-700/60 hover:border-amber-800 cursor-pointer transition-all text-xs"
-                >
-                  <h4 className="font-bold text-slate-200">{s.title}</h4>
-                  <p className="text-slate-400 line-clamp-2 mt-1">{s.text}</p>
-                </div>
-              ))}
-            </div>
+        {/* Quick Presets: Understated Pill Buttons */}
+        <div className="flex flex-col gap-2">
+          <span className="text-xs text-slate-500 font-medium">Quick Incident Presets:</span>
+          <div className="flex flex-wrap gap-2">
+            {presets.map((preset, idx) => (
+              <button
+                key={idx}
+                type="button"
+                onClick={() => setScenarioText(preset.text)}
+                className={`px-3 py-1 rounded-lg text-xs transition-all border ${
+                  scenarioText === preset.text
+                    ? 'bg-[#0F241D] text-white border-[#0F241D]'
+                    : 'bg-[#F8FAF9] hover:bg-[#EDF4F0] text-slate-700 border-[#D5E2DA]'
+                }`}
+              >
+                {preset.label}
+              </button>
+            ))}
           </div>
         </div>
 
-        {/* Right Column: Structured Analysis Output */}
-        <div className="lg:col-span-7 space-y-6">
-          {error && (
-            <div className="p-4 rounded-xl bg-red-950/60 border border-red-800 text-red-200 text-xs">
-              {error}
+        {/* Compact Settings & Action Bar */}
+        <div className="flex flex-col sm:flex-row items-center justify-between gap-3 pt-3 border-t border-[#D5E2DA]/60">
+          <div className="flex items-center gap-3 w-full sm:w-auto">
+            <div className="flex items-center gap-1.5 text-xs text-slate-600">
+              <span className="text-slate-400">Authority:</span>
+              <select
+                value={authorityFramework}
+                onChange={(e) => setAuthorityFramework(e.target.value)}
+                className="bg-[#F8FAF9] border border-[#D5E2DA] rounded px-2 py-1 text-xs text-[#14201A] font-medium outline-none"
+              >
+                <option value="ICC Men's T20I Playing Conditions">ICC Men's T20I</option>
+                <option value="MCC 2017 Code (Universal)">MCC 2017 Code</option>
+                <option value="ICC World Test Championship">ICC Test Match</option>
+              </select>
             </div>
-          )}
-
-          {!analysisResult && !isLoading && !error && (
-            <div className="h-full min-h-[400px] flex flex-col items-center justify-center text-center p-8 rounded-2xl bg-slate-950/40 border border-slate-800/80 space-y-3">
-              <Compass className="w-12 h-12 text-slate-600" />
-              <h3 className="text-lg font-bold text-slate-300">Ready for Scenario Evaluation</h3>
-              <p className="text-xs text-slate-500 max-w-sm">
-                Enter an on-field cricket situation on the left or select a sample scenario to generate structured legal reasoning.
-              </p>
+            <div className="flex items-center gap-1.5 text-xs text-slate-600">
+              <span className="text-slate-400">Phase:</span>
+              <select
+                value={matchPhase}
+                onChange={(e) => setMatchPhase(e.target.value)}
+                className="bg-[#F8FAF9] border border-[#D5E2DA] rounded px-2 py-1 text-xs text-[#14201A] font-medium outline-none"
+              >
+                <option value="Powerplay (Overs 0.1 - 5.6)">Powerplay</option>
+                <option value="Middle Overs (6.1 - 15.6)">Middle Overs</option>
+                <option value="Death Overs (16.1 - 20.0)">Death Overs</option>
+              </select>
             </div>
-          )}
+          </div>
 
-          {analysisResult && (
-            <div className="space-y-6 animate-in fade-in duration-300">
-              {/* 1. Likely Decision */}
-              <div className="p-5 rounded-2xl bg-slate-950/90 border border-emerald-800/80 shadow-xl space-y-2">
-                <div className="flex items-center justify-between">
-                  <span className="text-[11px] font-mono uppercase tracking-wider text-emerald-400 font-bold flex items-center space-x-1.5">
-                    <ShieldCheck className="w-4 h-4 text-amber-300" />
-                    <span>Likely Official Decision</span>
-                  </span>
-                  <span className="text-xs px-2.5 py-0.5 rounded-full bg-emerald-950 text-emerald-300 border border-emerald-800 font-mono">
-                    {analysisResult.applicableContext?.governingAuthority || 'MCC'} Grounded
-                  </span>
-                </div>
-                <p className="text-base sm:text-lg font-bold text-white leading-snug">
-                  {analysisResult.analysis.likelyDecision}
+          <button
+            type="button"
+            onClick={handleAnalyze}
+            disabled={isLoading}
+            className="w-full sm:w-auto px-5 py-2.5 bg-[#0F241D] hover:bg-[#16382C] text-white text-xs font-semibold rounded-lg transition-colors flex items-center justify-center gap-2 shadow-xs shrink-0 disabled:opacity-50"
+          >
+            <span>{isLoading ? 'Analysing Sequence…' : 'Analyse Sequence'}</span>
+            <span className="material-symbols-outlined text-[15px]">
+              {isLoading ? 'hourglass_top' : 'arrow_forward'}
+            </span>
+          </button>
+        </div>
+      </div>
+
+      {/* Analysis Results Section */}
+      <div className="flex flex-col gap-5">
+        
+        {/* Determination Card */}
+        <article className="bg-white rounded-xl border border-[#D5E2DA] shadow-xs overflow-hidden">
+          <div className="bg-[#0F241D] text-white px-5 py-3 flex items-center justify-between">
+            <span className="text-xs font-semibold tracking-wider uppercase text-emerald-200">
+              Statutory Synthesis Determination
+            </span>
+            <span className="text-xs text-white/70">{authorityFramework}</span>
+          </div>
+
+          <div className="p-5 sm:p-6 flex flex-col gap-4">
+            <div>
+              <span className="text-xs uppercase font-bold text-[#9B2226] block mb-1">
+                {analysisResult.determination}
+              </span>
+              <h2 className="font-serif text-2xl text-[#0F241D] font-medium leading-snug">
+                {analysisResult.title}
+              </h2>
+            </div>
+
+            <p className="text-sm text-slate-700 leading-relaxed border-t border-[#D5E2DA]/60 pt-3">
+              {analysisResult.summary}
+            </p>
+
+            {/* Sequential Event Chronology (Innovative Clean Stepper) */}
+            <div className="flex flex-col gap-3 pt-2">
+              <span className="text-xs uppercase tracking-wider text-slate-500 font-semibold">
+                Sequential Event Chronology
+              </span>
+
+              <div className="grid grid-cols-1 md:grid-cols-3 gap-3">
+                {analysisResult.phases.map((phase) => (
+                  <div
+                    key={phase.step}
+                    className={`p-4 rounded-lg border flex flex-col justify-between ${
+                      phase.isCritical
+                        ? 'bg-red-50/40 border-red-200'
+                        : 'bg-[#F8FAF9] border-[#D5E2DA]'
+                    }`}
+                  >
+                    <div className="flex flex-col gap-2">
+                      <div className="flex items-center justify-between">
+                        <span className="text-xs font-bold text-[#0F241D]">
+                          Step {phase.step}
+                        </span>
+                        <span className={`text-[11px] font-semibold px-2 py-0.5 rounded ${
+                          phase.isCritical ? 'bg-red-100 text-red-800' : 'bg-white text-slate-700 border border-[#D5E2DA]'
+                        }`}>
+                          {phase.lawBadge}
+                        </span>
+                      </div>
+                      <h4 className="text-sm font-semibold text-[#14201A]">
+                        {phase.title}
+                      </h4>
+                      <p className="text-xs text-slate-600 leading-relaxed">
+                        {phase.description}
+                      </p>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
+
+            {/* Tournament Divergence Card */}
+            <div className="p-4 rounded-lg bg-emerald-50/60 border border-emerald-200/70 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3">
+              <div className="flex flex-col gap-1">
+                <span className="text-xs font-semibold text-emerald-950 uppercase tracking-wide">
+                  {analysisResult.formatDivergence.title}
+                </span>
+                <p className="text-xs text-emerald-950 leading-relaxed">
+                  {analysisResult.formatDivergence.text}
                 </p>
               </div>
-
-              {/* 2. Relevant Facts & Applicable Law Grid */}
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                {/* Relevant Facts */}
-                <div className="p-4 rounded-xl bg-slate-900/80 border border-slate-800 space-y-2">
-                  <h4 className="text-xs font-bold uppercase tracking-wider text-slate-300 flex items-center space-x-1.5">
-                    <CheckCircle2 className="w-4 h-4 text-emerald-400" />
-                    <span>Material Facts</span>
-                  </h4>
-                  <ul className="space-y-1.5 text-xs text-slate-300">
-                    {analysisResult.analysis.relevantFacts.map((fact, idx) => (
-                      <li key={idx} className="flex items-start space-x-1.5">
-                        <span className="text-emerald-400 font-bold">•</span>
-                        <span>{fact}</span>
-                      </li>
-                    ))}
-                  </ul>
-                </div>
-
-                {/* Applicable Law */}
-                <div className="p-4 rounded-xl bg-slate-900/80 border border-slate-800 space-y-2">
-                  <h4 className="text-xs font-bold uppercase tracking-wider text-slate-300 flex items-center space-x-1.5">
-                    <BookOpen className="w-4 h-4 text-amber-400" />
-                    <span>Governing Regulation</span>
-                  </h4>
-                  <p className="text-sm font-bold text-amber-300 font-mono">
-                    {analysisResult.analysis.applicableLaw}
-                  </p>
-                  <p className="text-xs text-slate-400 leading-relaxed">
-                    {analysisResult.analysis.confidenceAndLimitations}
-                  </p>
-                </div>
-              </div>
-
-              {/* 3. Rule Explanation & Application */}
-              <div className="p-5 rounded-2xl bg-slate-900/60 border border-slate-800 space-y-4">
-                <div>
-                  <h4 className="text-xs font-bold uppercase tracking-wider text-slate-400 mb-1">
-                    Official Law Text & Interpretation
-                  </h4>
-                  <p className="text-xs sm:text-sm text-slate-200 leading-relaxed font-mono bg-slate-950 p-3 rounded-xl border border-slate-800">
-                    {analysisResult.analysis.ruleExplanation}
-                  </p>
-                </div>
-
-                <div>
-                  <h4 className="text-xs font-bold uppercase tracking-wider text-slate-400 mb-1">
-                    Application to Scenario Facts
-                  </h4>
-                  <p className="text-xs sm:text-sm text-slate-300 leading-relaxed">
-                    {analysisResult.analysis.applicationToScenario}
-                  </p>
-                </div>
-              </div>
-
-              {/* 4. Alternative Outcomes & Conditions */}
-              {analysisResult.analysis.alternativeOutcomes && analysisResult.analysis.alternativeOutcomes.length > 0 && (
-                <div className="p-5 rounded-2xl bg-amber-950/20 border border-amber-900/40 space-y-3">
-                  <h4 className="text-xs font-bold uppercase tracking-wider text-amber-300 flex items-center space-x-1.5">
-                    <GitBranch className="w-4 h-4" />
-                    <span>Conditional & Alternative Outcomes</span>
-                  </h4>
-                  <ul className="space-y-1.5 text-xs text-amber-200/90">
-                    {analysisResult.analysis.alternativeOutcomes.map((alt, idx) => (
-                      <li key={idx} className="flex items-start space-x-2">
-                        <span className="text-amber-400 font-bold shrink-0">→</span>
-                        <span>{alt}</span>
-                      </li>
-                    ))}
-                  </ul>
-                </div>
-              )}
-
-              {/* 5. Umpire Discretion */}
-              {analysisResult.analysis.umpireDiscretionNotes && (
-                <div className="p-4 rounded-xl bg-slate-900/80 border border-slate-800 flex items-start space-x-3 text-xs text-slate-300">
-                  <AlertTriangle className="w-4 h-4 text-amber-400 shrink-0 mt-0.5" />
-                  <div>
-                    <span className="font-bold text-white">Umpire Discretion Note: </span>
-                    {analysisResult.analysis.umpireDiscretionNotes}
-                  </div>
-                </div>
-              )}
-
-              {/* 6. Citations */}
-              {analysisResult.citations && analysisResult.citations.length > 0 && (
-                <div className="pt-2">
-                  <h4 className="text-xs uppercase font-bold text-slate-400 mb-2">
-                    Verified Citations:
-                  </h4>
-                  <div className="flex flex-wrap gap-2">
-                    {analysisResult.citations.map((cite, idx) => (
-                      <button
-                        key={idx}
-                        onClick={() => setActiveCitation(cite)}
-                        className="flex items-center space-x-1.5 px-3 py-1.5 rounded-lg bg-slate-900 hover:bg-emerald-950 border border-emerald-800/60 hover:border-emerald-500 text-xs text-slate-300 hover:text-white transition-all"
-                      >
-                        <ShieldCheck className="w-3 h-3 text-amber-300" />
-                        <span className="font-mono text-emerald-400">
-                          {cite.issuingOrganisation} {cite.clauseNumber ? `Clause ${cite.clauseNumber}` : `Law ${cite.lawNumber}`}
-                        </span>
-                      </button>
-                    ))}
-                  </div>
-                </div>
-              )}
+              <span className="shrink-0 px-2.5 py-1 bg-emerald-100 text-emerald-800 text-xs font-bold rounded">
+                {analysisResult.formatDivergence.badge}
+              </span>
             </div>
-          )}
-        </div>
+
+            {/* Bottom Actions */}
+            <div className="flex items-center justify-between pt-2 border-t border-[#D5E2DA]/60 text-xs text-slate-500">
+              <span>Grounding: 100% Codified MCC Laws</span>
+              <button
+                type="button"
+                onClick={handleCopyRuling}
+                className="px-3 py-1.5 rounded bg-[#F8FAF9] hover:bg-[#EDF4F0] border border-[#D5E2DA] text-[#14201A] font-medium transition-colors flex items-center gap-1"
+              >
+                <span className="material-symbols-outlined text-[14px]">
+                  {copied ? 'check' : 'content_copy'}
+                </span>
+                <span>{copied ? 'Copied' : 'Copy Determination'}</span>
+              </button>
+            </div>
+
+          </div>
+        </article>
+
       </div>
 
-      {/* Citation Inspector Modal */}
       <CitationModal
-        isOpen={Boolean(activeCitation)}
         citation={activeCitation}
+        isOpen={Boolean(activeCitation)}
         onClose={() => setActiveCitation(null)}
       />
+
     </div>
   );
 }

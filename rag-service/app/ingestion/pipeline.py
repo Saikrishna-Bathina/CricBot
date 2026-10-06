@@ -1,4 +1,4 @@
-"""Ingestion pipeline coordinating extraction, parsing, validation, chunking, and storage."""
+"""Ingestion pipeline coordinating extraction, parsing, validation, chunking, and dual-compatible storage."""
 
 import json
 from pathlib import Path
@@ -30,21 +30,37 @@ class IngestionPipeline:
         pdf_path = Path(pdf_path)
         logger.info("Starting ingestion for %s (dry_run=%s)", pdf_path.name, dry_run)
 
-        # 1. Extraction
+        # 1. Extraction with watermark cleansing
         extraction = self.extractor.extract_document(pdf_path)
 
-        # 2. Parsing
+        # 2. Parsing into structured laws and clauses
         clauses = parse_law_text(extraction["pages"])
 
         # 3. Validation
         validation = validate_extraction(extraction, clauses)
 
         manifest_meta = manifest_meta or {}
-        format_type = manifest_meta.get("format", "All")
-        competition_type = manifest_meta.get("competition", "All")
+        formats_covered = manifest_meta.get("formatsCovered") or [manifest_meta.get("format", "All")]
+        competitions_covered = manifest_meta.get("competitionsCovered") or [manifest_meta.get("competition", "All")]
         authority = manifest_meta.get("authority", "MCC")
         edition = manifest_meta.get("edition", "Official Edition")
-        effective_date = manifest_meta.get("effectiveStartDate", "2022-10-01")
+        effective_date = manifest_meta.get("effectiveStartDate", "2026-10-01")
+
+        if "MCC" in authority:
+            issuing_org = "MCC"
+            doc_type = "LAWS_OF_CRICKET"
+        elif "ICC" in authority:
+            issuing_org = "ICC"
+            doc_type = "PLAYING_CONDITIONS"
+        elif "BCCI" in authority or "IPL" in authority:
+            issuing_org = "BCCI"
+            doc_type = "TOURNAMENT_REGULATION"
+        else:
+            issuing_org = "OTHER"
+            doc_type = "PLAYING_CONDITIONS"
+
+        format_str = formats_covered[0] if formats_covered else "All"
+        comp_str = competitions_covered[0] if competitions_covered else "All"
 
         summary = {
             "filename": pdf_path.name,
@@ -60,47 +76,60 @@ class IngestionPipeline:
             logger.info("Pipeline finished in dry_run or unapproved mode for %s", pdf_path.name)
             return summary
 
-        # 4. Chunk creation
+        # 4. Document persistence (compatible with both Mongoose and Python)
         doc_data = {
             "title": manifest_meta.get("documentTitle", pdf_path.stem),
+            "issuingOrganisation": issuing_org,
+            "documentType": doc_type,
+            "version": edition,
             "edition": edition,
-            "effectiveDate": effective_date,
-            "format": format_type,
-            "competition": competition_type,
-            "authority": authority,
-            "status": "approved" if validation.is_approved else "pending",
+            "originalFilename": pdf_path.name,
+            "sourceUrl": manifest_meta.get("officialSourceUrl", ""),
+            "applicableFormats": [f.upper() for f in formats_covered],
+            "applicableCompetitions": [c.upper() for c in competitions_covered],
+            "format": format_str,
+            "competition": comp_str,
+            "authority": issuing_org,
+            "status": "published",
             "chunkCount": len(clauses),
             "checksum": extraction["sha256"],
+            "contentHash": extraction["sha256"],
             "metadata": {
                 "sourceUrl": manifest_meta.get("officialSourceUrl"),
                 "originalFilename": pdf_path.name,
                 "language": "en",
                 "pageCount": extraction["pageCount"],
-                "extractionNotes": f"Auto-ingested with {len(clauses)} clauses.",
+                "extractionNotes": f"Official extraction with {len(clauses)} clauses. Watermarks cleansed.",
             },
+            "ingestionMetadata": {
+                "pageCount": extraction["pageCount"],
+                "chunkCount": len(clauses),
+            }
         }
 
-        # 5. Database persistence
         doc_id = await self.doc_repo.upsert_document(doc_data)
         summary["documentId"] = doc_id
 
+        # 5. Chunk creation with dual schema compatibility
         chunks = create_chunks_from_clauses(
             clauses,
             document_id=doc_id,
-            format_type=format_type,
-            competition_type=competition_type,
+            format_type=format_str,
+            competition_type=comp_str,
             effective_date=effective_date,
+            issuing_org=issuing_org,
+            document_version=edition,
         )
 
         logger.info("Generating embeddings for %d chunks of %s...", len(chunks), pdf_path.name)
         for chunk in chunks:
-            text_for_embedding = f"{chunk['parentLaw']} | {chunk['title']}: {chunk['content']}"
+            text_for_embedding = f"{chunk['sectionHeading']} | {chunk['title']}: {chunk['content']}"
             chunk["embedding"] = await self.embedding_provider.get_embedding(text_for_embedding)
 
-        # Remove previous chunks for this document if re-ingesting
+        # 6. Upsert into MongoDB Atlas
         await self.chunk_repo.delete_by_document_id(doc_id)
         await self.chunk_repo.insert_many(chunks)
 
-        logger.info("Successfully ingested %s with %d chunks into MongoDB.", pdf_path.name, len(chunks))
+        logger.info("Successfully ingested %s with %d chunks into MongoDB Atlas.", pdf_path.name, len(chunks))
         summary["storedChunks"] = len(chunks)
         return summary

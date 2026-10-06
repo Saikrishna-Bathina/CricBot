@@ -1,3 +1,4 @@
+import mongoose from 'mongoose';
 import { preprocessQuery } from './queryPreprocessor.js';
 import { hybridRetriever } from '../retrieval/hybridRetriever.js';
 import { llmService } from '../llm/llmService.js';
@@ -57,12 +58,20 @@ export class RAGOrchestrator {
           role: 'assistant',
           content: formattedContent,
           messageType: pyData.status !== 'answered' ? 'unsupported_warning' : 'standard',
-          citations: (pyData.citations || []).map((c) => ({
-            chunkId: c.chunkId,
-            clauseNumber: c.clauseNumber,
-            lawTitle: c.title,
-            verified: c.verified,
-          })),
+          citations: (pyData.citations || [])
+            .filter((c) => c && c.chunkId)
+            .map((c) => ({
+              chunkId: c.chunkId,
+              documentId: (c.documentId && mongoose.Types.ObjectId.isValid(c.documentId)) ? c.documentId : null,
+              clauseNumber: c.clauseNumber || '',
+              lawNumber: c.lawNumber || null,
+              lawTitle: c.title || '',
+              sourceTitle: c.parentLaw || 'Official Cricket Regulations',
+              verbatimExcerpt: c.content || '',
+              pageStart: c.printedPage || 1,
+              pageEnd: c.printedPage || 1,
+            })),
+
           applicableContext: {
             format: preprocessed.resolvedFormat,
             edition: 'Official Python Service RAG',

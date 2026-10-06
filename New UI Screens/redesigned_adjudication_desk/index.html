@@ -1,0 +1,875 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8"/>
+  <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+  <title>CricLaws Official Desk — Redesigned Experience</title>
+  
+  <!-- Typography: Newsreader (Editorial Serif) & Inter (Modern Sans) & JetBrains Mono (Codes only) -->
+  <link rel="preconnect" href="https://fonts.googleapis.com"/>
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;0,6..72,600;1,6..72,400&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet"/>
+  <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" rel="stylesheet"/>
+  
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            brand: {
+              pine: '#0F241D',       /* Forest dark green */
+              pineHover: '#16382C',  /* Forest hover */
+              pineLight: '#1B4D3E',  /* Mid cricket green */
+              crimson: '#9B2226',    /* Match ball crimson accent */
+              brass: '#C89B3C',      /* Muted brass accent */
+              surface: '#F4F8F5',    /* Soft pale mint / parchment off-white */
+              card: '#FFFFFF',       /* Clean white surface */
+              border: '#E1E9E4',     /* Subtle card border */
+              borderFocus: '#0F241D',/* Focus ring */
+              textPrimary: '#14201A',/* Authoritative dark ink */
+              textMuted: '#526058',  /* Secondary readable slate-green */
+              subtleBg: '#EDF4F0',   /* Understated pill/chip background */
+            }
+          },
+          fontFamily: {
+            serif: ['Newsreader', 'Georgia', 'serif'],
+            sans: ['Inter', '-apple-system', 'BlinkMacSystemFont', 'sans-serif'],
+            mono: ['JetBrains Mono', 'monospace'],
+          },
+          boxShadow: {
+            'subtle': '0 1px 3px 0 rgba(15, 36, 29, 0.05), 0 1px 2px -1px rgba(15, 36, 29, 0.05)',
+            'input': '0 2px 8px 0 rgba(15, 36, 29, 0.06), 0 1px 2px 0 rgba(15, 36, 29, 0.04)',
+            'card': '0 4px 16px -2px rgba(15, 36, 29, 0.06), 0 2px 6px -1px rgba(15, 36, 29, 0.04)',
+          }
+        }
+      }
+    };
+  </script>
+
+  <style>
+    body {
+      background-color: #F4F8F5;
+      color: #14201A;
+      font-family: 'Inter', sans-serif;
+      margin: 0;
+      padding: 0;
+      -webkit-font-smoothing: antialiased;
+    }
+    
+    .font-serif-heading {
+      font-family: 'Newsreader', Georgia, serif;
+      font-feature-settings: "liga" 1, "dlig" 1;
+    }
+
+    /* Subtle custom scrollbar */
+    ::-webkit-scrollbar {
+      width: 6px;
+      height: 6px;
+    }
+    ::-webkit-scrollbar-track {
+      background: #F4F8F5;
+    }
+    ::-webkit-scrollbar-thumb {
+      background: #D1DDD6;
+      border-radius: 3px;
+    }
+    ::-webkit-scrollbar-thumb:hover {
+      background: #AABCB2;
+    }
+  </style>
+</head>
+<body class="bg-brand-surface min-h-screen flex flex-col">
+
+  <!-- ============================================================ -->
+  <!-- TOP TOOLBAR: Viewport / State Switcher for Design Review      -->
+  <!-- ============================================================ -->
+  <aside id="prototypeToolbar" class="bg-[#091511] text-xs text-white/80 border-b border-white/10 px-4 py-2 flex items-center justify-between z-50 sticky top-0">
+    <div class="flex items-center gap-3">
+      <span class="font-semibold text-white tracking-wide flex items-center gap-1.5">
+        <span class="w-2 h-2 rounded-full bg-emerald-400"></span>
+        CricBot UI Redesign
+      </span>
+      <span class="text-white/40">|</span>
+      <span class="text-white/60 hidden sm:inline">Product-First Redesign System</span>
+    </div>
+
+    <!-- State Switcher Tabs -->
+    <div class="flex items-center bg-black/40 p-0.5 rounded border border-white/10">
+      <button 
+        id="btnViewInitial" 
+        onclick="setView('initial')"
+        class="px-3 py-1 rounded text-xs font-medium transition-colors bg-white/20 text-white shadow-xs"
+      >
+        1. Desktop Initial State
+      </button>
+      <button 
+        id="btnViewAnswer" 
+        onclick="setView('answer')"
+        class="px-3 py-1 rounded text-xs font-medium transition-colors text-white/70 hover:text-white"
+      >
+        2. Desktop Answer State
+      </button>
+      <button 
+        id="btnViewMobile" 
+        onclick="setView('mobile')"
+        class="px-3 py-1 rounded text-xs font-medium transition-colors text-white/70 hover:text-white"
+      >
+        3. Mobile Responsive (390px)
+      </button>
+    </div>
+
+    <div class="hidden md:flex items-center gap-3 text-white/60 text-[11px]">
+      <span>MCC 2017 &amp; ICC 2024</span>
+      <span class="px-1.5 py-0.5 rounded bg-emerald-950 text-emerald-300 border border-emerald-800">Clean &amp; Minimal</span>
+    </div>
+  </aside>
+
+  <!-- ============================================================ -->
+  <!-- MAIN APPLICATION SHELL CONTAINER                            -->
+  <!-- ============================================================ -->
+  <div id="appContainer" class="w-full flex-1 flex flex-col transition-all duration-300">
+
+    <!-- ========================================================== -->
+    <!-- 1. COMPACT FOREST-GREEN TOP NAVIGATION                     -->
+    <!-- ========================================================== -->
+    <header class="bg-brand-pine text-white border-b border-white/10 sticky top-0 z-40">
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-14 flex items-center justify-between gap-4">
+        
+        <!-- Left: Brand Identity -->
+        <div class="flex items-center gap-6">
+          <a href="#" onclick="setView('initial'); return false;" class="flex items-center gap-2.5 group">
+            <div class="w-7 h-7 rounded bg-white/10 border border-white/15 flex items-center justify-center text-emerald-200 group-hover:bg-white/20 transition-colors">
+              <span class="material-symbols-outlined text-[18px]">gavel</span>
+            </div>
+            <div class="flex items-baseline gap-2">
+              <span class="font-serif text-lg font-medium tracking-tight text-white">CricBot</span>
+              <span class="text-[11px] font-sans text-emerald-300/80 tracking-wide uppercase font-medium hidden sm:inline">Official Desk</span>
+            </div>
+          </a>
+
+          <!-- Divider -->
+          <div class="h-4 w-px bg-white/15 hidden lg:block"></div>
+
+          <!-- Main Destinations (Preserved exactly as specified) -->
+          <nav class="hidden lg:flex items-center gap-1 text-[13px]">
+            <button 
+              id="navAdjudication"
+              onclick="setView('initial')"
+              class="px-2.5 py-1.5 rounded font-medium transition-colors bg-white/15 text-white"
+            >
+              Adjudication
+            </button>
+            <button 
+              onclick="showToast('Navigating to Scenario Analyser...')"
+              class="px-2.5 py-1.5 rounded font-normal text-white/70 hover:text-white hover:bg-white/5 transition-colors"
+            >
+              Scenario Analyser
+            </button>
+            <button 
+              onclick="showToast('Navigating to Law Search...')"
+              class="px-2.5 py-1.5 rounded font-normal text-white/70 hover:text-white hover:bg-white/5 transition-colors"
+            >
+              Law Search
+            </button>
+            <button 
+              onclick="showToast('Navigating to Umpire Assessment...')"
+              class="px-2.5 py-1.5 rounded font-normal text-white/70 hover:text-white hover:bg-white/5 transition-colors"
+            >
+              Umpire Assessment
+            </button>
+            <button 
+              onclick="showToast('Navigating to Official Knowledge Base...')"
+              class="px-2.5 py-1.5 rounded font-normal text-white/70 hover:text-white hover:bg-white/5 transition-colors"
+            >
+              Official Knowledge Base
+            </button>
+          </nav>
+        </div>
+
+        <!-- Right: Clean Jurisdiction Indicator & Account -->
+        <div class="flex items-center gap-3">
+          <!-- Simplified Jurisdiction Dropdown -->
+          <div class="hidden sm:flex items-center gap-1.5 px-2.5 py-1 rounded bg-black/20 border border-white/10 text-xs text-white/80">
+            <span class="material-symbols-outlined text-[15px] text-emerald-300">balance</span>
+            <span class="font-medium text-emerald-100">MCC 2017 &amp; ICC T20I</span>
+            <span class="material-symbols-outlined text-[14px] text-white/50">expand_more</span>
+          </div>
+
+          <!-- Account -->
+          <div class="flex items-center gap-2 pl-1 border-l border-white/10">
+            <button class="flex items-center gap-2 px-2 py-1 rounded hover:bg-white/10 transition-colors text-left" title="Official Account">
+              <div class="w-7 h-7 rounded-full bg-emerald-900 border border-white/20 flex items-center justify-center text-white/90 text-xs font-semibold">
+                TR
+              </div>
+              <div class="hidden xl:flex flex-col">
+                <span class="text-xs font-medium text-white leading-tight">T. R. Adjudicator</span>
+                <span class="text-[10px] text-emerald-300/80 leading-tight">Elite Panel</span>
+              </div>
+            </button>
+          </div>
+        </div>
+
+      </div>
+    </header>
+
+
+    <!-- ========================================================== -->
+    <!-- 2. DESKTOP VIEW CONTAINER                                  -->
+    <!-- ========================================================== -->
+    <main id="desktopMain" class="flex-1 w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 flex flex-col items-center justify-start">
+
+      <!-- ======================================================== -->
+      <!-- VIEW A: INITIAL SCREEN (Clean, Centered, Product-First) -->
+      <!-- ======================================================== -->
+      <section id="stateInitial" class="w-full max-w-2xl flex flex-col items-center my-auto py-12 text-center transition-all duration-300">
+        
+        <!-- Small Product Context -->
+        <div class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-brand-subtle text-brand-pine text-xs font-medium tracking-wider uppercase mb-5 border border-brand-border">
+          <span class="w-1.5 h-1.5 rounded-full bg-brand-pine"></span>
+          CRICKET LAWS ASSISTANT
+        </div>
+
+        <!-- Main Heading (Elegant Serif) -->
+        <h1 class="font-serif-heading text-4xl sm:text-5xl text-brand-pine font-medium tracking-tight leading-[1.15] mb-3">
+          Understand the Laws.<br class="hidden sm:inline"/> Resolve the Scenario.
+        </h1>
+
+        <!-- Supporting Sentence -->
+        <p class="font-sans text-base text-brand-textMuted max-w-lg mb-8 leading-relaxed">
+          Ask about a cricket incident and explore the relevant laws and playing conditions.
+        </p>
+
+        <!-- Primary Question Input Container -->
+        <div class="w-full bg-brand-card rounded-xl shadow-input border border-brand-border focus-within:border-brand-pine focus-within:ring-2 focus-within:ring-brand-pine/10 transition-all p-2 text-left mb-6">
+          <div class="flex items-center gap-2">
+            <div class="pl-2 text-brand-textMuted flex items-center">
+              <span class="material-symbols-outlined text-[20px]">search</span>
+            </div>
+            <input 
+              id="initialQueryInput"
+              type="text" 
+              placeholder="Describe the incident or enter a law number…"
+              class="w-full bg-transparent py-2.5 px-1 text-brand-textPrimary text-base placeholder:text-gray-400 focus:outline-none"
+              onkeydown="if(event.key === 'Enter') handleSearchSubmit();"
+            />
+            <button 
+              onclick="handleSearchSubmit()"
+              class="shrink-0 px-4 py-2.5 bg-brand-pine hover:bg-brand-pineHover text-white text-sm font-medium rounded-lg transition-colors flex items-center gap-1.5 shadow-xs"
+            >
+              <span>Analyse scenario</span>
+              <span class="material-symbols-outlined text-[16px]">arrow_forward</span>
+            </button>
+          </div>
+        </div>
+
+        <!-- Example Questions: 3 short, useful, understated clickable rows -->
+        <div class="w-full max-w-xl flex flex-col items-center">
+          <span class="text-xs uppercase tracking-wider text-brand-textMuted font-medium mb-2.5">
+            Or try an example
+          </span>
+          <div class="w-full flex flex-col gap-1.5 text-left">
+            <button 
+              onclick="submitExample('Can a batter be caught off a helmet?')"
+              class="w-full group px-3.5 py-2.5 rounded-lg bg-white/70 hover:bg-white border border-brand-border/80 hover:border-brand-border transition-all flex items-center justify-between text-sm text-brand-textPrimary shadow-2xs"
+            >
+              <span class="group-hover:text-brand-pine font-medium">Can a batter be caught off a helmet?</span>
+              <span class="material-symbols-outlined text-[16px] text-brand-textMuted group-hover:text-brand-pine group-hover:translate-x-0.5 transition-all">chevron_right</span>
+            </button>
+
+            <button 
+              onclick="submitExample('When is the non-striker run out?')"
+              class="w-full group px-3.5 py-2.5 rounded-lg bg-white/70 hover:bg-white border border-brand-border/80 hover:border-brand-border transition-all flex items-center justify-between text-sm text-brand-textPrimary shadow-2xs"
+            >
+              <span class="group-hover:text-brand-pine font-medium">When is the non-striker run out?</span>
+              <span class="material-symbols-outlined text-[16px] text-brand-textMuted group-hover:text-brand-pine group-hover:translate-x-0.5 transition-all">chevron_right</span>
+            </button>
+
+            <button 
+              onclick="submitExample('What happens when a delivery is declared a no-ball?')"
+              class="w-full group px-3.5 py-2.5 rounded-lg bg-white/70 hover:bg-white border border-brand-border/80 hover:border-brand-border transition-all flex items-center justify-between text-sm text-brand-textPrimary shadow-2xs"
+            >
+              <span class="group-hover:text-brand-pine font-medium">What happens when a delivery is declared a no-ball?</span>
+              <span class="material-symbols-outlined text-[16px] text-brand-textMuted group-hover:text-brand-pine group-hover:translate-x-0.5 transition-all">chevron_right</span>
+            </button>
+          </div>
+        </div>
+
+        <!-- Optional Quick Reference Link -->
+        <div class="mt-10 pt-6 border-t border-brand-border/60 text-xs text-brand-textMuted flex items-center gap-4">
+          <span class="flex items-center gap-1">
+            <span class="w-1.5 h-1.5 rounded-full bg-emerald-600"></span>
+            MCC 2017 Code 3rd Edition (2022) &amp; ICC Playing Conditions
+          </span>
+          <span>•</span>
+          <a href="#" onclick="showCodexDrawer(); return false;" class="text-brand-pine hover:underline font-medium">
+            Browse 42 Laws Codex
+          </a>
+        </div>
+      </section>
+
+
+      <!-- ======================================================== -->
+      <!-- VIEW B: ANSWER STATE (Progressive, Authoritative, Clear) -->
+      <!-- ======================================================== -->
+      <section id="stateAnswer" class="w-full max-w-4xl flex flex-col gap-6 transition-all duration-300 hidden">
+        
+        <!-- User Query Bar (Clear Context & Quick Edit) -->
+        <div class="w-full bg-brand-card p-4 rounded-xl border border-brand-border shadow-subtle flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+          <div class="flex items-start sm:items-center gap-3">
+            <div class="w-8 h-8 rounded-lg bg-brand-subtle text-brand-pine flex items-center justify-center shrink-0">
+              <span class="material-symbols-outlined text-[18px]">help_outline</span>
+            </div>
+            <div>
+              <span class="text-[11px] uppercase tracking-wider text-brand-textMuted font-semibold block leading-tight">Question</span>
+              <h2 id="answerQuestionText" class="text-sm sm:text-base font-semibold text-brand-textPrimary leading-snug">
+                Striker deflects ball via pad onto discarded wicket-keeper helmet; non-striker stranded. Law 28.3 vs Law 38.
+              </h2>
+            </div>
+          </div>
+          <div class="flex items-center gap-2 shrink-0 self-end sm:self-auto">
+            <button 
+              onclick="editCurrentQuestion()" 
+              class="px-2.5 py-1.5 rounded-lg border border-brand-border hover:bg-brand-subtle text-brand-textPrimary text-xs font-medium transition-colors flex items-center gap-1"
+            >
+              <span class="material-symbols-outlined text-[14px]">edit</span>
+              <span>Edit</span>
+            </button>
+            <button 
+              onclick="setView('initial')" 
+              class="px-2.5 py-1.5 rounded-lg bg-brand-pine hover:bg-brand-pineHover text-white text-xs font-medium transition-colors flex items-center gap-1"
+            >
+              <span class="material-symbols-outlined text-[14px]">add</span>
+              <span>New question</span>
+            </button>
+          </div>
+        </div>
+
+        <!-- Primary Ruling Card (Official Ruling & Direct Answer FIRST) -->
+        <article class="bg-brand-card rounded-xl border border-brand-border shadow-card overflow-hidden">
+          
+          <!-- Ruling Banner -->
+          <div class="bg-brand-pine text-white px-6 py-4 flex flex-col sm:flex-row sm:items-center justify-between gap-2 border-b border-white/10">
+            <div class="flex items-center gap-2.5">
+              <span class="w-2.5 h-2.5 rounded-full bg-emerald-400"></span>
+              <span class="text-xs font-semibold tracking-wider uppercase text-emerald-200">Official Adjudication Ruling</span>
+            </div>
+            <div class="flex items-center gap-3 text-xs text-white/70">
+              <span>Jurisdiction: <strong>MCC Laws &amp; ICC Standard PC</strong></span>
+              <span>•</span>
+              <span class="text-emerald-300 font-medium">Binding Precedent</span>
+            </div>
+          </div>
+
+          <!-- Concise Ruling Highlight -->
+          <div class="p-6 sm:p-8 flex flex-col gap-6">
+            
+            <div class="flex flex-col gap-2">
+              <span class="text-xs uppercase tracking-wider text-brand-crimson font-bold">Official Determination</span>
+              <h3 class="font-serif-heading text-2xl sm:text-3xl text-brand-pine font-medium leading-snug">
+                Not Out (Run Out negated) &amp; 5 Penalty Runs awarded to the batting side.
+              </h3>
+            </div>
+
+            <!-- Core Rationale / Explanation Underneath with Readable Paragraph Spacing -->
+            <div class="prose max-w-none text-brand-textPrimary text-base leading-relaxed flex flex-col gap-3 border-t border-brand-border/70 pt-5">
+              <p>
+                Under <strong>MCC Law 28.3.2</strong>, the ball becomes <strong>immediately dead</strong> at the instant contact occurs with a helmet placed upon the ground within the field of play. Because the ball is dead from that exact millisecond, no batsman may subsequently be given out Run Out pursuant to Law 38.3.1.
+              </p>
+              <p class="text-brand-textMuted text-sm">
+                The 5 penalty runs are mandatory and credited as fielding extras, not debited against the bowler’s personal bowling analysis. Any runs completed by the batters before the helmet contact are counted, together with the run in progress if the batters had crossed prior to impact.
+              </p>
+            </div>
+
+            <!-- Applicable Laws & Citations Close to Claims (Progressively Expandable) -->
+            <div class="flex flex-col gap-3 pt-2">
+              <span class="text-xs uppercase tracking-wider text-brand-textMuted font-semibold">
+                Applicable Governing Laws
+              </span>
+              
+              <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
+                <!-- Law 28.3 Card -->
+                <div class="p-4 rounded-lg bg-brand-subtle/70 border border-brand-border flex flex-col justify-between">
+                  <div class="flex flex-col gap-1.5">
+                    <div class="flex items-center justify-between">
+                      <span class="text-xs font-bold font-mono text-brand-pine bg-white px-2 py-0.5 rounded border border-brand-border">
+                        MCC LAW 28.3
+                      </span>
+                      <span class="text-[11px] font-semibold text-emerald-800 uppercase">Primary Statute</span>
+                    </div>
+                    <h4 class="text-sm font-semibold text-brand-textPrimary">Protective Equipment on the Field</h4>
+                    <p class="text-xs text-brand-textMuted leading-relaxed">
+                      If the ball strikes a helmet placed upon the ground, the ball shall immediately become dead and the umpire shall award 5 penalty runs to the batting side.
+                    </p>
+                  </div>
+                  <button 
+                    onclick="toggleExcerpt('excerpt28')" 
+                    class="mt-3 text-xs text-brand-pine font-medium hover:underline flex items-center gap-1 self-start"
+                  >
+                    <span id="labelExcerpt28">View statutory text</span>
+                    <span class="material-symbols-outlined text-[14px]">unfold_more</span>
+                  </button>
+                  <div id="excerpt28" class="hidden mt-2 pt-2 border-t border-brand-border/60 text-xs font-mono text-brand-textMuted bg-white p-2 rounded">
+                    "28.3.2: If the ball while in play strikes a helmet placed upon the ground within the field of play, the ball shall immediately become dead and, unless the striker is out by any Law other than Law 38 (Run out), the umpire shall award 5 penalty runs to the batting side..."
+                  </div>
+                </div>
+
+                <!-- Law 38.3 Card -->
+                <div class="p-4 rounded-lg bg-brand-subtle/70 border border-brand-border flex flex-col justify-between">
+                  <div class="flex flex-col gap-1.5">
+                    <div class="flex items-center justify-between">
+                      <span class="text-xs font-bold font-mono text-brand-pine bg-white px-2 py-0.5 rounded border border-brand-border">
+                        MCC LAW 38.3
+                      </span>
+                      <span class="text-[11px] font-semibold text-slate-600 uppercase">Negation Clause</span>
+                    </div>
+                    <h4 class="text-sm font-semibold text-brand-textPrimary">Run Out Exemption on Dead Ball</h4>
+                    <p class="text-xs text-brand-textMuted leading-relaxed">
+                      A batsman is not out Run Out if the ball is deemed dead before the wicket is put down or before an appeal is made.
+                    </p>
+                  </div>
+                  <button 
+                    onclick="toggleExcerpt('excerpt38')" 
+                    class="mt-3 text-xs text-brand-pine font-medium hover:underline flex items-center gap-1 self-start"
+                  >
+                    <span id="labelExcerpt38">View statutory text</span>
+                    <span class="material-symbols-outlined text-[14px]">unfold_more</span>
+                  </button>
+                  <div id="excerpt38" class="hidden mt-2 pt-2 border-t border-brand-border/60 text-xs font-mono text-brand-textMuted bg-white p-2 rounded">
+                    "38.3.1: A batsman is not out Run out if the ball becomes dead before the wicket is put down or before an appeal is made, or if the striker is not out by any other Law."
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Procedural Action Protocol for Umpires -->
+            <div class="bg-white p-4 rounded-lg border border-brand-border flex flex-col gap-3">
+              <div class="flex items-center justify-between pb-1 border-b border-brand-border/60">
+                <span class="text-xs uppercase tracking-wider text-brand-textMuted font-semibold">
+                  On-Field Umpire Execution Sequence
+                </span>
+                <span class="text-xs text-brand-pine font-medium">Standard 4-Step Protocol</span>
+              </div>
+              <div class="grid grid-cols-1 sm:grid-cols-4 gap-3 text-xs">
+                <div class="flex flex-col gap-1 p-2 rounded bg-brand-surface border border-brand-border/40">
+                  <span class="font-bold text-brand-crimson">1. Call Dead Ball</span>
+                  <span class="text-brand-textMuted">Instant vocal call by either on-field umpire.</span>
+                </div>
+                <div class="flex flex-col gap-1 p-2 rounded bg-brand-surface border border-brand-border/40">
+                  <span class="font-bold text-brand-pine">2. Verify Runs</span>
+                  <span class="text-brand-textMuted">Confirm if batters crossed before helmet contact.</span>
+                </div>
+                <div class="flex flex-col gap-1 p-2 rounded bg-brand-surface border border-brand-border/40">
+                  <span class="font-bold text-brand-pine">3. Signal Penalty</span>
+                  <span class="text-brand-textMuted">Tap shoulder 5 times to notify official scorers.</span>
+                </div>
+                <div class="flex flex-col gap-1 p-2 rounded bg-brand-surface border border-brand-border/40">
+                  <span class="font-bold text-brand-pine">4. Match Report</span>
+                  <span class="text-brand-textMuted">Log equipment placement in post-match bulletin.</span>
+                </div>
+              </div>
+            </div>
+
+            <!-- Tournament Variations & Uncertainty Clarity -->
+            <div class="p-4 rounded-lg bg-emerald-50/50 border border-emerald-200/60 flex flex-col gap-2">
+              <div class="flex items-center justify-between">
+                <div class="flex items-center gap-2">
+                  <span class="material-symbols-outlined text-[18px] text-emerald-800">verified</span>
+                  <span class="text-xs font-semibold text-emerald-950 uppercase tracking-wide">
+                    Tournament Concordance &amp; Certainty
+                  </span>
+                </div>
+                <span class="text-xs font-medium text-emerald-800 bg-emerald-100 px-2 py-0.5 rounded">
+                  High Confidence (100% Agreement)
+                </span>
+              </div>
+              <p class="text-xs text-emerald-950 leading-relaxed">
+                <strong>MCC Code &amp; ICC Playing Conditions Harmonized:</strong> Under ICC Men's T20I Playing Conditions (Clause 28.3), the same 5-run imposition applies. If missed live by on-field officials, the TV Umpire may advise them retrospectively via DRS protocol, cancelling subsequent runs.
+              </p>
+            </div>
+
+            <!-- Advanced Evidence & Provenance Details (Progressively Collapsed) -->
+            <div class="pt-2">
+              <button 
+                onclick="toggleProvenance()" 
+                class="w-full py-2.5 px-3 rounded-lg border border-brand-border/80 hover:bg-brand-subtle text-xs text-brand-textMuted font-medium flex items-center justify-between transition-colors"
+              >
+                <span class="flex items-center gap-1.5">
+                  <span class="material-symbols-outlined text-[16px] text-brand-pine">history_edu</span>
+                  <span>View Historical Case Precedent &amp; Codex Provenance</span>
+                </span>
+                <span id="provenanceChevron" class="material-symbols-outlined text-[16px]">expand_more</span>
+              </button>
+
+              <div id="provenanceDetails" class="hidden mt-3 p-4 rounded-lg bg-brand-surface border border-brand-border text-xs text-brand-textMuted flex flex-col gap-3">
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                  <div>
+                    <span class="font-semibold text-brand-textPrimary block mb-1">Historical Match Precedent:</span>
+                    <p>Lord’s 2019 (England v Australia, 1st Test) — identical helmet contact rule executed, dead ball called instantaneously, 5 penalty runs awarded.</p>
+                  </div>
+                  <div>
+                    <span class="font-semibold text-brand-textPrimary block mb-1">Authentic Codex Source:</span>
+                    <p>MCC Laws of Cricket 2017 Code (3rd Edition - 2022), Page 64, Clause 28.3 &amp; Appendix D Equipment Specifications.</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+          </div>
+
+          <!-- Bottom Action Strip -->
+          <div class="px-6 py-3.5 bg-brand-subtle/50 border-t border-brand-border flex flex-col sm:flex-row items-center justify-between gap-3 text-xs text-brand-textMuted">
+            <div class="flex items-center gap-2">
+              <span class="material-symbols-outlined text-[16px] text-brand-pine">gavel</span>
+              <span>Authenticated for Match Referees &amp; Third Umpires</span>
+            </div>
+            <div class="flex items-center gap-2">
+              <button 
+                onclick="copyRuling()" 
+                class="px-3 py-1.5 rounded bg-white hover:bg-brand-subtle border border-brand-border text-brand-textPrimary font-medium transition-colors flex items-center gap-1 shadow-2xs"
+              >
+                <span id="copyIcon" class="material-symbols-outlined text-[14px]">content_copy</span>
+                <span id="copyLabel">Copy ruling</span>
+              </button>
+              <button 
+                onclick="showToast('Exporting adjudication brief as PDF/Text...')" 
+                class="px-3 py-1.5 rounded bg-white hover:bg-brand-subtle border border-brand-border text-brand-textPrimary font-medium transition-colors flex items-center gap-1 shadow-2xs"
+              >
+                <span class="material-symbols-outlined text-[14px]">download</span>
+                <span>Export brief</span>
+              </button>
+            </div>
+          </div>
+
+        </article>
+
+        <!-- Follow-up Question Input -->
+        <div class="w-full bg-brand-card rounded-xl p-3 border border-brand-border shadow-subtle flex items-center gap-2">
+          <input 
+            id="followupQueryInput"
+            type="text" 
+            placeholder="Ask a follow-up or explore a variation on this scenario…"
+            class="w-full bg-transparent px-2 py-1 text-sm text-brand-textPrimary placeholder:text-gray-400 focus:outline-none"
+            onkeydown="if(event.key === 'Enter') handleFollowupSubmit();"
+          />
+          <button 
+            onclick="handleFollowupSubmit()"
+            class="px-3 py-1.5 bg-brand-pine hover:bg-brand-pineHover text-white text-xs font-medium rounded-lg transition-colors shrink-0"
+          >
+            Analyse
+          </button>
+        </div>
+
+      </section>
+
+    </main>
+
+
+    <!-- ========================================================== -->
+    <!-- 3. MOBILE RESPONSIVE PREVIEW FRAME (When Mobile Mode is On) -->
+    <!-- ========================================================== -->
+    <div id="mobileFrameWrapper" class="hidden flex-1 w-full flex items-center justify-center py-6 px-4">
+      <div class="w-[390px] h-[780px] bg-brand-surface rounded-[36px] shadow-2xl border-[8px] border-slate-900 overflow-hidden flex flex-col relative">
+        
+        <!-- Mobile Top Notch / Status -->
+        <div class="bg-brand-pine text-white px-6 pt-3 pb-1 flex items-center justify-between text-[11px] font-semibold tracking-wider">
+          <span>9:41</span>
+          <div class="w-20 h-4 bg-black rounded-full mx-auto"></div>
+          <div class="flex items-center gap-1">
+            <span class="material-symbols-outlined text-[13px]">signal_cellular_alt</span>
+            <span class="material-symbols-outlined text-[13px]">wifi</span>
+            <span class="material-symbols-outlined text-[13px]">battery_full</span>
+          </div>
+        </div>
+
+        <!-- Mobile Header -->
+        <div class="bg-brand-pine text-white px-4 py-2.5 flex items-center justify-between border-b border-white/10 shrink-0">
+          <div class="flex items-center gap-2">
+            <div class="w-6 h-6 rounded bg-white/10 flex items-center justify-center text-emerald-200">
+              <span class="material-symbols-outlined text-[15px]">gavel</span>
+            </div>
+            <span class="font-serif text-base font-medium text-white">CricBot</span>
+          </div>
+          <div class="flex items-center gap-2">
+            <span class="text-[10px] text-emerald-200 bg-white/10 px-2 py-0.5 rounded">MCC / ICC</span>
+            <button class="p-1 text-white/80 hover:text-white">
+              <span class="material-symbols-outlined text-[20px]">menu</span>
+            </button>
+          </div>
+        </div>
+
+        <!-- Mobile Scrollable Content Area -->
+        <div class="flex-1 overflow-y-auto p-4 flex flex-col gap-4">
+          
+          <!-- Mobile State Toggle -->
+          <div class="flex items-center justify-center bg-brand-subtle p-0.5 rounded-lg border border-brand-border text-xs mb-1">
+            <button 
+              id="mobileBtnInitial"
+              onclick="setMobileSubState('initial')" 
+              class="flex-1 py-1 rounded text-center font-medium bg-white text-brand-pine shadow-2xs"
+            >
+              Initial
+            </button>
+            <button 
+              id="mobileBtnAnswer"
+              onclick="setMobileSubState('answer')" 
+              class="flex-1 py-1 rounded text-center font-medium text-brand-textMuted hover:text-brand-textPrimary"
+            >
+              Answer
+            </button>
+          </div>
+
+          <!-- Mobile Initial View -->
+          <div id="mobileInitialContent" class="flex flex-col items-center text-center py-6">
+            <div class="inline-flex items-center gap-1 px-2 py-0.5 rounded-full bg-brand-subtle text-brand-pine text-[10px] font-semibold tracking-wider uppercase mb-3 border border-brand-border">
+              CRICKET LAWS ASSISTANT
+            </div>
+            <h2 class="font-serif-heading text-2xl text-brand-pine font-medium leading-tight mb-2">
+              Understand the Laws.<br/>Resolve the Scenario.
+            </h2>
+            <p class="text-xs text-brand-textMuted max-w-xs mb-5 leading-normal">
+              Ask about a cricket incident and explore the relevant laws and playing conditions.
+            </p>
+
+            <div class="w-full bg-white rounded-lg p-2 border border-brand-border shadow-xs text-left mb-4">
+              <input 
+                type="text" 
+                placeholder="Describe the incident or law…" 
+                class="w-full text-xs text-brand-textPrimary py-1 px-1 focus:outline-none mb-2"
+              />
+              <button 
+                onclick="setMobileSubState('answer')" 
+                class="w-full py-2 bg-brand-pine text-white text-xs font-medium rounded transition-colors text-center"
+              >
+                Analyse scenario
+              </button>
+            </div>
+
+            <div class="w-full flex flex-col gap-1.5 text-left">
+              <span class="text-[10px] uppercase font-semibold text-brand-textMuted">Example questions:</span>
+              <button 
+                onclick="setMobileSubState('answer')"
+                class="w-full p-2 rounded bg-white border border-brand-border text-xs text-brand-textPrimary flex items-center justify-between"
+              >
+                <span>Can a batter be caught off a helmet?</span>
+                <span class="material-symbols-outlined text-[14px] text-brand-textMuted">chevron_right</span>
+              </button>
+              <button 
+                onclick="setMobileSubState('answer')"
+                class="w-full p-2 rounded bg-white border border-brand-border text-xs text-brand-textPrimary flex items-center justify-between"
+              >
+                <span>When is the non-striker run out?</span>
+                <span class="material-symbols-outlined text-[14px] text-brand-textMuted">chevron_right</span>
+              </button>
+              <button 
+                onclick="setMobileSubState('answer')"
+                class="w-full p-2 rounded bg-white border border-brand-border text-xs text-brand-textPrimary flex items-center justify-between"
+              >
+                <span>No-ball delivery consequences</span>
+                <span class="material-symbols-outlined text-[14px] text-brand-textMuted">chevron_right</span>
+              </button>
+            </div>
+          </div>
+
+          <!-- Mobile Answer View -->
+          <div id="mobileAnswerContent" class="hidden flex flex-col gap-3">
+            <div class="bg-white p-3 rounded-lg border border-brand-border text-xs">
+              <span class="text-[10px] uppercase text-brand-textMuted font-bold block">Inquiry</span>
+              <span class="font-medium text-brand-textPrimary">Striker deflects ball onto placed helmet; non-striker stranded.</span>
+            </div>
+
+            <div class="bg-white rounded-lg border border-brand-border overflow-hidden">
+              <div class="bg-brand-pine text-white px-3 py-2 text-xs flex items-center justify-between">
+                <span class="font-semibold uppercase tracking-wider text-emerald-200 text-[10px]">Ruling</span>
+                <span class="text-[10px] text-white/70">MCC Law 28.3</span>
+              </div>
+              <div class="p-3 flex flex-col gap-2">
+                <span class="text-[10px] uppercase font-bold text-brand-crimson">Determination</span>
+                <h4 class="font-serif-heading text-lg font-medium text-brand-pine leading-snug">
+                  Not Out (Run Out negated) &amp; 5 Penalty Runs awarded.
+                </h4>
+                <p class="text-xs text-brand-textPrimary leading-relaxed">
+                  Under MCC Law 28.3.2, ball becomes immediately dead on helmet contact. Batter cannot be Run Out, 5 penalty runs awarded.
+                </p>
+
+                <div class="p-2 rounded bg-brand-subtle text-[11px] flex flex-col gap-1 border border-brand-border/60 mt-1">
+                  <span class="font-bold text-brand-pine">Key Citations</span>
+                  <span>• <strong>Law 28.3:</strong> 5 penalty runs &amp; dead ball</span>
+                  <span>• <strong>Law 38.3:</strong> Run Out negated</span>
+                </div>
+              </div>
+            </div>
+
+            <button 
+              onclick="setMobileSubState('initial')" 
+              class="w-full py-2 bg-brand-subtle hover:bg-brand-border text-brand-pine font-medium text-xs rounded border border-brand-border"
+            >
+              Ask another question
+            </button>
+          </div>
+
+        </div>
+
+        <!-- Mobile Bottom Bar Indicator -->
+        <div class="w-32 h-1 bg-black/40 rounded-full mx-auto my-2 shrink-0"></div>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- Toast Notification Helper -->
+  <div id="toast" class="fixed bottom-4 right-4 bg-brand-pine text-white px-4 py-2.5 rounded-lg shadow-lg text-xs font-medium z-50 transform translate-y-12 opacity-0 transition-all pointer-events-none flex items-center gap-2">
+    <span class="material-symbols-outlined text-[16px] text-emerald-300">check_circle</span>
+    <span id="toastMessage">Action completed</span>
+  </div>
+
+  <!-- Interactive JavaScript Logic -->
+  <script>
+    let currentView = 'initial'; // 'initial' | 'answer' | 'mobile'
+
+    function setView(view) {
+      currentView = view;
+      
+      const btnInitial = document.getElementById('btnViewInitial');
+      const btnAnswer = document.getElementById('btnViewAnswer');
+      const btnMobile = document.getElementById('btnViewMobile');
+      
+      const desktopMain = document.getElementById('desktopMain');
+      const stateInitial = document.getElementById('stateInitial');
+      const stateAnswer = document.getElementById('stateAnswer');
+      const mobileWrapper = document.getElementById('mobileFrameWrapper');
+
+      // Update Toolbar buttons
+      [btnInitial, btnAnswer, btnMobile].forEach(btn => {
+        btn.className = 'px-3 py-1 rounded text-xs font-medium transition-colors text-white/70 hover:text-white';
+      });
+
+      if (view === 'initial') {
+        btnInitial.className = 'px-3 py-1 rounded text-xs font-medium transition-colors bg-white/20 text-white shadow-xs';
+        desktopMain.classList.remove('hidden');
+        stateInitial.classList.remove('hidden');
+        stateAnswer.classList.add('hidden');
+        mobileWrapper.classList.add('hidden');
+      } else if (view === 'answer') {
+        btnAnswer.className = 'px-3 py-1 rounded text-xs font-medium transition-colors bg-white/20 text-white shadow-xs';
+        desktopMain.classList.remove('hidden');
+        stateInitial.classList.add('hidden');
+        stateAnswer.classList.remove('hidden');
+        mobileWrapper.classList.add('hidden');
+      } else if (view === 'mobile') {
+        btnMobile.className = 'px-3 py-1 rounded text-xs font-medium transition-colors bg-white/20 text-white shadow-xs';
+        desktopMain.classList.add('hidden');
+        mobileWrapper.classList.remove('hidden');
+      }
+    }
+
+    function handleSearchSubmit() {
+      const input = document.getElementById('initialQueryInput');
+      const query = input.value.trim();
+      if (!query) {
+        showToast('Please describe an incident or enter a law number');
+        return;
+      }
+      document.getElementById('answerQuestionText').textContent = query;
+      setView('answer');
+      showToast('Scenario analysed under MCC 2017 & ICC Playing Conditions');
+    }
+
+    function submitExample(text) {
+      document.getElementById('answerQuestionText').textContent = text;
+      setView('answer');
+      showToast('Loaded canonical example scenario');
+    }
+
+    function editCurrentQuestion() {
+      const currentText = document.getElementById('answerQuestionText').textContent;
+      document.getElementById('initialQueryInput').value = currentText;
+      setView('initial');
+      document.getElementById('initialQueryInput').focus();
+    }
+
+    function handleFollowupSubmit() {
+      const input = document.getElementById('followupQueryInput');
+      const query = input.value.trim();
+      if (query) {
+        showToast('Analysing follow-up question: ' + query);
+        input.value = '';
+      }
+    }
+
+    function toggleExcerpt(id) {
+      const el = document.getElementById(id);
+      const isHidden = el.classList.contains('hidden');
+      if (isHidden) {
+        el.classList.remove('hidden');
+      } else {
+        el.classList.add('hidden');
+      }
+    }
+
+    function toggleProvenance() {
+      const el = document.getElementById('provenanceDetails');
+      const chevron = document.getElementById('provenanceChevron');
+      const isHidden = el.classList.contains('hidden');
+      if (isHidden) {
+        el.classList.remove('hidden');
+        chevron.textContent = 'expand_less';
+      } else {
+        el.classList.add('hidden');
+        chevron.textContent = 'expand_more';
+      }
+    }
+
+    function copyRuling() {
+      const text = "OFFICIAL CRICBOT MCC LEGAL RULING:\nDetermination: Not Out (Run Out negated) & 5 Penalty Runs awarded.\nGoverning Statutes: MCC Law 28.3 (Protective Equipment) & Law 38.3 (Run Out).\nJurisdiction: MCC 2017 Code (3rd Ed.) & ICC Men's Playing Conditions.";
+      navigator.clipboard.writeText(text).then(() => {
+        const copyLabel = document.getElementById('copyLabel');
+        const copyIcon = document.getElementById('copyIcon');
+        copyLabel.textContent = 'Copied!';
+        copyIcon.textContent = 'check';
+        showToast('Adjudication ruling copied to clipboard');
+        setTimeout(() => {
+          copyLabel.textContent = 'Copy ruling';
+          copyIcon.textContent = 'content_copy';
+        }, 2000);
+      });
+    }
+
+    function setMobileSubState(sub) {
+      const initial = document.getElementById('mobileInitialContent');
+      const answer = document.getElementById('mobileAnswerContent');
+      const btnInit = document.getElementById('mobileBtnInitial');
+      const btnAns = document.getElementById('mobileBtnAnswer');
+
+      if (sub === 'initial') {
+        initial.classList.remove('hidden');
+        answer.classList.add('hidden');
+        btnInit.className = 'flex-1 py-1 rounded text-center font-medium bg-white text-brand-pine shadow-2xs';
+        btnAns.className = 'flex-1 py-1 rounded text-center font-medium text-brand-textMuted hover:text-brand-textPrimary';
+      } else {
+        initial.classList.add('hidden');
+        answer.classList.remove('hidden');
+        btnAns.className = 'flex-1 py-1 rounded text-center font-medium bg-white text-brand-pine shadow-2xs';
+        btnInit.className = 'flex-1 py-1 rounded text-center font-medium text-brand-textMuted hover:text-brand-textPrimary';
+      }
+    }
+
+    function showToast(msg) {
+      const toast = document.getElementById('toast');
+      const toastMsg = document.getElementById('toastMessage');
+      toastMsg.textContent = msg;
+      toast.classList.remove('translate-y-12', 'opacity-0');
+      toast.classList.add('translate-y-0', 'opacity-100');
+      setTimeout(() => {
+        toast.classList.add('translate-y-12', 'opacity-0');
+        toast.classList.remove('translate-y-0', 'opacity-100');
+      }, 3000);
+    }
+
+    function showCodexDrawer() {
+      showToast('Opening MCC 42 Laws Codex Reference...');
+    }
+  </script>
+</body>
+</html>

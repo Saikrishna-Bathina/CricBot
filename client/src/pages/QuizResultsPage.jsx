@@ -1,15 +1,5 @@
 import React, { useState } from 'react';
 import { useLocation, useNavigate, Link } from 'react-router-dom';
-import { 
-  Award, 
-  CheckCircle2, 
-  XCircle, 
-  RotateCcw, 
-  BookOpen, 
-  ShieldCheck, 
-  ArrowLeft,
-  Sparkles
-} from 'lucide-react';
 import CitationModal from '../components/citations/CitationModal';
 
 export default function QuizResultsPage() {
@@ -18,167 +8,180 @@ export default function QuizResultsPage() {
   const attemptResult = location.state?.attemptResult;
   const [activeCitation, setActiveCitation] = useState(null);
 
-  if (!attemptResult) {
-    return (
-      <div className="flex-1 max-w-md mx-auto flex flex-col justify-center items-center text-center p-6 space-y-4">
-        <Award className="w-12 h-12 text-slate-600" />
-        <h2 className="text-xl font-bold text-white">No Active Quiz Results</h2>
-        <p className="text-xs text-slate-400">Complete an examination to review your score and official rule explanations.</p>
-        <Link
-          to="/quiz"
-          className="px-4 py-2 rounded-xl bg-purple-600 hover:bg-purple-500 text-white text-xs font-semibold"
-        >
-          Go to Quizzes
-        </Link>
-      </div>
-    );
-  }
+  // Fallback demo results if navigated directly
+  const resultData = attemptResult || {
+    quizId: 'EXAM-DEMO-01',
+    score: 67,
+    totalQuestions: 3,
+    correctAnswers: 2,
+    passed: true,
+    resultsBreakdown: [
+      {
+        questionText:
+          'If a ball in play strikes a protective helmet placed on the ground behind the wicket-keeper, what is the mandatory umpire ruling?',
+        selectedOption: 'B',
+        selectedOptionText: 'Ball immediately dead; 5 penalty runs awarded to batting side',
+        correctOption: 'B',
+        correctOptionText: 'Ball immediately dead; 5 penalty runs awarded to batting side',
+        isCorrect: true,
+        explanation:
+          'Under MCC Law 28.3.2, the ball becomes immediately dead when it strikes placed equipment, and 5 penalty runs are awarded to the batting side.',
+        citation: { lawTitle: 'MCC Law 28.3 (Protective Equipment)', clauseNumber: '28.3.2' },
+      },
+      {
+        questionText:
+          'A bowler halts delivery stride before releasing the ball and runs out the non-striker who has stepped out of the crease early. Is this out?',
+        selectedOption: 'A',
+        selectedOptionText: 'Yes, legitimate Run Out under Law 41.16 before ball release',
+        correctOption: 'A',
+        correctOptionText: 'Yes, legitimate Run Out under Law 41.16 before ball release',
+        isCorrect: true,
+        explanation:
+          'Under MCC Law 41.16, the bowler is permitted to run out the non-striker if they leave their ground early prior to expected ball release.',
+        citation: { lawTitle: 'MCC Law 41.16 (Non-striker leaving ground early)', clauseNumber: '41.16' },
+      },
+      {
+        questionText:
+          'A delivery pitches three times along the pitch surface before reaching the striker’s popping crease. What is the official call?',
+        selectedOption: 'C',
+        selectedOptionText: 'Dead ball immediately with re-bowl mandated',
+        correctOption: 'B',
+        correctOptionText: 'No ball under Law 21.10 for bouncing more than once',
+        isCorrect: false,
+        explanation:
+          'Under MCC Law 21.10, any ball bouncing more than once prior to the popping crease is an automatic No Ball.',
+        citation: { lawTitle: 'MCC Law 21.10 (Ball bouncing more than once)', clauseNumber: '21.10' },
+      },
+    ],
+  };
 
-  const { score, totalQuestions, percentage, passed, results } = attemptResult;
+  const { score, totalQuestions, correctAnswers, passed, resultsBreakdown } = resultData;
 
   return (
-    <div className="flex-1 max-w-4xl w-full mx-auto p-4 sm:p-6 space-y-8 pb-12">
-      {/* Top Banner */}
-      <div className="p-6 sm:p-8 rounded-3xl bg-gradient-to-br from-slate-950 via-slate-900 to-slate-950 border border-purple-900/60 shadow-2xl flex flex-col sm:flex-row items-center justify-between gap-6 text-center sm:text-left">
-        <div className="space-y-2">
-          <div className="inline-flex items-center space-x-1.5 px-3 py-1 rounded-full text-xs font-mono font-bold bg-purple-950 text-purple-300 border border-purple-800">
-            <Sparkles className="w-3.5 h-3.5 text-amber-300" />
-            <span>Official Examination Certified</span>
+    <div className="w-full max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-6 sm:py-8 flex flex-col gap-6 animate-fadeIn">
+      
+      {/* Header & Score Summary Card */}
+      <div className="bg-white rounded-xl border border-[#D5E2DA] shadow-xs p-6 flex flex-col sm:flex-row items-center justify-between gap-6">
+        <div className="flex flex-col gap-1.5 text-center sm:text-left">
+          <div className="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full bg-[#EDF4F0] text-[#0F241D] text-xs font-semibold tracking-wider uppercase mb-1 border border-[#D5E2DA] self-center sm:self-start">
+            <span className="w-1.5 h-1.5 rounded-full bg-[#0F241D]"></span>
+            ASSESSMENT COMPLETE
           </div>
-          <h1 className="text-3xl font-extrabold text-white">
-            {passed ? 'Examination Passed!' : 'Review & Practice Recommended'}
+          <h1 className="font-serif text-2xl sm:text-3xl text-[#0F241D] font-medium tracking-tight">
+            {passed ? 'Certification Benchmark Achieved' : 'Review & Practice Recommended'}
           </h1>
-          <p className="text-xs text-slate-400 max-w-md">
-            Every answer has been verified against the official MCC Laws of Cricket and ICC Playing Conditions database.
+          <p className="font-sans text-xs sm:text-sm text-slate-600">
+            {passed
+              ? 'Congratulations! Your decisions satisfied the official MCC officiating standards.'
+              : 'Review the statutory explanations below to reinforce key cricket law precedents.'}
           </p>
         </div>
 
-        {/* Score Circle */}
-        <div className="shrink-0 flex flex-col items-center justify-center w-32 h-32 rounded-full bg-slate-900 border-4 border-purple-500/80 shadow-xl shadow-purple-950/60">
-          <span className="text-3xl font-extrabold text-white font-mono">{percentage}%</span>
-          <span className="text-xs font-semibold text-purple-300">
-            {score} / {totalQuestions} Correct
+        {/* Score Badge */}
+        <div className="flex flex-col items-center justify-center p-4 rounded-xl bg-[#F8FAF9] border border-[#D5E2DA] shrink-0 min-w-[140px]">
+          <span className="font-serif text-3xl font-bold text-[#0F241D]">{score}%</span>
+          <span className="text-xs text-slate-600 mt-0.5">
+            {correctAnswers || Math.round((score / 100) * totalQuestions)} of {totalQuestions} Correct
+          </span>
+          <span className={`text-[11px] font-bold uppercase mt-1 px-2 py-0.5 rounded ${
+            passed ? 'bg-emerald-100 text-emerald-800' : 'bg-red-100 text-red-800'
+          }`}>
+            {passed ? 'Passed' : 'Needs Review'}
           </span>
         </div>
       </div>
 
-      {/* Questions Breakdown */}
-      <div className="space-y-6">
-        <h2 className="text-sm font-bold uppercase tracking-wider text-slate-300 flex items-center space-x-2">
-          <BookOpen className="w-4 h-4 text-purple-400" />
-          <span>Detailed Legal Breakdown & Citations:</span>
+      {/* Breakdown Header */}
+      <div className="flex items-center justify-between px-1">
+        <h2 className="text-sm font-semibold uppercase tracking-wider text-slate-600">
+          Question-by-Question Breakdown
         </h2>
+        <span className="text-xs text-slate-500">Official MCC Code Citations</span>
+      </div>
 
-        {results.map((item, idx) => (
-          <div
+      {/* Results List */}
+      <div className="flex flex-col gap-4">
+        {resultsBreakdown?.map((item, idx) => (
+          <article
             key={idx}
-            className={`p-6 rounded-2xl border transition-all space-y-4 shadow-lg ${
-              item.isCorrect
-                ? 'bg-slate-900/60 border-emerald-900/60'
-                : 'bg-slate-900/60 border-red-900/60'
+            className={`bg-white rounded-xl border p-5 flex flex-col gap-3 shadow-xs ${
+              item.isCorrect ? 'border-[#D5E2DA]' : 'border-amber-200 bg-amber-50/20'
             }`}
           >
-            {/* Question Header */}
-            <div className="flex items-start justify-between gap-3">
-              <div className="space-y-1">
-                <span className="text-[11px] font-mono font-bold uppercase text-slate-400">
-                  Question {idx + 1}
+            <div className="flex items-center justify-between pb-2 border-b border-[#D5E2DA]/60">
+              <span className="text-xs font-bold text-[#0F241D]">Question {idx + 1}</span>
+              <span
+                className={`text-xs font-semibold px-2 py-0.5 rounded flex items-center gap-1 ${
+                  item.isCorrect ? 'bg-emerald-100 text-emerald-800' : 'bg-red-100 text-red-800'
+                }`}
+              >
+                <span className="material-symbols-outlined text-[14px]">
+                  {item.isCorrect ? 'check' : 'close'}
                 </span>
-                <h3 className="text-base font-bold text-white leading-snug">
-                  {item.questionText}
-                </h3>
-              </div>
+                <span>{item.isCorrect ? 'Correct' : 'Incorrect'}</span>
+              </span>
+            </div>
 
-              <div className="shrink-0">
-                {item.isCorrect ? (
-                  <span className="inline-flex items-center space-x-1 px-2.5 py-1 rounded-full text-xs font-bold bg-emerald-950 text-emerald-400 border border-emerald-800">
-                    <CheckCircle2 className="w-3.5 h-3.5" />
-                    <span>Correct</span>
+            <h3 className="font-serif text-lg font-medium text-[#14201A] leading-snug">
+              {item.questionText}
+            </h3>
+
+            {/* Answer comparison */}
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 pt-1 text-xs">
+              <div className="p-2.5 rounded bg-[#F8FAF9] border border-[#D5E2DA]">
+                <span className="text-slate-500 block mb-0.5">Your Selected Answer:</span>
+                <span className={`font-semibold ${item.isCorrect ? 'text-emerald-800' : 'text-red-700'}`}>
+                  {item.selectedOptionText}
+                </span>
+              </div>
+              <div className="p-2.5 rounded bg-[#F8FAF9] border border-[#D5E2DA]">
+                <span className="text-slate-500 block mb-0.5">Statutory Decision:</span>
+                <span className="font-semibold text-[#0F241D]">
+                  {item.correctOptionText}
+                </span>
+              </div>
+            </div>
+
+            {/* Explanation & Citation */}
+            <div className="pt-2 border-t border-[#D5E2DA]/60 flex flex-col gap-1 text-xs text-slate-600">
+              <p><strong>Rationale:</strong> {item.explanation}</p>
+              {item.citation && (
+                <div className="flex items-center gap-2 mt-1">
+                  <span className="text-[11px] font-mono font-semibold bg-[#EDF4F0] text-[#0F241D] px-2 py-0.5 rounded">
+                    {item.citation.lawTitle || `Law ${item.citation.clauseNumber}`}
                   </span>
-                ) : (
-                  <span className="inline-flex items-center space-x-1 px-2.5 py-1 rounded-full text-xs font-bold bg-red-950 text-red-400 border border-red-800">
-                    <XCircle className="w-3.5 h-3.5" />
-                    <span>Incorrect</span>
-                  </span>
-                )}
-              </div>
+                </div>
+              )}
             </div>
-
-            {/* Answer Comparison */}
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 text-xs">
-              <div className="p-3 rounded-xl bg-slate-950/80 border border-slate-800">
-                <span className="text-slate-500 uppercase text-[10px] block font-bold">Your Response:</span>
-                <span className={`font-semibold ${item.isCorrect ? 'text-emerald-400' : 'text-red-400'}`}>
-                  Option {item.selectedOption || 'None (Unanswered)'}
-                </span>
-              </div>
-              <div className="p-3 rounded-xl bg-slate-950/80 border border-slate-800">
-                <span className="text-slate-500 uppercase text-[10px] block font-bold">Official Ruling Answer:</span>
-                <span className="font-semibold text-emerald-400">
-                  Option {item.correctAnswer}
-                </span>
-              </div>
-            </div>
-
-            {/* Explanation */}
-            <div className="p-4 rounded-xl bg-slate-950 border border-slate-800 text-xs sm:text-sm text-slate-200 leading-relaxed font-mono">
-              <span className="text-amber-400 font-bold block mb-1 font-sans">Official Explanation:</span>
-              {item.explanation}
-            </div>
-
-            {/* Citations */}
-            {item.citations && item.citations.length > 0 && (
-              <div className="flex items-center space-x-2 pt-2 border-t border-slate-800/60 text-xs">
-                <span className="text-slate-400 font-medium">Supporting Law:</span>
-                {item.citations.map((cite, cIdx) => (
-                  <button
-                    key={cIdx}
-                    onClick={() => setActiveCitation(cite)}
-                    className="inline-flex items-center space-x-1.5 px-3 py-1 rounded-lg bg-slate-800 hover:bg-slate-700 text-emerald-400 font-mono font-semibold transition-colors border border-slate-700"
-                  >
-                    <ShieldCheck className="w-3.5 h-3.5 text-amber-300" />
-                    <span>{cite.lawTitle || `Clause ${cite.clauseNumber}`}</span>
-                  </button>
-                ))}
-              </div>
-            )}
-          </div>
+          </article>
         ))}
       </div>
 
-      {/* Bottom Actions */}
-      <div className="flex flex-col sm:flex-row items-center justify-between gap-4 pt-4 border-t border-slate-800">
+      {/* Action Footer */}
+      <div className="flex items-center justify-between pt-2">
         <Link
-          to="/"
-          className="flex items-center space-x-1.5 text-slate-400 hover:text-white text-xs font-semibold"
+          to="/quiz"
+          className="px-4 py-2 rounded-lg bg-[#0F241D] hover:bg-[#16382C] text-white text-xs font-semibold transition-colors flex items-center gap-1.5"
         >
-          <ArrowLeft className="w-4 h-4" />
-          <span>Return Home</span>
+          <span className="material-symbols-outlined text-[15px]">refresh</span>
+          <span>Take Another Quiz</span>
         </Link>
 
-        <div className="flex items-center space-x-3">
-          <Link
-            to="/chat"
-            className="px-4 py-2 rounded-xl bg-slate-800 hover:bg-slate-700 text-slate-200 text-xs font-semibold transition-colors"
-          >
-            Study with Chatbot
-          </Link>
-          <button
-            onClick={() => navigate('/quiz')}
-            className="px-5 py-2 rounded-xl bg-purple-600 hover:bg-purple-500 text-white text-xs font-semibold transition-colors shadow-lg shadow-purple-950 flex items-center space-x-1.5"
-          >
-            <RotateCcw className="w-3.5 h-3.5" />
-            <span>Take Another Quiz</span>
-          </button>
-        </div>
+        <Link
+          to="/chat"
+          className="px-4 py-2 rounded-lg bg-white hover:bg-[#F8FAF9] border border-[#D5E2DA] text-[#14201A] text-xs font-semibold transition-colors flex items-center gap-1.5 shadow-2xs"
+        >
+          <span>Ask Adjudication Desk</span>
+          <span className="material-symbols-outlined text-[15px]">arrow_forward</span>
+        </Link>
       </div>
 
-      {/* Citation Inspector Modal */}
       <CitationModal
-        isOpen={Boolean(activeCitation)}
         citation={activeCitation}
+        isOpen={Boolean(activeCitation)}
         onClose={() => setActiveCitation(null)}
       />
+
     </div>
   );
 }

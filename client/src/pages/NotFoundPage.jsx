@@ -1,25 +1,29 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { ShieldAlert, ArrowLeft } from 'lucide-react';
 
 export default function NotFoundPage() {
   return (
     <div className="flex-1 flex items-center justify-center p-6">
-      <div className="text-center max-w-md space-y-4">
-        <div className="w-16 h-16 mx-auto rounded-2xl bg-amber-950/60 border border-amber-800/80 flex items-center justify-center text-amber-400">
-          <ShieldAlert className="w-8 h-8" />
+      <div className="text-center max-w-md bg-surface-container-lowest p-space-xl border border-outline-variant/30 shadow-md flex flex-col items-center gap-space-sm">
+        <div className="w-12 h-12 bg-secondary text-on-secondary flex items-center justify-center">
+          <span className="material-symbols-outlined text-[24px]">gavel</span>
         </div>
-        <h1 className="text-3xl font-bold text-white tracking-tight">404 - Regulation Not Found</h1>
-        <p className="text-sm text-slate-400">
-          The requested rulebook or page does not exist or has been superseded.
+        <div className="font-label-sm text-label-sm uppercase tracking-wider text-secondary font-semibold">
+          STATUTORY ERROR 404
+        </div>
+        <h1 className="font-headline-md text-headline-md text-primary">
+          Regulation Folio Not Found
+        </h1>
+        <p className="font-body-md text-body-md text-on-surface-variant">
+          The requested rulebook clause or administrative dossier does not exist in the active codex.
         </p>
-        <div className="pt-2">
+        <div className="pt-space-xs">
           <Link
             to="/"
-            className="inline-flex items-center space-x-2 px-4 py-2 rounded-xl bg-emerald-600 hover:bg-emerald-500 text-white text-sm font-semibold transition-colors"
+            className="inline-flex items-center gap-1.5 px-space-md py-2 bg-primary-container text-on-primary font-label-md text-label-md uppercase tracking-wider hover:bg-on-primary-fixed-variant transition-colors"
           >
-            <ArrowLeft className="w-4 h-4" />
-            <span>Return to Home</span>
+            <span className="material-symbols-outlined text-[16px]">arrow_back</span>
+            <span>Return to Official Desk</span>
           </Link>
         </div>
       </div>

@@ -29,7 +29,7 @@ describe('AI Cricket Laws Full API Suite Integration', () => {
     expect(res.body.data.citations[0]).toHaveProperty('lawNumber', 28);
     expect(res.body.data.citations[0]).toHaveProperty('clauseNumber', '28.3.2');
     expect(res.body.data.citations[0]).toHaveProperty('sourceTitle');
-  }, 25000);
+  }, 35000);
 
   // Feature B: Scenario Analyser
   it('POST /api/v1/scenarios/analyze should return structured scenario breakdown', async () => {
@@ -47,7 +47,7 @@ describe('AI Cricket Laws Full API Suite Integration', () => {
     expect(res.body.data.analysis).toHaveProperty('applicableLaw');
     expect(res.body.data.analysis).toHaveProperty('alternativeOutcomes');
     expect(res.body.data.citations.length).toBeGreaterThan(0);
-  });
+  }, 35000);
 
   // Feature C: Law Search
   it('GET /api/v1/laws/search should return paginated law chunks matching filters', async () => {

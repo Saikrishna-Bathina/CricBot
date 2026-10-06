@@ -1,191 +1,106 @@
 import React, { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
-import { UserCheck, Lock, Mail, User, ShieldAlert, Sparkles, ArrowRight } from 'lucide-react';
-import api from '../services/api';
+import { useNavigate, Link } from 'react-router-dom';
 
 export default function LoginPage() {
   const navigate = useNavigate();
-  const [isRegister, setIsRegister] = useState(false);
-  const [name, setName] = useState('');
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
-  const [role, setRole] = useState('user');
-  const [error, setError] = useState(null);
-  const [isLoading, setIsLoading] = useState(false);
+  const [jurisdiction, setJurisdiction] = useState('mcc-universal');
+  const [userName, setUserName] = useState('');
+  const [saved, setSaved] = useState(false);
 
-  const handleSubmit = async (e) => {
+  const handleSavePreferences = (e) => {
     e.preventDefault();
-    setError(null);
-    setIsLoading(true);
-
-    try {
-      const endpoint = isRegister ? '/auth/register' : '/auth/login';
-      const payload = isRegister ? { name, email, password, role } : { email, password };
-
-      const res = await api.post(endpoint, payload);
-      const { token, user } = res.data;
-
-      localStorage.setItem('cricket_auth_token', token);
-      localStorage.setItem('cricket_user', JSON.stringify(user));
-
-      if (user.role === 'admin') {
-        navigate('/admin/documents');
-      } else {
-        navigate('/');
-      }
-    } catch (err) {
-      setError(err.message || 'Authentication failed. Please verify credentials.');
-    } finally {
-      setIsLoading(false);
-    }
-  };
-
-  const fillAdminDefaults = () => {
-    setIsRegister(true);
-    setName('Official Umpire Admin');
-    setEmail('admin@criclaws.org');
-    setPassword('RulesAuditPass123!');
-    setRole('admin');
+    const prefs = {
+      name: userName.trim() || 'Match Official',
+      jurisdiction,
+      updatedAt: new Date().toISOString(),
+    };
+    localStorage.setItem('cricket_user', JSON.stringify(prefs));
+    setSaved(true);
+    setTimeout(() => {
+      navigate('/chat');
+    }, 800);
   };
 
   return (
-    <div className="flex-1 max-w-md w-full mx-auto p-4 sm:p-6 flex flex-col justify-center">
-      <div className="bg-slate-950/90 border border-slate-800 rounded-3xl p-6 sm:p-8 space-y-6 shadow-2xl">
-        <div className="text-center space-y-2">
-          <div className="w-12 h-12 mx-auto rounded-2xl bg-emerald-950 border border-emerald-800 flex items-center justify-center text-emerald-400 shadow-lg shadow-emerald-950/50">
-            <UserCheck className="w-6 h-6 text-amber-300" />
-          </div>
-          <h1 className="text-2xl font-bold text-white tracking-tight">
-            {isRegister ? 'Create Official Account' : 'Welcome Back'}
+    <div className="w-full max-w-lg mx-auto px-4 py-12 sm:py-16 flex flex-col items-center animate-fadeIn">
+      
+      {/* Small Badge */}
+      <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-[#EDF4F0] text-[#0F241D] text-xs font-semibold tracking-wider uppercase mb-5 border border-[#D5E2DA]">
+        <span className="w-1.5 h-1.5 rounded-full bg-[#0F241D]"></span>
+        OFFICIATING PREFERENCES
+      </div>
+
+      <div className="w-full bg-white rounded-2xl border border-[#D5E2DA] shadow-xs p-6 sm:p-8 flex flex-col gap-6 text-left">
+        <div className="flex flex-col gap-1 border-b border-[#D5E2DA]/60 pb-4">
+          <h1 className="font-serif text-2xl sm:text-3xl text-[#0F241D] font-medium tracking-tight">
+            Officiating Desk Settings
           </h1>
-          <p className="text-xs text-slate-400">
-            {isRegister
-              ? 'Register to manage documents or track certified quiz records'
-              : 'Sign in to access official document administration'}
+          <p className="text-xs text-slate-600">
+            Configure your default tournament jurisdiction and display preferences. No mandatory login required.
           </p>
         </div>
 
-        {error && (
-          <div className="p-3.5 rounded-xl bg-red-950/60 border border-red-800 text-red-200 text-xs flex items-center space-x-2">
-            <ShieldAlert className="w-4 h-4 text-red-400 shrink-0" />
-            <span>{error}</span>
+        {saved ? (
+          <div className="p-6 rounded-xl bg-emerald-50 border border-emerald-200 text-center flex flex-col items-center gap-2">
+            <span className="material-symbols-outlined text-emerald-800 text-[28px]">check_circle</span>
+            <span className="text-xs font-semibold text-emerald-950">Preferences Saved</span>
+            <span className="text-xs text-emerald-800">Redirecting to Adjudication Desk…</span>
           </div>
-        )}
-
-        <form onSubmit={handleSubmit} className="space-y-4">
-          {isRegister && (
-            <div>
-              <label className="block text-xs font-semibold text-slate-300 mb-1">Full Name</label>
-              <div className="relative flex items-center">
-                <User className="w-4 h-4 text-slate-500 absolute left-3" />
-                <input
-                  type="text"
-                  required
-                  value={name}
-                  onChange={(e) => setName(e.target.value)}
-                  placeholder="e.g. Richard Kettleborough"
-                  className="w-full pl-9 pr-3 py-2 rounded-xl bg-slate-900 border border-slate-700 text-sm text-white focus:outline-none focus:border-emerald-500"
-                />
-              </div>
-            </div>
-          )}
-
-          <div>
-            <label className="block text-xs font-semibold text-slate-300 mb-1">Email Address</label>
-            <div className="relative flex items-center">
-              <Mail className="w-4 h-4 text-slate-500 absolute left-3" />
-              <input
-                type="email"
-                required
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
-                placeholder="umpire@icc-cricket.com"
-                className="w-full pl-9 pr-3 py-2 rounded-xl bg-slate-900 border border-slate-700 text-sm text-white focus:outline-none focus:border-emerald-500"
-              />
-            </div>
-          </div>
-
-          <div>
-            <label className="block text-xs font-semibold text-slate-300 mb-1">Password</label>
-            <div className="relative flex items-center">
-              <Lock className="w-4 h-4 text-slate-500 absolute left-3" />
-              <input
-                type="password"
-                required
-                value={password}
-                onChange={(e) => setPassword(e.target.value)}
-                placeholder="••••••••••••"
-                className="w-full pl-9 pr-3 py-2 rounded-xl bg-slate-900 border border-slate-700 text-sm text-white focus:outline-none focus:border-emerald-500"
-              />
-            </div>
-          </div>
-
-          {isRegister && (
-            <div>
-              <label className="block text-xs font-semibold text-slate-300 mb-1">Account Role</label>
+        ) : (
+          <form onSubmit={handleSavePreferences} className="flex flex-col gap-4">
+            {/* Preferred Jurisdiction */}
+            <div className="flex flex-col gap-1.5">
+              <label className="text-xs font-semibold uppercase tracking-wider text-slate-600">
+                Default Statutory Jurisdiction
+              </label>
               <select
-                value={role}
-                onChange={(e) => setRole(e.target.value)}
-                className="w-full p-2 rounded-xl bg-slate-900 border border-slate-700 text-sm text-white focus:outline-none"
+                value={jurisdiction}
+                onChange={(e) => setJurisdiction(e.target.value)}
+                className="w-full bg-[#F8FAF9] border border-[#D5E2DA] rounded-lg px-3 py-2 text-xs font-medium text-[#14201A] outline-none focus:border-[#0F241D]"
               >
-                <option value="user">Candidate / Umpire Student (User)</option>
-                <option value="admin">Knowledge Administrator (Admin)</option>
+                <option value="mcc-universal">MCC 2017 Code 3rd Edition (Universal Laws)</option>
+                <option value="icc-t20i">ICC Men's T20I Playing Conditions (2024 Edition)</option>
+                <option value="icc-wtc">ICC World Test Championship Playing Conditions</option>
               </select>
+              <span className="text-[11px] text-slate-500">
+                Controls tournament rule divergences such as Free Hit dispensations and stop-clock penalties.
+              </span>
             </div>
-          )}
 
-          <button
-            type="submit"
-            disabled={isLoading}
-            className="w-full py-2.5 rounded-xl bg-emerald-600 hover:bg-emerald-500 disabled:bg-slate-800 text-white font-semibold text-sm transition-colors shadow-lg shadow-emerald-950 flex items-center justify-center space-x-2"
-          >
-            {isLoading ? (
-              <div className="w-4 h-4 rounded-full border-2 border-white/20 border-t-white animate-spin"></div>
-            ) : (
-              <>
-                <span>{isRegister ? 'Register Account' : 'Sign In'}</span>
-                <ArrowRight className="w-4 h-4" />
-              </>
-            )}
-          </button>
-        </form>
+            {/* Optional Name */}
+            <div className="flex flex-col gap-1.5">
+              <label className="text-xs font-semibold uppercase tracking-wider text-slate-600">
+                Official Identifier / Name <span className="text-slate-400 font-normal">(Optional)</span>
+              </label>
+              <input
+                type="text"
+                value={userName}
+                onChange={(e) => setUserName(e.target.value)}
+                placeholder="e.g. Umpire Sarah Jenkins"
+                className="w-full bg-[#F8FAF9] border border-[#D5E2DA] rounded-lg px-3 py-2 text-xs text-[#14201A] outline-none focus:border-[#0F241D]"
+              />
+            </div>
 
-        {/* Quick Fill Admin Button */}
-        <div className="pt-2 border-t border-slate-800/80">
-          <button
-            type="button"
-            onClick={fillAdminDefaults}
-            className="w-full py-2 px-3 rounded-xl bg-slate-900 hover:bg-slate-850 border border-slate-700 text-xs text-amber-300 font-mono font-semibold flex items-center justify-center space-x-1.5 transition-colors"
-          >
-            <Sparkles className="w-3.5 h-3.5" />
-            <span>Fill Demo Admin Credentials</span>
-          </button>
-        </div>
-
-        <div className="text-center text-xs text-slate-400">
-          {isRegister ? (
-            <p>
-              Already have an account?{' '}
-              <button
-                onClick={() => setIsRegister(false)}
-                className="text-emerald-400 hover:underline font-semibold"
+            <div className="flex items-center justify-between pt-3 border-t border-[#D5E2DA]/60">
+              <Link
+                to="/chat"
+                className="text-xs text-slate-500 hover:text-[#0F241D] font-medium"
               >
-                Sign In
-              </button>
-            </p>
-          ) : (
-            <p>
-              Need an administrator account?{' '}
+                Skip &amp; Go to Desk
+              </Link>
+
               <button
-                onClick={() => setIsRegister(true)}
-                className="text-emerald-400 hover:underline font-semibold"
+                type="submit"
+                className="px-5 py-2.5 bg-[#0F241D] hover:bg-[#16382C] text-white text-xs font-semibold rounded-lg transition-colors flex items-center gap-1.5 shadow-xs"
               >
-                Create Account
+                <span>Save Preferences</span>
+                <span className="material-symbols-outlined text-[15px]">arrow_forward</span>
               </button>
-            </p>
-          )}
-        </div>
+            </div>
+          </form>
+        )}
       </div>
+
     </div>
   );
 }

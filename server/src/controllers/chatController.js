@@ -65,9 +65,18 @@ export async function getConversationById(req, res, next) {
       return next(new AppError('Conversation not found', 404, 'NOT_FOUND'));
     }
 
-    // Access control: if conversation has a userId, only that user or an admin can access
-    if (conversation.userId && (!req.user || (req.user._id.toString() !== conversation.userId.toString() && req.user.role !== 'admin'))) {
-      return next(new AppError('Forbidden: Access denied to this conversation', 403, 'FORBIDDEN'));
+    // Access control: check ownership for both user-authenticated and session-based guest chats
+    if (conversation.userId) {
+      if (!req.user || (req.user._id.toString() !== conversation.userId.toString() && req.user.role !== 'admin')) {
+        return next(new AppError('Forbidden: Access denied to this conversation', 403, 'FORBIDDEN'));
+      }
+    } else if (conversation.sessionId) {
+      const sessionId = req.headers['x-session-id'];
+      if (!sessionId || sessionId !== conversation.sessionId) {
+        if (!req.user || req.user.role !== 'admin') {
+          return next(new AppError('Forbidden: Access denied to this session conversation', 403, 'FORBIDDEN'));
+        }
+      }
     }
 
     const messages = await Message.find({ conversationId }).sort({ createdAt: 1 }).lean();
@@ -93,8 +102,17 @@ export async function deleteConversation(req, res, next) {
       return next(new AppError('Conversation not found', 404, 'NOT_FOUND'));
     }
 
-    if (conversation.userId && (!req.user || (req.user._id.toString() !== conversation.userId.toString() && req.user.role !== 'admin'))) {
-      return next(new AppError('Forbidden: Access denied to delete this conversation', 403, 'FORBIDDEN'));
+    if (conversation.userId) {
+      if (!req.user || (req.user._id.toString() !== conversation.userId.toString() && req.user.role !== 'admin')) {
+        return next(new AppError('Forbidden: Access denied to delete this conversation', 403, 'FORBIDDEN'));
+      }
+    } else if (conversation.sessionId) {
+      const sessionId = req.headers['x-session-id'];
+      if (!sessionId || sessionId !== conversation.sessionId) {
+        if (!req.user || req.user.role !== 'admin') {
+          return next(new AppError('Forbidden: Access denied to delete this session conversation', 403, 'FORBIDDEN'));
+        }
+      }
     }
 
     await Message.deleteMany({ conversationId });

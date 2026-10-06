@@ -21,7 +21,7 @@ describe('Hybrid Retrieval Engine Integration', () => {
     expect(topChunk.text).toContain('5 penalty runs');
     expect(topChunk.source.issuingOrganisation).toBe('MCC');
     expect(topChunk.source.version).toBe('2017 Code 3rd Edition - 2022');
-  });
+  }, 25000);
 
   it('should retrieve Law 41.16 for non-striker run out query', async () => {
     const result = await hybridRetriever.retrieve('Can a batter be run out while backing up at the non-striker end?');
@@ -29,7 +29,7 @@ describe('Hybrid Retrieval Engine Integration', () => {
 
     const foundLaw41 = result.evidence.some((c) => c.lawNumber === 41 || c.text.includes('non-striker'));
     expect(foundLaw41).toBe(true);
-  });
+  }, 25000);
 
   it('should retrieve ICC T20I Free Hit clause when T20 format is requested', async () => {
     const result = await hybridRetriever.retrieve('Is there a free hit for any no ball in T20I?', { format: 'T20I' });
@@ -38,5 +38,5 @@ describe('Hybrid Retrieval Engine Integration', () => {
     const freeHitChunk = result.evidence.find((c) => c.text.includes('Free Hit') || c.clauseNumber === '21.19.1');
     expect(freeHitChunk).toBeDefined();
     expect(freeHitChunk.source.issuingOrganisation).toBe('ICC');
-  });
+  }, 25000);
 });

@@ -68,6 +68,41 @@ def detect_printed_page(text: str) -> Optional[int]:
     return None
 
 
+THIRD_PARTY_WATERMARKS = [
+    re.compile(r"downloaded by.*", re.IGNORECASE),
+    re.compile(r"scan to open on studocu.*", re.IGNORECASE),
+    re.compile(r"studocu is not sponsored.*", re.IGNORECASE),
+    re.compile(r"physical education \(jawahar.*", re.IGNORECASE),
+    re.compile(r"lomoarcpsd\|\d+", re.IGNORECASE),
+]
+
+
+def clean_page_text(raw_text: str) -> str:
+    """Removes 3rd-party watermarks, normalizing spaces and unicode punctuation."""
+    if not raw_text:
+        return ""
+    normalized = (
+        raw_text.replace("\xa0", " ")
+        .replace("\u202f", " ")
+        .replace("\u2013", "-")
+        .replace("\u2014", "-")
+        .replace("\u2018", "'")
+        .replace("\u2019", "'")
+        .replace("\u201c", '"')
+        .replace("\u201d", '"')
+    )
+    lines = normalized.split("\n")
+    cleaned_lines = []
+    for line in lines:
+        stripped = line.strip()
+        if not stripped:
+            continue
+        if any(wm.search(stripped) for wm in THIRD_PARTY_WATERMARKS):
+            continue
+        cleaned_lines.append(stripped)
+    return "\n".join(cleaned_lines)
+
+
 class PDFExtractor:
     def __init__(self, ocr_engine: Optional[OCREngine] = None):
         self.ocr_engine = ocr_engine or OCREngine()
@@ -87,7 +122,8 @@ class PDFExtractor:
         empty_pages = []
 
         for idx, page in enumerate(doc, start=1):
-            text = page.get_text("text").strip()
+            raw_text = page.get_text("text")
+            text = clean_page_text(raw_text).strip()
             char_count = len(text)
             word_count = len(text.split())
             is_scanned = False
